@@ -11,6 +11,8 @@ import {Text, View} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import Home from './screens/Home';
 import Questionnaire from './screens/Questionnaire';
+import { Router } from 'react-native-router-flux';
+import RootRoutes from './routes';
 
 class App extends Component{
   constructor(props){
@@ -30,7 +32,7 @@ class App extends Component{
   render(){
     if (this.state.didFinish) {
       return(
-        <Home />
+          <RootRoutes />
       )
     }else{
       return null;
