@@ -1,7 +1,7 @@
 import React from 'react';
 import { SvgXml } from 'react-native-svg';
 
-const xml = `<svg id="periferique" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 13 19">
+const xml = `<svg id="periferique" xmlns="http://www.w3.org/2000/svg" width="WD" height="HT" viewBox="0 0 13 19">
   <g id="Group_2377" data-name="Group 2377">
     <path id="Path_6435" data-name="Path 6435" d="M688.649,381.616H689V377.5a.213.213,0,0,0-.224-.2h-6.75a.214.214,0,0,0-.225.2v4.116h6.849Zm-2.749-2.7a.4.4,0,0,1,.4-.4h1.2a.4.4,0,0,1,.4.4v.7a.4.4,0,0,1-.4.4h-1.2a.4.4,0,0,1-.4-.4Zm-3,0a.4.4,0,0,1,.4-.4h1.2a.4.4,0,0,1,.4.4v.7a.4.4,0,0,1-.4.4h-1.2a.4.4,0,0,1-.4-.4Z" transform="translate(-678.901 -376.5)" fill="none"/>
     <path id="Path_6436" data-name="Path 6436" d="M689.828,382.416h-8.86a1.27,1.27,0,0,0-1.255,1.275v4.6a3.5,3.5,0,0,0,3.476,3.519l.4.006V393.1h3.619v-1.275l.4-.006a3.5,3.5,0,0,0,3.477-3.512V383.7A1.271,1.271,0,0,0,689.828,382.416Zm-4.428,5.332a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,685.4,387.748Z" transform="translate(-678.901 -376.896)" fill="#fff"/>
@@ -11,10 +11,8 @@ const xml = `<svg id="periferique" xmlns="http://www.w3.org/2000/svg" width="30"
     <circle id="Ellipse_74" data-name="Ellipse 74" cx="1.5" cy="1.5" r="1.5" transform="translate(5 8.021)" fill="#00d6c6"/>
   </g>
 </svg>`;
-export default class Periferique extends React.Component {
-  render() {
-    return (
-      <SvgXml xml={xml} />
-    );
-  }
+export default Periferique = ({width, height}) => {
+  return(
+      <SvgXml xml={xml.replace('WD', width).replace('HT', height)} />
+  )
 }

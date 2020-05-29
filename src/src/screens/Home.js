@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { View, Text, Dimensions, Image, ImageBackground, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Text, Image, ImageBackground, TouchableOpacity, StyleSheet} from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import RectangleImage from '../components/RectangleImage';
 import Ordinateur from '../components/svgicons/Ordinateur';
@@ -9,7 +9,7 @@ import Logiciel from '../components/svgicons/Logiciel';
 import Internet from '../components/svgicons/Internet';
 import MenuModal from '../components/MenuModal';
 import { Actions } from 'react-native-router-flux';
-import { question_types } from './Questionnaire';
+import {Q_TYPES, WIDTH, HEIGHT} from '../common/constants';
 
 class Home extends Component {
   constructor(props){
@@ -60,27 +60,27 @@ class Home extends Component {
             <ImageBackground source={require('../Assets/home_bg.png')} style={styles.menuBackgroundWrapper} resizeMode={'stretch'}>
               <View style={{flex:1, flexDirection:"column", marginRight:30}}>
                 <View style={{flex:1}}>
-                  <TouchableOpacity style={styles.mainBtn} onPress={() => Actions.questionnaire({qType: question_types.O})}>
+                  <TouchableOpacity style={styles.mainBtn} onPress={() => Actions.questionnaire({qType: Q_TYPES.O})}>
                     <View style={StyleSheet.flatten([styles.circleOverlay, {backgroundColor:"#d4f4fc"}])}>
-                      <Ordinateur />
+                      <Ordinateur width={25} height={25}/>
                     </View>
                     <Text style={styles.menuText}>Ordinateur</Text>
                   </TouchableOpacity>
                 </View>
 
                 <View style={{flex:1}}>
-                    <TouchableOpacity style={styles.mainBtn} onPress={() => Actions.questionnaire({qType: question_types.P})}>
+                    <TouchableOpacity style={styles.mainBtn} onPress={() => Actions.questionnaire({qType: Q_TYPES.P})}>
                       <View style={StyleSheet.flatten([styles.circleOverlay, {backgroundColor:"#ccf7f4"}])}>
-                        <Periferique />
+                        <Periferique width={25} height={25}/>
                       </View>
                       <Text style={styles.menuText}>Peripherique</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={{flex:1}}>
-                  <TouchableOpacity style={styles.mainBtn} onPress={() => Actions.questionnaire({qType: question_types.A})}>
+                  <TouchableOpacity style={styles.mainBtn} onPress={() => Actions.questionnaire({qType: Q_TYPES.A})}>
                       <View style={StyleSheet.flatten([styles.circleOverlay, {backgroundColor:"#ffefe2"}])}>
-                        <Astuce />
+                        <Astuce width={25} height={25} />
                       </View>
                       <Text style={styles.menuText}>Astuce</Text>
                     </TouchableOpacity>
@@ -90,17 +90,17 @@ class Home extends Component {
                 <View style={{flex:0.5}}></View>
                 
                 <View style={{flex:1}}>
-                  <TouchableOpacity style={styles.mainBtn} onPress={() => Actions.questionnaire({qType: question_types.L})}>
+                  <TouchableOpacity style={styles.mainBtn} onPress={() => Actions.questionnaire({qType: Q_TYPES.L})}>
                       <View style={StyleSheet.flatten([styles.circleOverlay, {backgroundColor:"#e9e5fb"}])}>
-                        <Logiciel />
+                        <Logiciel width={25} height={25} />
                       </View>
                       <Text style={styles.menuText}>Logiciel</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex:1}}>
-                  <TouchableOpacity style={styles.mainBtn} onPress={() => Actions.questionnaire({qType: question_types.I})}>
+                  <TouchableOpacity style={styles.mainBtn} onPress={() => Actions.questionnaire({qType: Q_TYPES.I})}>
                       <View style={StyleSheet.flatten([styles.circleOverlay, {backgroundColor:"#edf3ff"}])}>
-                        <Internet />
+                        <Internet width={20} height={20} />
                       </View>
                       <Text style={styles.menuText}>Internet/Reseaux</Text>
                     </TouchableOpacity>
@@ -119,7 +119,6 @@ class Home extends Component {
   }
 }
 
-var {height, width} = Dimensions.get('window');
 const styles = {
   mainContainer: {
     flex: 1,
@@ -129,8 +128,8 @@ const styles = {
 
   headerContainer: {
     flex: 1,
-    width: width,
-    height: height
+    width: WIDTH,
+    height: HEIGHT
   },
 
   helloLogo :  {

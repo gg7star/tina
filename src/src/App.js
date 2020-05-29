@@ -11,6 +11,7 @@ import {Text, View} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import Home from './screens/Home';
 import Questionnaire from './screens/Questionnaire';
+import NoResult from './screens/NoResult'
 import { Router } from 'react-native-router-flux';
 import RootRoutes from './routes';
 
@@ -32,6 +33,8 @@ class App extends Component{
   render(){
     if (this.state.didFinish) {
       return(
+          // <NoResult qType={"ordinateur"}/>
+          // <Home />
           <RootRoutes />
       )
     }else{

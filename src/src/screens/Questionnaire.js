@@ -7,30 +7,15 @@ import LinearGradient from 'react-native-linear-gradient';
 import Info from '../components/svgicons/Info';
 import { Actions } from 'react-native-router-flux';
 import InfoModal from '../components/InfoModal';
-
-export const question_types = {O: "ordinateur", P: "periferique", L: "logiciel", I: "internet", A: "astuce"}
-export const question_colors = {
-  "ordinateur": [
-    "#28c7ee", "#76dcf3", "#8be0f5"
-  ],
-  "periferique": [
-    "#05d7ca", "#7cf1e9", "#9ffaf3"
-  ],
-  "logiciel": [
-    "#7f68ff", "#9e8dff", "#cec5fe"
-  ],
-  "internet": [
-    "#0059ff", "#77a6fe", "#98b9fe"
-  ],
-  "astuce": [
-    '#ffad71', '#ffc9a1', '#ffe9d9'
-  ],
-}
+import {colors, WIDTH} from '../common/constants';
+import EvaluationModal from '../components/EvaluationModal';
 
 class Questionnaire extends Component {
   constructor(props){
     super(props)
-    this.state = {infoVisible: false}
+    this.state = {
+      infoVisible: false,
+      evaluationVisible: false}
   }
 
   renderInfoModal(){
@@ -43,16 +28,26 @@ class Questionnaire extends Component {
     }
   }
 
+  renderEvaluationModal(){
+    if (this.state.evaluationVisible){
+      return (
+        <EvaluationModal isModalVisible={true} onPress={()=>{this.setState({evaluationVisible:false})}}/>
+      )
+    }else{
+      return null;
+    }
+  }
+
   render(){
     return (
       <View style={{flex:1}}>
           
         <View style={styles.mainContainer}>
-          <StatusBar barstyle="light-content" backgroundColor={question_colors[this.props.qType][0]} />
+          <StatusBar barstyle="light-content" backgroundColor={colors[this.props.qType][0]} />
           <View style={styles.headerContainer}>
             <LinearGradient
               start={{x: 0, y: 0}} end={{x: 0, y: 1}}
-              colors={question_colors[this.props.qType]}
+              colors={colors[this.props.qType]}
               style={{flex:0.9}}>
                 
                 <View style={{flex: 1, flexDirection: "column"}}>
@@ -61,7 +56,7 @@ class Questionnaire extends Component {
                                 padding: 25,
                                 justifyContent:'flex-end',
                                 alignItems:'center'}}>
-                    <Image source={require("../Assets/tina_header.png")} style={{position:"absolute", left: 0, alignSelf: 'center', height: 60, width: width}} resizeMode={"center"}/>
+                    <Image source={require("../Assets/tina_header.png")} style={{position:"absolute", left: 0, alignSelf: 'center', height: 60, width: WIDTH}} resizeMode={"center"}/>
                     <MenuBtn image={"close"} onPress={() => Actions.home()}/>                  
                   </View>
 
@@ -88,7 +83,7 @@ class Questionnaire extends Component {
           </View>
 
           <View style={styles.contentContainer}>
-            <Image source={require('../Assets/questionair_split.png')} style={{width: width, height: width*0.4}} resizeMode={'stretch'} />
+            <Image source={require('../Assets/questionair_split.png')} style={{width: WIDTH, height: WIDTH*0.4}} resizeMode={'stretch'} />
 
             <TouchableOpacity style={styles.ButtonWrapper} elevation={20}>
               <Back />
@@ -106,19 +101,19 @@ class Questionnaire extends Component {
 
                   <LinearGradient
                     start={{x: 0, y: 0}} end={{x: 1, y: 0}}
-                    colors={question_colors[this.props.qType]}
-                    style={{width: Math.random() * width, height: 30}}>
+                    colors={colors[this.props.qType]}
+                    style={{width: Math.random() * WIDTH, height: 30}}>
                   </LinearGradient>                
 
                 </View>
 
                 <View style={styles.answerWrapper}>
-                    <TouchableOpacity style={StyleSheet.flatten([styles.ActionButtion, {flex:1}])}>
-                      <Text style={StyleSheet.flatten([styles.answerText, {color:question_colors[this.props.qType][0]}])}>Qui</Text>
+                    <TouchableOpacity style={StyleSheet.flatten([styles.ActionButtion, {flex:1}])} onPress={() => this.setState({evaluationVisible:true})}>
+                      <Text style={StyleSheet.flatten([styles.answerText, {color:colors[this.props.qType][0]}])}>Qui</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={StyleSheet.flatten([styles.ActionButtion, {flex:1, marginLeft: 20}])}>
-                      <Text style={StyleSheet.flatten([styles.answerText, {color:question_colors[this.props.qType][0]}])}>Non</Text>
+                    <TouchableOpacity style={StyleSheet.flatten([styles.ActionButtion, {flex:1, marginLeft: 20}])} onPress={() => Actions.noresult({qType: this.props.qType})}>
+                      <Text style={StyleSheet.flatten([styles.answerText, {color:colors[this.props.qType][0]}])}>Non</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -129,9 +124,9 @@ class Questionnaire extends Component {
                   
                 </View>
 
-                <TouchableOpacity style={styles.infoWrapper} onPress={()=>{this.setState({infoVisible:true})}}>
-                  <Info color={question_colors[this.props.qType][0]}/>
-                  <Text style={StyleSheet.flatten([styles.infoText, {color:question_colors[this.props.qType][0]}])}> +info</Text>
+                <TouchableOpacity style={styles.infoWrapper} onPress={()=>this.setState({infoVisible:true})}>
+                  <Info color={colors[this.props.qType][0]}/>
+                  <Text style={StyleSheet.flatten([styles.infoText, {color:colors[this.props.qType][0]}])}> +info</Text>
                 </TouchableOpacity>
               </View>
               
@@ -142,12 +137,13 @@ class Questionnaire extends Component {
 
         {this.renderInfoModal()}
 
+        {this.renderEvaluationModal()}
+
       </View>
     )
   }
 }
 
-var {height, width} = Dimensions.get('window');
 const styles = {
   mainContainer: {
     flex: 1,
@@ -195,7 +191,9 @@ const styles = {
     shadowColor: '#000',
     shadowOpacity: 0.1,
     elevation: 15,
-    position:"absolute", left: width * 48 / 750, top: width * 0.4 * 50 / 300
+    position:"absolute", 
+    left: WIDTH * 48 / 750, 
+    top: WIDTH * 0.4 * 50 / 300
   },
 
   ActionButtion: {
@@ -265,7 +263,7 @@ const styles = {
   },
 
   progressWrapper:{
-    width: width, 
+    width: WIDTH, 
     height: 30, 
     backgroundColor:"#e1e0e5"
   },

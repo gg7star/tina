@@ -1,7 +1,7 @@
 import React from 'react';
 import { SvgXml} from 'react-native-svg';
 
-const xml = `<svg id="astuce" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 19 19">
+const xml = `<svg id="astuce" xmlns="http://www.w3.org/2000/svg" width="WD" height="HT" viewBox="0 0 19 19">
   <g id="Group_2378" data-name="Group 2378" transform="translate(-668.175 -376.479)">
     <g id="Group_2379" data-name="Group 2379" transform="translate(-5.5 -1)">
       <path id="Path_6443" data-name="Path 6443" d="M684.23,377.517H679.9a1.5,1.5,0,1,0,0,3.009h3.113v-1.5A1.514,1.514,0,0,1,684.23,377.517Z" fill="#ffad71"/>
@@ -12,10 +12,8 @@ const xml = `<svg id="astuce" xmlns="http://www.w3.org/2000/svg" width="30" heig
     </g>
   </g>
 </svg>`;
-export default class Astuce extends React.Component {
-  render() {
-    return (
-      <SvgXml xml={xml} />
-    );
-  }
+export default Astuce = ({width, height}) => {
+  return(
+      <SvgXml xml={xml.replace('WD', width).replace('HT', height)} />
+  )
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { SvgXml } from 'react-native-svg';
 
-const xml = `<svg id="logiciel" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20.966 19.048">
+const xml = `<svg id="logiciel" xmlns="http://www.w3.org/2000/svg" width="WD" height="HT" viewBox="0 0 20.966 19.048">
   <g id="Group_2376" data-name="Group 2376" transform="translate(-675.034 -376.452)">
     <path id="Path_6418" data-name="Path 6418" d="M692.838,392.409h-.02a.536.536,0,0,0-.545.527v.928a.546.546,0,0,0,1.091,0v-.909A.536.536,0,0,0,692.838,392.409Z" fill="none"/>
     <path id="Path_6419" data-name="Path 6419" d="M689.2,392.409h-.02a.536.536,0,0,0-.545.527v.928a.546.546,0,0,0,1.091,0v-.909A.536.536,0,0,0,689.2,392.409Z" fill="none"/>
@@ -24,10 +24,9 @@ const xml = `<svg id="logiciel" xmlns="http://www.w3.org/2000/svg" width="30" he
     <path id="Path_6434" data-name="Path 6434" d="M691.836,382.785h-.362v-.359a5.974,5.974,0,0,0-11.948,0v.359h-.362a4.13,4.13,0,0,0,0,8.261h.046a.539.539,0,1,0-.046-1.077,3.053,3.053,0,0,1,0-6.106h.925a.531.531,0,0,0,.523-.539v-.9a4.888,4.888,0,0,1,9.776,0v.92a.531.531,0,0,0,.543.519h.91a3.062,3.062,0,0,1,3.073,3.053.54.54,0,0,0,.514.537c.01,0,.019.006.029.006a.543.543,0,0,0,.543-.543A4.148,4.148,0,0,0,691.836,382.785Z" fill="#251b4d"/>
   </g>
 </svg>`;
-export default class Logiciel extends React.Component {
-  render() {
-    return (
-      <SvgXml xml={xml} />
-    );
-  }
+
+export default Logiciel = ({width, height}) => {
+  return(
+      <SvgXml xml={xml.replace('WD', width).replace('HT', height)} />
+  )
 }
