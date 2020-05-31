@@ -1,7 +1,6 @@
-Hi, 
+Hi,
 
-I have made the "NoResult" screen, that displays when we click "Non" button on Questionnaire screen. 
+I have implemented the 'Found Result' screen and the Depanneurs screen.
+Also have changed some previous layouts and made all the screen texts work with the fonts as designs provided.
 
-Also made the evaluation popup, that the users can select the rating by clicking stars.
-
-Regards
+Thanks.

@@ -40,7 +40,7 @@ export default MenuModal = ({isModalVisible, onPress}) => (
               <View style={{marginTop: 80, height: height, alignItems:"flex-end"}}>
                 <MenuBtn image="close" onPress={onPress} />
                 <View style={styles.menuWrapper}>
-                  <Text style={styles.menuText}>Version sans publicite</Text>
+                  <Text style={styles.menuText}>Version sans publicité</Text>
                   <TouchableOpacity style={styles.menuBtn} onPress={onPress} elevation={2}>
                       <NonVersion />
                   </TouchableOpacity>
@@ -61,7 +61,7 @@ export default MenuModal = ({isModalVisible, onPress}) => (
                 </View>
 
                 <View style={styles.menuWrapper}>
-                  <Text style={styles.menuText}>A propos</Text>
+                  <Text style={styles.menuText}>À Propos</Text>
                   <TouchableOpacity style={styles.menuBtn} onPress={onPress} elevation={2}>
                       <Image source={require('../Assets/tina_logo.png')} style={{width:22, height: 22}} />
                   </TouchableOpacity>
@@ -105,6 +105,7 @@ const styles = {
   menuText: {
     color: "#fff",
     fontSize: 18,
+    fontFamily: "OpenSans-Regular"
   },
 
   menuBtn: {

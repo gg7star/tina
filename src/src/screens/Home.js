@@ -33,9 +33,13 @@ class Home extends Component {
     return (
       <View style={{flex: 1}}>
         <View style={styles.mainContainer}>
+          <View style={styles.helloContainer}>
+              <ImageBackground source={require('../Assets/home_hello_bg.png')} style={styles.helloLogo} resizeMode={'stretch'}>
+                <Text style={styles.helloText}>Hello!</Text>
+              </ImageBackground>
+          </View>
           <View>
-            <View style={{flexDirection: 'row'}}>
-              <Image source={require('../Assets/home_hello_logo.png')} style={styles.helloLogo} resizeMode={'stretch'}/>
+            <View style={{flexDirection: 'row', paddingTop:10}}>
               <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
                 <RectangleImage image={"B2"} size={40} mTop={70} mRight={120}/>
               </View>
@@ -48,7 +52,7 @@ class Home extends Component {
 
             <View style={{flexDirection: "row", justifyContent:"center", alignItems:"flex-start", marginTop: 10}} >
               <View style={{position:'absolute', left:0}}><RectangleImage image={"B1"} size={50} mLeft={-10} mTop={-10}/></View>
-              <Text style={{fontSize:30, fontWeight: "bold"}}>Votre question se porte sur :</Text>
+              <Text style={styles.titleText}>Votre question se porte sur :</Text>
             </View>
 
             <View style={{position:"absolute", right: 25, top: 25}}>
@@ -73,7 +77,7 @@ class Home extends Component {
                       <View style={StyleSheet.flatten([styles.circleOverlay, {backgroundColor:"#ccf7f4"}])}>
                         <Periferique width={25} height={25}/>
                       </View>
-                      <Text style={styles.menuText}>Peripherique</Text>
+                      <Text style={styles.menuText}>Périphérique</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -102,7 +106,7 @@ class Home extends Component {
                       <View style={StyleSheet.flatten([styles.circleOverlay, {backgroundColor:"#edf3ff"}])}>
                         <Internet width={20} height={20} />
                       </View>
-                      <Text style={styles.menuText}>Internet/Reseaux</Text>
+                      <Text style={styles.menuText}>Internet/Réseaux</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -135,7 +139,23 @@ const styles = {
   helloLogo :  {
     width: 160,
     height: 186,
+    justifyContent:"center",
+    alignItems:"center"
   }, 
+
+  helloText: {
+    color:"#fff", 
+    fontSize:35, 
+    fontFamily:"Merriweather-BlackItalic", 
+    paddingRight:20, 
+    paddingBottom:10
+  },
+
+  helloContainer: {
+    position:"absolute",
+    left:0,
+    top:0
+  },
 
   mainBtn: {
     flex: 1,
@@ -157,9 +177,17 @@ const styles = {
     justifyContent: 'center'
   },
 
+  titleText:{
+    fontSize:24, 
+    fontFamily:"Merriweather-Black", 
+    color:"#251b4d"
+  },
+
   menuText: {
-    color: "#000", 
-    fontSize: 16
+    color: "#251b4d", 
+    fontSize: 16,
+    paddingTop:5,
+    fontFamily: "OpenSans-SemiBold"
   },
 
   menuBackgroundWrapper: {
@@ -173,7 +201,7 @@ const styles = {
   },
 
   tinaLogoWrapper: {
-    marginTop: -20, 
+    marginTop: 60, 
     flexDirection: 'row', 
     justifyContent:'center', 
     alignItems:'flex-end'

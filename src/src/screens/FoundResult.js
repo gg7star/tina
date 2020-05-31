@@ -1,23 +1,72 @@
 import React, { Component, useState } from 'react';
-import { View, Text, Dimensions, Image, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, Dimensions, Image, TouchableOpacity, StyleSheet, StatusBar, FlatList } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {colors, WIDTH, Q_TYPES} from '../common/constants';
 import Ordinateur from '../components/svgicons/Ordinateur';
 import Periferique from '../components/svgicons/Periferique';
 import Astuce from '../components/svgicons/Astuce';
 import Logiciel from '../components/svgicons/Logiciel';
-import AnswerNotFound from '../components/svgicons/AnswerNotFound';
+import AnswerFound from '../components/svgicons/AnswerFound';
 import Internet from '../components/svgicons/Internet';
-import BottomArrow from '../components/svgicons/BottomArrow';
-import Alert from '../components/svgicons/Alert';
-import CheckBox from '../components/CheckBox';
-import Tool from '../components/svgicons/Tool';
+import ResultItem from '../components/ResultItem';
 import { Actions } from 'react-native-router-flux';
+import Good from '../components/svgicons/Good';
 
-class NoResult extends Component {
+const DATA = [
+  {
+    id: 1,
+    title: "Lorem ipsum dolor situndefined - 1",
+    answer: "Oui"
+  },
+  {
+    id: 2,
+    title: "Lorem ipsum dolor situndefined - 2",
+    answer: "Non"
+  },
+  {
+    id: 3,
+    title: "Lorem ipsum dolor situndefined - 3",
+    answer: "Oui"
+  },
+  {
+    id: 4,
+    title: "Lorem ipsum dolor situndefined - 4",
+    answer: "Oui"
+  },
+  {
+    id: 5,
+    title: "Lorem ipsum dolor situndefined - 5",
+    answer: "Non"
+  },
+  {
+    id: 6,
+    title: "Lorem ipsum dolor situndefined - 6",
+    answer: "Oui"
+  },
+  {
+    id: 7,
+    title: "Lorem ipsum dolor situndefined - 7",
+    answer: "Non"
+  },
+  {
+    id: 8,
+    title: "Lorem ipsum dolor situndefined - 8",
+    answer: "Oui"
+  },
+  {
+    id: 9,
+    title: "Lorem ipsum dolor situndefined - 9",
+    answer: "Oui"
+  },
+  {
+    id: 10,
+    title: "Lorem ipsum dolor situndefined - 10",
+    answer: "Non"
+  }
+]
+class FoundResult extends Component {
   constructor(props){
     super(props)
-    this.state = {solutionIndex: 1}
   }
 
   renderIcons(){
@@ -49,13 +98,10 @@ class NoResult extends Component {
 
                       {this.renderIcons()}
 
-                      <View style={styles.AnswerNotFoundWrapper}>
-                          <AnswerNotFound width={30} height={30} />
+                      <View style={styles.AnswerFoundWrapper}>
+                          <AnswerFound width={30} height={30} />
                       </View>
                     </View>
-
-                    <Text style={styles.titleText}>Je suis désolée</Text>
-                    <Text style={styles.descText}>Je na'i pas trouvé de solution.</Text>                  
                 </View>
             </LinearGradient>
           </View>
@@ -64,58 +110,32 @@ class NoResult extends Component {
 
             <Image source={require('../Assets/result_split.png')} style={styles.SplitImage} resizeMode={'stretch'} />
 
-            <View style={styles.ArrowWrapper}>
-                <BottomArrow width={60} height={60} />
-            </View>
-
             <View style={styles.contentWrapper}>
 
               <Text style={styles.solutionText}>
-                Voici des autres solutions :
+                Panne logicielle
               </Text>            
 
-              <View style={styles.ChoiceWrapper}>
-                  <TouchableOpacity style={styles.ActionButton} onPress={() => {this.setState({solutionIndex: 0})}}>
-                    <View style={styles.CheckWrapper}>
-                        <View style={StyleSheet.flatten([styles.circleIconOverlay, {backgroundColor:"#fef8d9"}])}>
-                            <Alert width={20} height={20} />
-                        </View>
+              <View style={{flex: 1, paddingTop:20}}>
+              
+                <FlatList data={DATA}
+                  renderItem={({item}) => <ResultItem id={item.id} title={item.title} answer={item.answer} />}
+                  keyExtractor={item => item.id.toString()} />
+            
+              </View>
+              <View style={styles.ActionWrapper}>
 
-                        <Text style={styles.CheckContent}>
-                        Être averti dès que Tina aura trouvé une solution à votre panne.
-                        </Text>
+                <TouchableOpacity style={styles.ActionButtonBlue} onPress={()=>Actions.depanneurs()}>
+                  <Text style={styles.ActionBlueText}>Enregistrer le résultat</Text>
+                </TouchableOpacity>
 
-                        <CheckBox checked={this.state.solutionIndex == 0} />
-                    </View>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity style={StyleSheet.flatten([styles.ActionButton, {marginTop:20}])} onPress={() => {this.setState({solutionIndex: 1})}}>
-                    <View style={styles.CheckWrapper}>
-                        <View style={StyleSheet.flatten([styles.circleIconOverlay, {backgroundColor:"#f1eeff"}])}>
-                            <Tool width={20} height={20} />
-                        </View>
-
-                        <Text style={styles.CheckContent}>
-                          Être mis en contact avec un dépanneur le plus proche
-                        </Text>
-
-                        <CheckBox checked={this.state.solutionIndex == 1} />
-                    </View>
-                  </TouchableOpacity>                 
+                <TouchableOpacity style={styles.ActionButtonNoBg}>
+                  <Text style={styles.ActionNoBgText}>Reven</Text>
+                  <Good width={50} height={50}/>
+                  <Text style={styles.ActionNoBgText}>menu</Text>
+                </TouchableOpacity>
               </View>
               
-              <View style={{flex:1, justifyContent:"flex-end"}}>
-                <View style={styles.ActionWrapper}>
-
-                  <TouchableOpacity style={styles.ActionButtonBlue} onPress={()=>Actions.depanneurs()}>
-                    <Text style={styles.ActionBlueText}>Continuer</Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity style={styles.ActionButtonNoBg}>
-                    <Text style={styles.ActionNoBgText}>Fermer</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
 
             </View>
 
@@ -134,7 +154,7 @@ const styles = {
   },
 
   headerContainer: {
-    flex: 0.8
+    height: 200,
   },
 
   contentContainer: {
@@ -162,7 +182,6 @@ const styles = {
     flexDirection: "column", 
     justifyContent: 'center', 
     alignItems: 'center', 
-    paddingBottom: 100
   },
 
   titleText:{
@@ -179,7 +198,7 @@ const styles = {
     fontFamily:"OpenSans-Regular"
   },
 
-  AnswerNotFoundWrapper:{
+  AnswerFoundWrapper:{
     position: "absolute",
     right: 0, 
     top: 0,
@@ -199,11 +218,7 @@ const styles = {
   },
 
   ChoiceWrapper:{
-    flex: 1, 
-    flexDirection: "column", 
-    paddingLeft: 30, 
-    paddingRight: 30, 
-    marginTop: 20
+    
   },
 
   CheckWrapper:{
@@ -267,6 +282,7 @@ const styles = {
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
+    elevation: 1
   },
 
   ActionButtonBlue: {
@@ -278,6 +294,7 @@ const styles = {
     justifyContent: 'center',
     marginLeft:30, 
     marginRight:30,
+    marginBottom:20, 
   },
 
   ActionWrapper:{
@@ -291,7 +308,12 @@ const styles = {
   },
 
   ActionButtonNoBg: {
-    justifyContent:"center", alignSelf:"center"
+    flexDirection:"row",
+    justifyContent:"center", 
+    alignItems:"center",
+    alignSelf:"center",
+    marginTop:10,
+    marginBottom:10,
   },
 
   ActionBlueText:{
@@ -303,9 +325,11 @@ const styles = {
   ActionNoBgText:{
     color:"#a099b0", 
     fontSize: 20, 
-    padding: 30,
-    fontFamily:"OpenSans-SemiBold"
+    marginRight: -5,
+    marginLeft: -5,
+    fontFamily:"OpenSans-SemiBold",
+    paddingBottom:20,
   }
 }
 
-export default NoResult;
+export default FoundResult;

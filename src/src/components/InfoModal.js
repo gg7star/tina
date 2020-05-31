@@ -62,8 +62,8 @@ const styles = {
   },
   
   infoThumb:{
-    width: 150, 
-    height: 150
+    width: 120, 
+    height: 120
   },
 
   contentWrapper:{
@@ -76,15 +76,17 @@ const styles = {
 
   infoTextTitle: {
     color:"#251b4d", 
-    fontSize: 30, 
-    fontWeight:"bold",
-    textAlign:"center"
+    fontSize: 28, 
+    paddingTop:20,
+    textAlign:"center",
+    fontFamily:"Merriweather-Black"
   },
 
   infoTextContent: {
     color:"#928da6", 
     textAlign: "center", 
-    fontSize: 20, 
+    fontSize: 18, 
+    fontFamily: "OpenSans-Regular",
     paddingLeft:80, 
     paddingRight:80, 
     marginTop: 30

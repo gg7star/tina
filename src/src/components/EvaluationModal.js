@@ -29,9 +29,9 @@ export default ElevationModal = ({isModalVisible, onPress}) => (
               <Image source={require('../Assets/tina_logo_3.png')} style={styles.tinaLogo} resizeMode={"center"}/>
 
               <View style={{backgroundColor:"#fff", borderRadius:25, padding:50, marginTop:-40, zIndex:-1}}>
-                <Text style={styles.infoTextTitle}>Je suis ravie de vous avoir depanne!</Text>
+                <Text style={styles.infoTextTitle}>Je suis ravie de vous avoir dépanné!</Text>
 
-                <Text style={styles.infoTextContent}>Notre reponse a ete :</Text>
+                <Text style={styles.infoTextContent}>Notre réponse a été :</Text>
 
                 <RatingStars rating={4} />
 
@@ -77,24 +77,25 @@ const styles = {
   infoTextTitle: {
     color:"#251b4d", 
     fontSize: 25, 
-    fontWeight:"bold",
-    textAlign:"center"
+    textAlign:"center",
+    fontFamily:"Merriweather-Black"
   },
 
   infoTextContent: {
     color:"#928da6", 
     textAlign: "center", 
-    fontSize: 20, 
+    fontSize: 18, 
     paddingLeft:80, 
     paddingRight:80, 
-    marginTop: 30
+    marginTop: 30,
+    fontFamily: "OpenSans-Regular"
   },
 
   relevantText: {
     color:"#f7d100", 
     textAlign: "center", 
-    fontSize: 20,
-    fontWeight: "bold"
+    fontSize: 18,
+    fontFamily: "OpenSans-Bold"
   },
 
   ActionButtonBlue: {
@@ -106,6 +107,7 @@ const styles = {
     justifyContent: 'center',
     marginLeft:30, 
     marginRight:30,
+    fontFamily: "OpenSans-Regular"
   },
 
   ActionWrapper:{
@@ -120,6 +122,7 @@ const styles = {
 
   ActionWhiteText:{
     color:"#fff", 
-    fontSize: 20
+    fontSize: 18,
+    fontFamily: "OpenSans-Regular"
   },
 }

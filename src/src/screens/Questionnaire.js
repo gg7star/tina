@@ -28,10 +28,15 @@ class Questionnaire extends Component {
     }
   }
 
+  handleEvaluationClick(){
+    this.setState({evaluationVisible:false})
+    Actions.foundresult(this.props)
+  }
+
   renderEvaluationModal(){
     if (this.state.evaluationVisible){
       return (
-        <EvaluationModal isModalVisible={true} onPress={()=>{this.setState({evaluationVisible:false})}}/>
+        <EvaluationModal isModalVisible={true} onPress={this.handleEvaluationClick.bind(this)}/>
       )
     }else{
       return null;
@@ -109,7 +114,7 @@ class Questionnaire extends Component {
 
                 <View style={styles.answerWrapper}>
                     <TouchableOpacity style={StyleSheet.flatten([styles.ActionButtion, {flex:1}])} onPress={() => this.setState({evaluationVisible:true})}>
-                      <Text style={StyleSheet.flatten([styles.answerText, {color:colors[this.props.qType][0]}])}>Qui</Text>
+                      <Text style={StyleSheet.flatten([styles.answerText, {color:colors[this.props.qType][0]}])}>Oui</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={StyleSheet.flatten([styles.ActionButtion, {flex:1, marginLeft: 20}])} onPress={() => Actions.noresult({qType: this.props.qType})}>
@@ -242,11 +247,13 @@ const styles = {
 
   infoText:{
     fontSize: 16,
+    fontFamily: "OpenSans-Regular"
   },
 
   dunnoText:{
     color:"#908ea6", 
-    fontSize: 22
+    fontSize: 20,
+    fontFamily: "OpenSans-SemiBold"
   },
 
   answerWrapper:{
@@ -259,7 +266,8 @@ const styles = {
   },
 
   answerText:{
-    fontSize: 22 
+    fontSize: 20,
+    fontFamily:"OpenSans-Regular" 
   },
 
   progressWrapper:{
@@ -273,7 +281,8 @@ const styles = {
     paddingRight: 80, 
     fontSize: 25, 
     color:"#251b4d", 
-    textAlign: "center"
+    textAlign: "center",
+    fontFamily: "Merriweather-Black"
   }
 }
 
