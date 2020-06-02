@@ -22,7 +22,10 @@ class Home extends Component {
   renderMenu(){
     if (this.state.menuVisible){
       return (
-        <MenuModal isModalVisible={true} onPress={()=>{this.setState({menuVisible: false})}} />
+        <MenuModal isModalVisible={true} 
+                  onPress={()=>{this.setState({menuVisible: false})}} 
+                  onPressSignIn={()=>{this.setState({menuVisible: false}); Actions.signin()}}
+                  onPressRegister={()=>{this.setState({menuVisible: false}); Actions.regemail()}} />
       )
     }else{
       return null;

@@ -14,8 +14,12 @@ import Questionnaire from './screens/Questionnaire';
 import NoResult from './screens/NoResult'
 import Depanneurs from './screens/Depanneurs'
 import FoundResult from './screens/FoundResult'
+import RegEmail from './screens/RegEmail'
+import RegPostcode from './screens/RegPostcode'
 import { Router } from 'react-native-router-flux';
 import RootRoutes from './routes';
+import RegPassword from './screens/RegPassword';
+import SignIn from './screens/SignIn';
 
 class App extends Component{
   constructor(props){
@@ -40,6 +44,9 @@ class App extends Component{
             <RootRoutes />
           // <Depanneurs />
           // <FoundResult qType={"ordinateur"}/>
+          //  <RegEmail />
+          // <RegPassword />
+          // <RegPostcode />
       )
     }else{
       return null;

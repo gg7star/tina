@@ -2,6 +2,7 @@ import React from 'react'
 import { View, TouchableOpacity, TouchableHighlight, Text } from 'react-native'
 import Burger from './svgicons/Burger';
 import Close from './svgicons/Close';
+import LeftArrow from './svgicons/LeftArrow';
 
 const styles = {
   menuBtn: {
@@ -25,6 +26,6 @@ const styles = {
 
 export default MenuBtn = ({image, onPress}) => (
     <TouchableOpacity style={styles.menuBtn} onPress={onPress} elevation={2}>
-        {image == "burger"? <Burger />:<Close />}
+        {image == "burger"? <Burger />:(image == "close"? <Close />:<LeftArrow width={20} height={20}/>)}
     </TouchableOpacity>
 )

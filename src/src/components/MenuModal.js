@@ -9,10 +9,11 @@ import RectangleImage from './RectangleImage'
 import Modal from 'react-native-modal'
 import MenuBtn from './MenuBtn'
 import { BlurView } from "@react-native-community/blur";
+import { Actions } from 'react-native-router-flux'
 
 var {height, width} = Dimensions.get('window');
 
-export default MenuModal = ({isModalVisible, onPress}) => (
+export default MenuModal = ({isModalVisible, onPress, onPressSignIn, onPressRegister}) => (
   <View style={styles.absolute}>
       <BlurView
         style={styles.absolute}
@@ -48,14 +49,14 @@ export default MenuModal = ({isModalVisible, onPress}) => (
 
                 <View style={styles.menuWrapper}>
                   <Text style={styles.menuText}>Se connecter</Text>
-                  <TouchableOpacity style={styles.menuBtn} onPress={onPress} elevation={2}>
+                  <TouchableOpacity style={styles.menuBtn} onPress={onPressSignIn} elevation={2}>
                       <Arrow />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.menuWrapper}>
                   <Text style={styles.menuText}>S'inscrire</Text>
-                  <TouchableOpacity style={styles.menuBtn} onPress={onPress} elevation={2}>
+                  <TouchableOpacity style={styles.menuBtn} onPress={onPressRegister} elevation={2}>
                       <User />
                   </TouchableOpacity>
                 </View>

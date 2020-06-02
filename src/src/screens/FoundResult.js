@@ -125,7 +125,7 @@ class FoundResult extends Component {
               </View>
               <View style={styles.ActionWrapper}>
 
-                <TouchableOpacity style={styles.ActionButtonBlue} onPress={()=>Actions.depanneurs()}>
+                <TouchableOpacity style={styles.ActionButtonBlue} onPress={()=>Actions.signin()}>
                   <Text style={styles.ActionBlueText}>Enregistrer le résultat</Text>
                 </TouchableOpacity>
 

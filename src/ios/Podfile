@@ -85,6 +85,8 @@ target 'Tina' do
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
+  pod 'RNCCheckbox', :path => '../node_modules/@react-native-community/checkbox'
+
   target 'TinaTests' do
     inherit! :complete
     # Pods for testing
