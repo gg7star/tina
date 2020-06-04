@@ -14,13 +14,20 @@ class RegPassword extends Component {
     super(props)
   }
 
+  handleLoginDone(){
+    Actions.popTo('home');
+    setTimeout(() => {
+      Actions.refresh({isLoggedIn:true})
+    })
+  }
+
   render(){
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
           
           <View style={styles.menuWrapper}>
-            <MenuBtn image={"back"} onPress={() => Actions.home()}/>                  
+            <MenuBtn image={"back"} onPress={() => Actions.pop()}/>                  
           </View>
 
           <View style={styles.contentContainer}>
@@ -46,7 +53,7 @@ class RegPassword extends Component {
                 
                 </View>
 
-              <TouchableOpacity style={styles.ActionButton}>
+              <TouchableOpacity style={styles.ActionButton} onPress={this.handleLoginDone}>
                   <Text style={styles.ActionText}>Continuer</Text>
               </TouchableOpacity>
             </View>

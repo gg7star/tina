@@ -10,6 +10,7 @@ import RegPassword from '../screens/RegPassword';
 import RegPostcode from '../screens/RegPostcode';
 import RegName from '../screens/RegName';
 import RegEmail from '../screens/RegEmail';
+import History from '../screens/History';
 
 class Routes extends Component {
 	render() {
@@ -26,6 +27,7 @@ class Routes extends Component {
 				  <Scene key="regpostcode" hideNavBar component={RegPostcode} />
 				  <Scene key="regpassword" hideNavBar component={RegPassword} />
 				  <Scene key="signin" hideNavBar component={SignIn} />
+				  <Scene key="history" hideNavBar component={History} />
         		</Scene>
 			</Router>
 		)

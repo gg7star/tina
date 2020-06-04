@@ -20,6 +20,8 @@ import { Router } from 'react-native-router-flux';
 import RootRoutes from './routes';
 import RegPassword from './screens/RegPassword';
 import SignIn from './screens/SignIn';
+import Settings from './screens/Settings'
+import History from './screens/History'
 
 class App extends Component{
   constructor(props){
@@ -41,12 +43,15 @@ class App extends Component{
       return(
           // <NoResult qType={"ordinateur"}/>
           // <Home />
-            <RootRoutes />
+          <RootRoutes />
           // <Depanneurs />
           // <FoundResult qType={"ordinateur"}/>
           //  <RegEmail />
           // <RegPassword />
           // <RegPostcode />
+          // <Settings />
+          // <History />
+          // <FoundResult qType={"ordinateur"} />
       )
     }else{
       return null;

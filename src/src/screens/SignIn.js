@@ -13,13 +13,20 @@ class SignIn extends Component {
     super(props)
   }
 
+  handleLoginDone(){
+    Actions.popTo('home');
+    setTimeout(() => {
+      Actions.refresh({isLoggedIn:true})
+    })
+  }
+
   render(){
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
           
           <View style={styles.menuWrapper}>
-            <MenuBtn image={"close"} onPress={() => Actions.home()}/>                  
+            <MenuBtn image={"close"} onPress={() => Actions.pop()}/>                  
           </View>
 
           <View style={styles.contentContainer}>
@@ -29,7 +36,7 @@ class SignIn extends Component {
 
             <Text style={styles.contentText}>
               Pas de compte? 
-              <Text style={styles.linkText}> Créer ici </Text>
+              <Text style={styles.linkText} onPress={()=>Actions.regemail()}> Créer ici </Text>
             </Text>
 
             <View style={styles.contentWrapper}>
@@ -41,7 +48,7 @@ class SignIn extends Component {
                   </TouchableOpacity>
               </View>
 
-              <TouchableOpacity style={[styles.ActionButton, {marginTop:30, marginBottom:10}]}>
+              <TouchableOpacity style={[styles.ActionButton, {marginTop:30, marginBottom:10}]} onPress={this.handleLoginDone}>
                   <Text style={styles.ActionText}>Continuer</Text>
               </TouchableOpacity>
 

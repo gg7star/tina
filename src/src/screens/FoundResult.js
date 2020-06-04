@@ -11,6 +11,7 @@ import Internet from '../components/svgicons/Internet';
 import ResultItem from '../components/ResultItem';
 import { Actions } from 'react-native-router-flux';
 import Good from '../components/svgicons/Good';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const DATA = [
   {
@@ -43,26 +44,6 @@ const DATA = [
     title: "Lorem ipsum dolor situndefined - 6",
     answer: "Oui"
   },
-  {
-    id: 7,
-    title: "Lorem ipsum dolor situndefined - 7",
-    answer: "Non"
-  },
-  {
-    id: 8,
-    title: "Lorem ipsum dolor situndefined - 8",
-    answer: "Oui"
-  },
-  {
-    id: 9,
-    title: "Lorem ipsum dolor situndefined - 9",
-    answer: "Oui"
-  },
-  {
-    id: 10,
-    title: "Lorem ipsum dolor situndefined - 10",
-    answer: "Non"
-  }
 ]
 class FoundResult extends Component {
   constructor(props){
@@ -84,6 +65,9 @@ class FoundResult extends Component {
   }
 
   render(){
+    const questionsItems = DATA.map((item) => 
+      <ResultItem key={item.id.toString()} id={item.id} title={item.title} answer={item.answer} />
+    )
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={colors[this.props.qType][0]} />
@@ -92,7 +76,7 @@ class FoundResult extends Component {
               start={{x: 0, y: 0}} end={{x: 0, y: 1}}
               colors={colors[this.props.qType]}
               style={{flex:0.9}}>
-                
+
                 <View style={styles.headerContentContainer}>
                     <View style={styles.circleOverlay}>
 
@@ -103,6 +87,17 @@ class FoundResult extends Component {
                       </View>
                     </View>
                 </View>
+                
+                {this.props.isLoggedIn?
+                (
+                <View style={styles.menuWrapper}>
+                  <MenuBtn image={"back"} onPress={() => Actions.pop()}/>                  
+                </View>):null}
+
+                {this.props.isLoggedIn?
+                (<View style={styles.dateWrapper}>
+                  <Text style={{color:"#fff", fontSize: 17, fontFamily:"OpenSans-Regular"}}>{this.props.dateString}</Text>
+                </View>):null}
             </LinearGradient>
           </View>
 
@@ -112,30 +107,43 @@ class FoundResult extends Component {
 
             <View style={styles.contentWrapper}>
 
-              <Text style={styles.solutionText}>
-                Panne logicielle
+              <Text style={[styles.solutionText, {marginTop: 10}]}>
+                {this.props.title? this.props.title:"Panne logicielle"}
               </Text>            
 
-              <View style={{flex: 1, paddingTop:20}}>
-              
-                <FlatList data={DATA}
+              <ScrollView style={{flex: 1, paddingTop:20}}>              
+                  
+                {/* <FlatList data={DATA}
                   renderItem={({item}) => <ResultItem id={item.id} title={item.title} answer={item.answer} />}
-                  keyExtractor={item => item.id.toString()} />
-            
-              </View>
-              <View style={styles.ActionWrapper}>
+                  keyExtractor={item => item.id.toString()} /> */}
 
-                <TouchableOpacity style={styles.ActionButtonBlue} onPress={()=>Actions.signin()}>
-                  <Text style={styles.ActionBlueText}>Enregistrer le résultat</Text>
-                </TouchableOpacity>
+                  {questionsItems}
 
-                <TouchableOpacity style={styles.ActionButtonNoBg}>
-                  <Text style={styles.ActionNoBgText}>Reven</Text>
-                  <Good width={50} height={50}/>
-                  <Text style={styles.ActionNoBgText}>menu</Text>
-                </TouchableOpacity>
-              </View>
-              
+                  <View style={{flexDirection:"column"}}>
+                    <TouchableOpacity style={styles.ActionButtonNoBg}>
+                      <Good width={50} height={50}/>
+                    </TouchableOpacity>
+
+                    <Text style={styles.solutionText}>Réponse</Text>
+                    <Text style={styles.resultText}>
+                        Lorem ipsum dolor sit amet, conseteur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
+                      </Text>
+                  </View>
+
+                  
+              </ScrollView>
+
+              {!this.props.isLoggedIn?
+                (<View style={styles.ActionWrapper}>
+
+                  <TouchableOpacity style={styles.ActionButtonBlue} onPress={()=>Actions.signin()}>
+                    <Text style={styles.ActionBlueText}>Enregistrer le résultat</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.ActionButtonNoBg} onPress={()=>Actions.reset('home')}>
+                    <Text style={styles.ActionNoBgText}>Revenir au menu</Text>
+                  </TouchableOpacity>
+                </View>):null}
 
             </View>
 
@@ -154,12 +162,12 @@ const styles = {
   },
 
   headerContainer: {
-    height: 200,
+    height: 260,
   },
 
   contentContainer: {
     flex:1,  
-    marginTop: -150, 
+    marginTop: -180, 
     flexDirection: "column"
   },
 
@@ -217,10 +225,6 @@ const styles = {
     marginTop: 25
   },
 
-  ChoiceWrapper:{
-    
-  },
-
   CheckWrapper:{
     flex: 1, 
     flexDirection:"row", 
@@ -259,7 +263,6 @@ const styles = {
   solutionText:{
     paddingLeft: 80, 
     paddingRight: 80, 
-    marginTop: 20,
     fontSize: 24, 
     color:"#251b4d", 
     textAlign: "center",
@@ -329,6 +332,30 @@ const styles = {
     marginLeft: -5,
     fontFamily:"OpenSans-SemiBold",
     paddingBottom:20,
+  },
+
+  menuWrapper:{
+    position:"absolute", 
+    left:25,
+    top:20
+  },
+
+  dateWrapper:{
+    position:"absolute", 
+    right:25,
+    top:35
+  },
+
+  resultText:{
+    color:"#a099b0", 
+    paddingTop: 20,
+    paddingBottom: 60,
+    paddingLeft: 35,
+    paddingRight: 35, 
+    fontFamily: "OpenSans-Regular", 
+    textAlign:"center",
+    fontSize: 18,
+    lineHeight:30,
   }
 }
 

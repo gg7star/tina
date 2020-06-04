@@ -4,16 +4,20 @@ import NonVersion from './svgicons/NonVersion'
 import Arrow from './svgicons/Arrow'
 import User from './svgicons/User'
 import Help from './svgicons/Help'
+import History from './svgicons/History'
 import Announceur from './svgicons/Announceur'
+import Setting from './svgicons/Setting'
 import RectangleImage from './RectangleImage'
 import Modal from 'react-native-modal'
 import MenuBtn from './MenuBtn'
 import { BlurView } from "@react-native-community/blur";
 import { Actions } from 'react-native-router-flux'
+import Tina from './svgicons/Tina'
+import LeftArrow from './svgicons/LeftArrow'
 
 var {height, width} = Dimensions.get('window');
 
-export default MenuModal = ({isModalVisible, onPress, onPressSignIn, onPressRegister}) => (
+export default MenuModal = ({isModalVisible, isLoggedIn, onPress, onPressHistory, onPressSignIn, onPressRegister, onPressLogout}) => (
   <View style={styles.absolute}>
       <BlurView
         style={styles.absolute}
@@ -22,7 +26,8 @@ export default MenuModal = ({isModalVisible, onPress, onPressSignIn, onPressRegi
         reducedTransparencyFallbackColor="black"
       />
 
-      <View style={styles.absolute}>
+        {(!isLoggedIn)? 
+        (<View style={styles.absolute}>
           <View style={{position: 'absolute', left: 20, top: 100}}>
             <RectangleImage image={"B1"} size={50} />
           </View>
@@ -34,7 +39,7 @@ export default MenuModal = ({isModalVisible, onPress, onPressSignIn, onPressRegi
           <View style={{position: 'absolute', right: 30, bottom: 300}}>
             <RectangleImage image={"B3"} size={30} />
           </View>
-        </View>
+        </View>):null}
 
         <View style={styles.absolute}>
             <Modal isVisible={isModalVisible} backdropOpacity={0} animationIn={"slideInDown"}styles={{flex:1, margin: 0}}>           
@@ -45,21 +50,39 @@ export default MenuModal = ({isModalVisible, onPress, onPressSignIn, onPressRegi
                   <TouchableOpacity style={styles.menuBtn} onPress={onPress} elevation={2}>
                       <NonVersion />
                   </TouchableOpacity>
-              </View>
+                </View>
 
-                <View style={styles.menuWrapper}>
+                { isLoggedIn?
+                (<View style={styles.menuWrapper}>
+                  <Text style={styles.menuText}>Historique de pannes</Text>
+                  <TouchableOpacity style={styles.menuBtn} onPress={onPressHistory} elevation={2}>
+                      <History width={15} height={15} />
+                  </TouchableOpacity>
+                </View>):null }
+
+                { !isLoggedIn?
+                (<View style={styles.menuWrapper}>
                   <Text style={styles.menuText}>Se connecter</Text>
                   <TouchableOpacity style={styles.menuBtn} onPress={onPressSignIn} elevation={2}>
                       <Arrow />
                   </TouchableOpacity>
-                </View>
+                </View>):null }
 
-                <View style={styles.menuWrapper}>
+                { isLoggedIn?
+                (<View style={styles.menuWrapper}>
+                  <Text style={styles.menuText}>Réglages</Text>
+                  <TouchableOpacity style={styles.menuBtn} onPress={onPressSignIn} elevation={2}>
+                      <Setting width={16} height={16} />
+                  </TouchableOpacity>
+                </View>):null }
+
+                { !isLoggedIn?
+                (<View style={styles.menuWrapper}>
                   <Text style={styles.menuText}>S'inscrire</Text>
                   <TouchableOpacity style={styles.menuBtn} onPress={onPressRegister} elevation={2}>
                       <User />
                   </TouchableOpacity>
-                </View>
+                </View>):null }
 
                 <View style={styles.menuWrapper}>
                   <Text style={styles.menuText}>À Propos</Text>
@@ -81,9 +104,24 @@ export default MenuModal = ({isModalVisible, onPress, onPressSignIn, onPressRegi
                       <Announceur />
                   </TouchableOpacity>
                 </View>    
+
+                { isLoggedIn?
+                (<View style={styles.menuWrapper}>
+                  <Text style={styles.menuText}>Se déconnecter</Text>
+                  <TouchableOpacity style={styles.menuBtn} onPress={onPressLogout} elevation={2}>
+                      <LeftArrow width={17} height={17} color={"#928ea7"}/>
+                  </TouchableOpacity>
+                </View>):null }
+
               </View>
           </Modal>
         </View>
+
+        { isLoggedIn?
+        (<View style={[styles.absolute, styles.bottomWrapper]}>
+            <Tina width={80} height={30} />
+            <Text style={styles.versionText}>Version 1.0</Text>
+        </View>):null }
   </View>
 )
 
@@ -119,4 +157,18 @@ const styles = {
     justifyContent: 'center',
     marginLeft: 20
   },
+
+  bottomWrapper:{
+    alignItems:'center', 
+    justifyContent:'flex-end', 
+    flexDirection:"column"
+  },
+
+  versionText:{
+    color:"#fff", 
+    fontSize:16, 
+    fontFamily:"OpenSans-Regular", 
+    marginTop: 15, 
+    marginBottom: 30
+  }
 }

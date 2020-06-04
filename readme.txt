@@ -1,6 +1,6 @@
-Hi,
+Hi, 
 
-I have implemented the 'Found Result' screen and the Depanneurs screen.
-Also have changed some previous layouts and made all the screen texts work with the fonts as designs provided.
+I implemented some screens after login. Home, Menu, History, History Detail pages as you can see the screenshots.
+And implemented back button for back screens.
 
-Thanks.
+Thanks

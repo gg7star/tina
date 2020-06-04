@@ -62,7 +62,7 @@ class Questionnaire extends Component {
                                 justifyContent:'flex-end',
                                 alignItems:'center'}}>
                     <Image source={require("../Assets/tina_header.png")} style={{position:"absolute", left: 0, alignSelf: 'center', height: 60, width: WIDTH}} resizeMode={"center"}/>
-                    <MenuBtn image={"close"} onPress={() => Actions.home()}/>                  
+                    <MenuBtn image={"close"} onPress={() => Actions.pop()}/>                  
                   </View>
 
                   <View style={styles.absolute}>

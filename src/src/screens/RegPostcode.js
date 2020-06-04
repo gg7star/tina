@@ -18,7 +18,7 @@ class RegPostcode extends Component {
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
           
           <View style={styles.menuWrapper}>
-            <MenuBtn image={"back"} onPress={() => Actions.home()}/>                  
+            <MenuBtn image={"back"} onPress={() => Actions.pop()}/>                  
           </View>
 
           <View style={styles.contentContainer}>

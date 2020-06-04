@@ -111,7 +111,7 @@ class NoResult extends Component {
                     <Text style={styles.ActionBlueText}>Continuer</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.ActionButtonNoBg}>
+                  <TouchableOpacity style={styles.ActionButtonNoBg} onPress={()=>Actions.reset('home')}>
                     <Text style={styles.ActionNoBgText}>Fermer</Text>
                   </TouchableOpacity>
                 </View>

@@ -26,6 +26,6 @@ const styles = {
 
 export default MenuBtn = ({image, onPress}) => (
     <TouchableOpacity style={styles.menuBtn} onPress={onPress} elevation={2}>
-        {image == "burger"? <Burger />:(image == "close"? <Close />:<LeftArrow width={20} height={20}/>)}
+        {image == "burger"? <Burger />:(image == "close"? <Close />:<LeftArrow width={20} height={20} color={"#251b4d"}/>)}
     </TouchableOpacity>
 )

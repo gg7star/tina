@@ -16,16 +16,25 @@ class Home extends Component {
     super(props)
     this.state = {
       menuVisible: false,
+      isLoggedIn: this.props.isLoggedIn,
     }
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    console.log("ComponentWillReceiveProps")
+    this.setState({isLoggedIn:nextProps.isLoggedIn})
   }
 
   renderMenu(){
     if (this.state.menuVisible){
       return (
         <MenuModal isModalVisible={true} 
+                  isLoggedIn={this.state.isLoggedIn}
                   onPress={()=>{this.setState({menuVisible: false})}} 
+                  onPressHistory={()=>{this.setState({menuVisible: false}); Actions.history()}}
                   onPressSignIn={()=>{this.setState({menuVisible: false}); Actions.signin()}}
-                  onPressRegister={()=>{this.setState({menuVisible: false}); Actions.regemail()}} />
+                  onPressRegister={()=>{this.setState({menuVisible: false}); Actions.regemail()}}
+                  onPressLogout={()=>{this.setState({menuVisible: false, isLoggedIn: false})}} />
       )
     }else{
       return null;
@@ -38,7 +47,9 @@ class Home extends Component {
         <View style={styles.mainContainer}>
           <View style={styles.helloContainer}>
               <ImageBackground source={require('../Assets/home_hello_bg.png')} style={styles.helloLogo} resizeMode={'stretch'}>
-                <Text style={styles.helloText}>Hello!</Text>
+                <Text style={styles.helloText}>
+                  {this.state.isLoggedIn? 'Hello Bruno!':'Hello!'}
+                </Text>
               </ImageBackground>
           </View>
           <View>
@@ -151,7 +162,8 @@ const styles = {
     fontSize:35, 
     fontFamily:"Merriweather-BlackItalic", 
     paddingRight:20, 
-    paddingBottom:10
+    paddingBottom:10,
+    textAlign:'center'
   },
 
   helloContainer: {
