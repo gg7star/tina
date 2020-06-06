@@ -127,7 +127,7 @@ class FoundResult extends Component {
                     <Text style={styles.solutionText}>Réponse</Text>
                     <Text style={styles.resultText}>
                         Lorem ipsum dolor sit amet, conseteur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                      </Text>
+                    </Text>
                   </View>
 
                   

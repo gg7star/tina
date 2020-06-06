@@ -8,15 +8,16 @@ import MyTextInput from '../components/MyTextInput';
 import Notification from '../components/svgicons/Notification';
 import User from '../components/svgicons/User';
 import ArrowSmall from '../components/svgicons/ArrowSmall';
+import Switch from '../components/Switch';
 
 class Settings extends Component {
   constructor(props){
     super(props)
-  }
 
-  // componentDidMount(){
-  //   requestLocationPermission();
-  // }
+    this.state = {
+      isNotificationChecked: true
+    }
+  }
 
   render(){
     return (
@@ -31,7 +32,7 @@ class Settings extends Component {
             <Text style={styles.titleText}>Réglages</Text>
 
             <View style={styles.ChoiceWrapper}>
-                  <TouchableOpacity style={[styles.ActionButton, {height: 90}]}>
+                  <TouchableOpacity style={[styles.ActionButton, {height: 90}]} onPress={()=>Actions.myaccount()}>
                     <View style={styles.ButtonWrapper}>
                         <View style={[styles.circleIconOverlay, {backgroundColor:"#e9f9fd"}]}>
                             <User width={20} height={20} />
@@ -43,14 +44,20 @@ class Settings extends Component {
                     </View>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={[styles.ActionButton, {marginTop:20}]}>
+                  <TouchableOpacity style={[styles.ActionButton, {height: 120, marginTop:30}]} onPress={()=>this.setState({isNotificationChecked:!this.state.isNotificationChecked})}>
+                    
                     <View style={styles.ButtonWrapper}>
                         <View style={[styles.circleIconOverlay, {backgroundColor:"#f1eeff"}]}>
                             <Notification width={20} height={20} />
                         </View>
 
-                        <Text style={styles.contentTitle}>Notifications</Text>
+                        <View style={{flex:1, flexDirection:"row", justifyContent:"space-around"}}>
+                          <Text style={styles.contentTitle}>Notifications</Text>
+                          <Switch checked={this.state.isNotificationChecked} />
+                        </View>
                     </View>
+
+                    <Text style={styles.contentDesc}>Recevoir des notifications push</Text>
                   </TouchableOpacity>                 
               </View>
           </View>
@@ -155,7 +162,6 @@ const styles = {
   },
 
   ButtonWrapper:{
-    flex: 1, 
     flexDirection:"row", 
     justifyContent:"center", 
     alignItems:"center", 
@@ -173,12 +179,10 @@ const styles = {
   },
 
   contentDesc:{
-    flex:1, 
+    marginLeft: -95,
     color:"#ada9bc", 
     fontSize: 16, 
-    paddingLeft: 20, 
-    paddingRight: 15,
-    fontFamily:"OpenSans-Regular"
+    fontFamily:"OpenSans-Regular",
   },
 
   circleOverlay: {

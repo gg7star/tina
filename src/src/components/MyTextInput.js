@@ -5,19 +5,25 @@ export default class MyTextInput extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      isFocused: props.isFocused,
+      isFocused: props.isFocused
     }
   }
 
-  handleFocus = () => this.setState({isFocused: true})
+  handleFocus = () => {
+    this.setState({isFocused: true})
+    if (this.props.handleFocus) this.props.handleFocus()
+  }
 
   handleBlur = () => this.setState({isFocused: false})
 
   render(){
-    return (<TextInput 
+    return (<TextInput
+      onChangeText={this.props.handleChange}
+      value={this.props.value}
+      clearButtonMode="while-editing"
       onFocus={this.handleFocus}
       onBlur={this.handleBlur}
-      style={[this.props.style, {borderBottomColor: this.state.isFocused? "#28c7ee":'#928da6'}]} 
+      style={[this.props.style, {color:"#251b4d", fontSize: 22, borderBottomColor: this.state.isFocused? "#28c7ee":'#928da6'}]} 
       autoFocus={this.props.autoFocus}
       secureTextEntry={this.props.secureTextEntry} 
       textContentType={this.props.textContentType} 

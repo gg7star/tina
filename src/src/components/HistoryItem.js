@@ -54,7 +54,7 @@ const styles = {
         fontSize: 18, 
         flex: 1, 
         color:"#251b4d", 
-        fontFamily:"OpenSans-Regular"
+        fontFamily:"OpenSans-SemiBold"
       },
 
       dateText:{

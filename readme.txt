@@ -1,6 +1,5 @@
-Hi, 
+Hi,
 
-I implemented some screens after login. Home, Menu, History, History Detail pages as you can see the screenshots.
-And implemented back button for back screens.
+All screen UIs are done. The permission request(12 Inscription-notif localisation) & pay(30 Payer arreter pubs) is just functional part, which I will work on while integrating backend and functional development.
 
 Thanks

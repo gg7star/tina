@@ -11,6 +11,15 @@ import RegPostcode from '../screens/RegPostcode';
 import RegName from '../screens/RegName';
 import RegEmail from '../screens/RegEmail';
 import History from '../screens/History';
+import FAQ from '../screens/FAQ';
+import FAQDetail from '../screens/FAQDetail';
+import About from '../screens/About';
+import Becomeadvertiser from '../screens/BecomeAdvertiser'
+import Settings from '../screens/Settings'
+import MyAccount from '../screens/MyAccount'
+import MyEmail from '../screens/MyEmail'
+import MyName from '../screens/MyName'
+import SearchPostcode from '../screens/SearchPostcode';
 
 class Routes extends Component {
 	render() {
@@ -28,6 +37,15 @@ class Routes extends Component {
 				  <Scene key="regpassword" hideNavBar component={RegPassword} />
 				  <Scene key="signin" hideNavBar component={SignIn} />
 				  <Scene key="history" hideNavBar component={History} />
+				  <Scene key="faq" hideNavBar component={FAQ} />
+				  <Scene key="settings" hideNavBar component={Settings} />
+				  <Scene key="myaccount" hideNavBar component={MyAccount} />
+				  <Scene key="myemail" hideNavBar component={MyEmail} />
+				  <Scene key="myname" hideNavBar component={MyName} />
+				  <Scene key="faqdetail" hideNavBar component={FAQDetail} />
+				  <Scene key="about" hideNavBar component={About} />
+				  <Scene key="becomeadvertiser" hideNavBar component={Becomeadvertiser} />
+				  <Scene key="searchpostcode" hideNavBar component={SearchPostcode} />
         		</Scene>
 			</Router>
 		)

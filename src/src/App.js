@@ -22,6 +22,13 @@ import RegPassword from './screens/RegPassword';
 import SignIn from './screens/SignIn';
 import Settings from './screens/Settings'
 import History from './screens/History'
+import FAQDetail from './screens/FAQDetail'
+import About from './screens/About'
+import BecomeAdvertiser from './screens/BecomeAdvertiser'
+import MyAccount from './screens/MyAccount'
+import MyName from './screens/MyName'
+import MyEmail from './screens/MyEmail'
+import SearchPostcode from './screens/SearchPostcode';
 
 class App extends Component{
   constructor(props){
@@ -52,6 +59,12 @@ class App extends Component{
           // <Settings />
           // <History />
           // <FoundResult qType={"ordinateur"} />
+          // // <FAQDetail />
+          // <BecomeAdvertiser />
+          // <MyAccount />
+          // <MyName />
+          // <MyEmail />
+          // <SearchPostcode />
       )
     }else{
       return null;

@@ -55,7 +55,7 @@ const styles = {
         paddingLeft: 20, 
         color:"#251b4d", 
         fontSize: 18, 
-        fontFamily:"OpenSans-Regular"
+        fontFamily:"OpenSans-SemiBold"
     },
 
     verticalDash:{

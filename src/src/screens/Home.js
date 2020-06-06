@@ -32,8 +32,12 @@ class Home extends Component {
                   isLoggedIn={this.state.isLoggedIn}
                   onPress={()=>{this.setState({menuVisible: false})}} 
                   onPressHistory={()=>{this.setState({menuVisible: false}); Actions.history()}}
+                  onPressFAQ={()=>{this.setState({menuVisible:false}); Actions.faq()}}
                   onPressSignIn={()=>{this.setState({menuVisible: false}); Actions.signin()}}
                   onPressRegister={()=>{this.setState({menuVisible: false}); Actions.regemail()}}
+                  onPressBecomeAdvertiser={()=>{this.setState({menuVisible: false}); Actions.becomeadvertiser()}}
+                  onPressSettings={()=>{this.setState({menuVisible: false}); Actions.settings()}}
+                  onPressAbout={()=>{this.setState({menuVisible:false}); Actions.about()}}
                   onPressLogout={()=>{this.setState({menuVisible: false, isLoggedIn: false})}} />
       )
     }else{

@@ -17,7 +17,7 @@ import LeftArrow from './svgicons/LeftArrow'
 
 var {height, width} = Dimensions.get('window');
 
-export default MenuModal = ({isModalVisible, isLoggedIn, onPress, onPressHistory, onPressSignIn, onPressRegister, onPressLogout}) => (
+export default MenuModal = ({isModalVisible, isLoggedIn, onPress, onPressHistory, onPressFAQ, onPressSignIn, onPressRegister, onPressBecomeAdvertiser, onPressSettings, onPressAbout, onPressLogout}) => (
   <View style={styles.absolute}>
       <BlurView
         style={styles.absolute}
@@ -71,7 +71,7 @@ export default MenuModal = ({isModalVisible, isLoggedIn, onPress, onPressHistory
                 { isLoggedIn?
                 (<View style={styles.menuWrapper}>
                   <Text style={styles.menuText}>Réglages</Text>
-                  <TouchableOpacity style={styles.menuBtn} onPress={onPressSignIn} elevation={2}>
+                  <TouchableOpacity style={styles.menuBtn} onPress={onPressSettings} elevation={2}>
                       <Setting width={16} height={16} />
                   </TouchableOpacity>
                 </View>):null }
@@ -86,21 +86,21 @@ export default MenuModal = ({isModalVisible, isLoggedIn, onPress, onPressHistory
 
                 <View style={styles.menuWrapper}>
                   <Text style={styles.menuText}>À Propos</Text>
-                  <TouchableOpacity style={styles.menuBtn} onPress={onPress} elevation={2}>
+                  <TouchableOpacity style={styles.menuBtn} onPress={onPressAbout} elevation={2}>
                       <Image source={require('../Assets/tina_logo.png')} style={{width:22, height: 22}} />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.menuWrapper}>
                   <Text style={styles.menuText}>FAQ</Text>
-                  <TouchableOpacity style={styles.menuBtn} onPress={onPress} elevation={2}>
+                  <TouchableOpacity style={styles.menuBtn} onPress={onPressFAQ} elevation={2}>
                       <Help />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.menuWrapper}>
                   <Text style={styles.menuText}>Devenir announceur</Text>
-                  <TouchableOpacity style={styles.menuBtn} onPress={onPress} elevation={2}>
+                  <TouchableOpacity style={styles.menuBtn} onPress={onPressBecomeAdvertiser} elevation={2}>
                       <Announceur />
                   </TouchableOpacity>
                 </View>    

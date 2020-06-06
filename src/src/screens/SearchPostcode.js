@@ -3,18 +3,96 @@ import { View, Text, Image, TouchableOpacity, StatusBar } from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
 import {WIDTH} from '../common/constants';
-import { TextInput } from 'react-native-gesture-handler';
+import { TextInput, FlatList } from 'react-native-gesture-handler';
 import Position from '../components/svgicons/Position';
 import MyTextInput from '../components/MyTextInput';
+import PostcodeItem from '../components/PostcodeItem';
 
-class RegPostcode extends Component {
+const DATA = [
+  {
+    id: 1,
+    postCode: "3000 Leuven, Belgique",
+  },
+
+  {
+    id: 2,
+    postCode: "3000 Nimes",
+  },
+
+  {
+    id: 3,
+    postCode: "3001 Heverlee, Belgique",
+  },
+
+  {
+    id: 4,
+    postCode: "3010 Kessel, Belgique",
+  },
+
+  {
+    id: 5,
+    postCode: "4000 Leuven, Belgique",
+  },
+
+  {
+    id: 6,
+    postCode: "4000 Nimes",
+  },
+
+  {
+    id: 7,
+    postCode: "4001 Heverlee, Belgique",
+  },
+
+  {
+    id: 8,
+    postCode: "4010 Kessel, Belgique",
+  },
+
+  {
+    id: 9,
+    postCode: "5000 Leuven, Belgique",
+  },
+
+  {
+    id: 10,
+    postCode: "5000 Nimes",
+  },
+
+  {
+    id: 11,
+    postCode: "5001 Heverlee, Belgique",
+  },
+
+  {
+    id: 12,
+    postCode: "5010 Kessel, Belgique",
+  }
+]
+
+class SearchPostcode extends Component {
   constructor(props){
     super(props)
+
+    this.state = { postCode: "" }
   }
 
-  handleFocus = () => Actions.searchpostcode()
+  handleChange = (text) => {
+    this.setState({postCode: text})
+  }
+
+  renderDivider = () => (<View style={styles.listDivider} />)
 
   render(){
+    let searchData = [];
+    DATA.map((item) => 
+      { 
+        if (this.state.postCode != "" && item.postCode.indexOf(this.state.postCode) !== -1){
+          searchData.push(item) 
+        } 
+      }
+    );
+
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
@@ -23,24 +101,12 @@ class RegPostcode extends Component {
             <MenuBtn image={"back"} onPress={() => Actions.pop()}/>                  
           </View>
 
-          <View style={styles.contentContainer}>
-            <Image source={require('../Assets/tina_logo.png')} style={styles.tinaLogo} resizeMode={'stretch'} />
-
-            <Text style={styles.titleText}>Pour mieux vous aider</Text>
-
-            <Text style={styles.contentText}>Quel est votre code postal?</Text>
-
-            <View style={styles.contentWrapper}>
-              <MyTextInput handleFocus={this.handleFocus} style={styles.TextInput} textContentType={"telephoneNumber"} placeholder={"Code postal"}/>
-              <View style={styles.positionWrapper}>
-                <Position width={17} height={17} />
-                <Text style={styles.contentBlueText}>Position actuelle : 33000 Bordeaux</Text>
-              </View>
-
-              <TouchableOpacity style={styles.ActionButton} onPress={() => Actions.regpassword()}>
-                  <Text style={styles.ActionText}>Continuer</Text>
-              </TouchableOpacity>
-            </View>            
+          <View style={{paddingLeft:25, paddingRight:25, marginTop:130}}>
+            <MyTextInput handleChange={this.handleChange} style={styles.TextInput} textContentType={"telephoneNumber"} autoFocus={true} placeholder={"Code postal"} value={this.state.postCode} />
+            <FlatList data={searchData}
+                ItemSeparatorComponent={this.renderDivider}
+                renderItem={({item}) => <PostcodeItem id={item.id} title={item.postCode} />}
+                keyExtractor={item => item.id.toString()} />
           </View>
         </View>
     )
@@ -65,9 +131,12 @@ const styles = {
   },
 
   contentContainer: {
+    backgroundColor:"#ff0",
     flexDirection: "column", 
-    marginTop: 50, 
-    alignItems:"center"
+    marginTop: 130, 
+    alignItems:"center",
+    paddingLeft: 25,
+    paddingRight: 25
   },
 
   tinaLogo:{
@@ -140,7 +209,12 @@ const styles = {
     color:"#fff", 
     fontSize: 20, 
     fontFamily: "OpenSans-SemiBold"
-  }
+  },
+
+  listDivider:{
+    height:1.5, 
+    backgroundColor:"#eee"
+  },
 }
 
-export default RegPostcode;
+export default SearchPostcode;
