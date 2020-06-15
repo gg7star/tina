@@ -1,6 +1,6 @@
 import React from 'react'
 import {TouchableOpacity, View, Text, Image} from 'react-native';
-import ArrowSmall from './svgicons/ArrowSmall';
+import {em} from '../common/constants'
 import { Actions } from 'react-native-router-flux';
 
 export default PostcodeItem = ({id, title}) => {
@@ -17,14 +17,14 @@ const styles = {
         alignItem:"center", 
         justifyContent:"center", 
         alignItems:"center", 
-        paddingLeft: 20, 
-        paddingRight:20, 
-        paddingTop:25, 
-        paddingBottom:25
+        paddingLeft: 15*em, 
+        paddingRight:15*em, 
+        paddingTop:20*em, 
+        paddingBottom:20*em
       },
 
       titleText:{
-        fontSize: 20, 
+        fontSize: 14*em, 
         flex: 1, 
         color:"#928da6", 
         fontFamily:"OpenSans-Regular"

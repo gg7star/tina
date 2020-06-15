@@ -1,5 +1,6 @@
 import React from 'react'
 import { TextInput } from 'react-native'
+import {em} from '../common/constants'
 
 export default class MyTextInput extends React.Component{
   constructor(props){
@@ -23,7 +24,7 @@ export default class MyTextInput extends React.Component{
       clearButtonMode="while-editing"
       onFocus={this.handleFocus}
       onBlur={this.handleBlur}
-      style={[this.props.style, {color:"#251b4d", fontSize: 22, borderBottomColor: this.state.isFocused? "#28c7ee":'#928da6'}]} 
+      style={[this.props.style, {color:"#251b4d", fontSize: 15*em, borderBottomColor: this.state.isFocused? "#28c7ee":'#928da6'}]} 
       autoFocus={this.props.autoFocus}
       secureTextEntry={this.props.secureTextEntry} 
       textContentType={this.props.textContentType} 

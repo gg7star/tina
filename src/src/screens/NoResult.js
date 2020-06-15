@@ -1,7 +1,7 @@
-import React, { Component, useState } from 'react';
-import { View, Text, Dimensions, Image, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
+import React, { Component} from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {colors, WIDTH, Q_TYPES} from '../common/constants';
+import {colors, WIDTH, Q_TYPES, em} from '../common/constants';
 import Ordinateur from '../components/svgicons/Ordinateur';
 import Periferique from '../components/svgicons/Periferique';
 import Astuce from '../components/svgicons/Astuce';
@@ -22,15 +22,15 @@ class NoResult extends Component {
 
   renderIcons(){
     if (this.props.qType == Q_TYPES.L){
-      return (<Logiciel width={40} height={40} />)
+      return (<Logiciel width={30*em} height={30*em} />)
     }else if (this.props.qType == Q_TYPES.O){
-      return (<Ordinateur width={40} height={40} />)
+      return (<Ordinateur width={30*em} height={30*em} />)
     }else if (this.props.qType == Q_TYPES.P){
-      return (<Periferique width={40} height={40} />)
+      return (<Periferique width={30*em} height={30*em} />)
     }else if (this.props.qType == Q_TYPES.I){
-      return (<Internet width={40} height={40} />)
+      return (<Internet width={25*em} height={25*em} />)
     }else if (this.props.qType == Q_TYPES.A){
-      return (<Astuce width={40} height={40} />)
+      return (<Astuce width={20*em} height={20*em} />)
     }
   }
 
@@ -50,7 +50,7 @@ class NoResult extends Component {
                       {this.renderIcons()}
 
                       <View style={styles.AnswerNotFoundWrapper}>
-                          <AnswerNotFound width={30} height={30} />
+                          <AnswerNotFound width={25*em} height={25*em} />
                       </View>
                     </View>
 
@@ -65,7 +65,7 @@ class NoResult extends Component {
             <Image source={require('../Assets/result_split.png')} style={styles.SplitImage} resizeMode={'stretch'} />
 
             <View style={styles.ArrowWrapper}>
-                <BottomArrow width={60} height={60} />
+                <BottomArrow width={45*em} height={45*em} />
             </View>
 
             <View style={styles.contentWrapper}>
@@ -78,7 +78,7 @@ class NoResult extends Component {
                   <TouchableOpacity style={styles.ActionButton} onPress={() => {this.setState({solutionIndex: 0})}}>
                     <View style={styles.CheckWrapper}>
                         <View style={StyleSheet.flatten([styles.circleIconOverlay, {backgroundColor:"#fef8d9"}])}>
-                            <Alert width={20} height={20} />
+                            <Alert width={16*em} height={16*em} />
                         </View>
 
                         <Text style={styles.CheckContent}>
@@ -89,10 +89,10 @@ class NoResult extends Component {
                     </View>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={StyleSheet.flatten([styles.ActionButton, {marginTop:20}])} onPress={() => {this.setState({solutionIndex: 1})}}>
+                  <TouchableOpacity style={StyleSheet.flatten([styles.ActionButton, {marginTop:18*em}])} onPress={() => {this.setState({solutionIndex: 1})}}>
                     <View style={styles.CheckWrapper}>
                         <View style={StyleSheet.flatten([styles.circleIconOverlay, {backgroundColor:"#f1eeff"}])}>
-                            <Tool width={20} height={20} />
+                            <Tool width={16*em} height={16*em} />
                         </View>
 
                         <Text style={styles.CheckContent}>
@@ -139,14 +139,14 @@ const styles = {
 
   contentContainer: {
     flex:1,  
-    marginTop: -150, 
+    marginTop: -150*em, 
     flexDirection: "column"
   },
 
   contentWrapper:{
     flex: 1, 
     flexDirection:"column", 
-    marginTop:-100
+    marginTop:-100*em
   },
 
   absolute: {
@@ -162,20 +162,20 @@ const styles = {
     flexDirection: "column", 
     justifyContent: 'center', 
     alignItems: 'center', 
-    paddingBottom: 100
+    paddingBottom: 80*em
   },
 
   titleText:{
     color:"#fff", 
-    fontSize: 28, 
-    marginTop: 40, 
+    fontSize: 18*em, 
+    marginTop: 20*em, 
     fontFamily:"Merriweather-Black"
   },
 
   descText:{
     color:"#fff", 
-    fontSize: 18, 
-    marginTop: 10,
+    fontSize: 14*em, 
+    marginTop: 8*em,
     fontFamily:"OpenSans-Regular"
   },
 
@@ -195,15 +195,15 @@ const styles = {
     left:0, 
     right: 0, 
     alignItems:'center', 
-    marginTop: 25
+    marginTop: 15*em
   },
 
   ChoiceWrapper:{
     flex: 1, 
     flexDirection: "column", 
-    paddingLeft: 30, 
-    paddingRight: 30, 
-    marginTop: 20
+    paddingLeft: 20*em, 
+    paddingRight: 20*em, 
+    marginTop: 18*em
   },
 
   CheckWrapper:{
@@ -211,25 +211,28 @@ const styles = {
     flexDirection:"row", 
     justifyContent:"center", 
     alignItems:"center", 
-    paddingTop:20, 
-    paddingBottom:20
+    paddingTop:18*em, 
+    paddingBottom:18*em
   },
 
   CheckContent:{
     flex:1, 
     color:"#251b4d", 
-    fontSize: 16, 
-    paddingLeft: 20, 
-    paddingRight: 15,
+    fontSize: 12*em, 
+    paddingLeft: 18*em, 
+    paddingRight: 13*em,
     fontFamily:"OpenSans-Regular"
   },
 
   ActionButton: {
     overflow: 'hidden',
-    borderRadius: 25,
+    borderRadius: 18*em,
     alignItems: 'center',
     backgroundColor: '#ffffff',
-    padding:25,
+    paddingLeft:20*em,
+    paddingRight:20*em,
+    paddingTop:15*em,
+    paddingBottom:15*em,
     justifyContent: 'center',
     shadowOffset: {
       width: 0,
@@ -242,19 +245,19 @@ const styles = {
   },
 
   solutionText:{
-    paddingLeft: 80, 
-    paddingRight: 80, 
-    marginTop: 20,
-    fontSize: 24, 
+    paddingLeft: 60*em, 
+    paddingRight: 60*em, 
+    marginTop: 18*em,
+    fontSize: 16*em, 
     color:"#251b4d", 
     textAlign: "center",
     fontFamily: "Merriweather-Black"
   },
 
   circleOverlay: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 80*em,
+    height: 80*em,
+    borderRadius: 40*em,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor:"#fff",
@@ -262,31 +265,31 @@ const styles = {
   },
 
   circleIconOverlay: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 34*em,
+    height: 34*em,
+    borderRadius: 17*em,
     alignItems: 'center',
     justifyContent: 'center',
   },
 
   ActionButtonBlue: {
     overflow: 'hidden',
-    borderRadius: 20,
+    borderRadius: 18*em,
     alignItems: 'center',
     backgroundColor: '#28c7ee',
-    height: 65,
+    height: 50*em,
     justifyContent: 'center',
-    marginLeft:30, 
-    marginRight:30,
+    marginLeft:20*em, 
+    marginRight:20*em,
   },
 
   ActionWrapper:{
     backgroundColor:"#fff", 
-    borderTopLeftRadius:25, 
-    borderTopRightRadius: 25, 
+    borderTopLeftRadius:20*em, 
+    borderTopRightRadius: 20*em, 
     width:WIDTH, 
-    paddingTop: 15, 
-    paddingBottom: 15, 
+    paddingTop: 13*em, 
+    paddingBottom: 13*em, 
     justifyContent:"center"
   },
 
@@ -296,14 +299,14 @@ const styles = {
 
   ActionBlueText:{
     color:"#fff", 
-    fontSize: 20,
+    fontSize: 14*em,
     fontFamily:"OpenSans-SemiBold"
   },
 
   ActionNoBgText:{
     color:"#a099b0", 
-    fontSize: 20, 
-    padding: 30,
+    fontSize: 14*em, 
+    padding: 15*em,
     fontFamily:"OpenSans-SemiBold"
   }
 }

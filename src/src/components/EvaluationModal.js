@@ -1,11 +1,9 @@
 import React from 'react'
 import { View, Text, Image, Dimensions, TouchableOpacity, StyleSheet } from 'react-native'
 import Modal from 'react-native-modal'
-import MenuBtn from './MenuBtn'
 import { BlurView } from "@react-native-community/blur";
-import Review from './svgicons/Review';
 import RatingStars from './RatingStars';
-import {WIDTH} from '../common/constants';
+import {WIDTH, em} from '../common/constants';
 
 var {height, width} = Dimensions.get('window');
 
@@ -23,12 +21,12 @@ export default ElevationModal = ({isModalVisible, onPress}) => (
         <Modal isVisible={isModalVisible} 
             backdropOpacity={0} 
             animationIn={"slideInUp"}
-            style={{flex:1, justifyContent:'flex-end'}}>
+            style={{flex:1, justifyContent:'flex-end', alignItems:'center'}}>
 
             <View style={styles.modalWrapper}>
               <Image source={require('../Assets/tina_logo_3.png')} style={styles.tinaLogo} resizeMode={"center"}/>
 
-              <View style={{backgroundColor:"#fff", borderRadius:25, padding:50, marginTop:-40, zIndex:-1}}>
+              <View style={{backgroundColor:"#fff", borderRadius:20*em, padding:38*em, marginTop:-30*em, zIndex:-1}}>
                 <Text style={styles.infoTextTitle}>Je suis ravie de vous avoir dépanné!</Text>
 
                 <Text style={styles.infoTextContent}>Notre réponse a été :</Text>
@@ -44,7 +42,7 @@ export default ElevationModal = ({isModalVisible, onPress}) => (
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.ActionButtonNoBg} onPress={onPress}>
-                  <Text style={StyleSheet.flatten([styles.ActionWhiteText, {padding:30}])}>Passer</Text>
+                  <Text style={StyleSheet.flatten([styles.ActionWhiteText, {padding:20*em}])}>Passer</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -64,19 +62,20 @@ const styles = {
   }, 
 
   modalWrapper:{
+    width: WIDTH - 40*em,
     flexDirection: "column", 
     justifyContent:'center', 
     alignItems: 'center'
   },
 
   tinaLogo:{
-    width: 200,
-    height: 200
+    width: 130*em,
+    height: 130*em
   },
 
   infoTextTitle: {
     color:"#251b4d", 
-    fontSize: 25, 
+    fontSize: 18*em, 
     textAlign:"center",
     fontFamily:"Merriweather-Black"
   },
@@ -84,35 +83,35 @@ const styles = {
   infoTextContent: {
     color:"#928da6", 
     textAlign: "center", 
-    fontSize: 18, 
-    paddingLeft:80, 
-    paddingRight:80, 
-    marginTop: 30,
+    fontSize: 12*em, 
+    paddingLeft:50*em, 
+    paddingRight:50*em, 
+    marginTop: 20*em,
     fontFamily: "OpenSans-Regular"
   },
 
   relevantText: {
     color:"#f7d100", 
     textAlign: "center", 
-    fontSize: 18,
+    fontSize: 13*em,
     fontFamily: "OpenSans-Bold"
   },
 
   ActionButtonBlue: {
     overflow: 'hidden',
-    borderRadius: 20,
+    borderRadius: 18*em,
     alignItems: 'center',
     backgroundColor: '#28c7ee',
-    height: 65,
+    height: 50*em,
     justifyContent: 'center',
-    marginLeft:30, 
-    marginRight:30,
+    marginLeft:20*em, 
+    marginRight:20*em,
     fontFamily: "OpenSans-Regular"
   },
 
   ActionWrapper:{
     width:WIDTH, 
-    paddingTop: 25, 
+    paddingTop: 20*em, 
     justifyContent:"center"
   },
 
@@ -122,7 +121,7 @@ const styles = {
 
   ActionWhiteText:{
     color:"#fff", 
-    fontSize: 18,
+    fontSize: 14*em,
     fontFamily: "OpenSans-Regular"
   },
 }

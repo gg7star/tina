@@ -4,6 +4,7 @@ import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
 import { ScrollView } from 'react-native-gesture-handler';
 import FAQDetailItem from '../components/FAQDetailItem';
+import {em} from '../common/constants'
 
 const DATA = [
   {
@@ -44,12 +45,12 @@ class FAQDetail extends Component {
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
 
-          <ScrollView style={{flex:1, paddingLeft: 25, paddingRight: 25}}>
+          <ScrollView style={{flex:1, paddingLeft: 20*em, paddingRight: 20*em}}>
             {content}
 
             <View style={styles.bottomTitle}>
               <Text style={[styles.descText, {color:"#251b4d"}]}>Vous n'avez pas trouvé votre réponse ?</Text>
-              <TouchableOpacity><Text style={[styles.descText, {color:"#26c8ee", paddingTop:10}]}>Contacter notre service client ici</Text></TouchableOpacity>
+              <TouchableOpacity><Text style={[styles.descText, {color:"#26c8ee", paddingTop:8*em}]}>Contacter notre service client ici</Text></TouchableOpacity>
             </View>
           </ScrollView>
           
@@ -74,50 +75,13 @@ const styles = {
 
   menuWrapper:{
     position:"absolute", 
-    left:25,
-    top:25
-  },
-  
-  listWrapper:{
-    borderRadius:20, 
-    marginTop: 20,
-    backgroundColor:"#fff", 
-    elevation:10, 
-    flex: 1,
-  },
-
-  contentContainer: {
-    flex: 1,
-    flexDirection: "column", 
-    marginTop: 120, 
-    paddingLeft: 25,
-    paddingRight:25
-  },
-
-  listDivider:{
-    height:1.5, 
-    marginLeft:20, 
-    backgroundColor:"#eee"
-  },
-
-  titleText:{
-    fontSize: 35,  
-    color:"#251b4d", 
-    fontFamily:"Merriweather-Black"
+    left:20*em,
+    top:20*em
   },
 
   descText:{
-    fontSize: 20,
+    fontSize: 13*em,
     fontFamily:"OpenSans-SemiBold"
-  },
-
-  resultText:{
-    color:"#a099b0", 
-    paddingTop: 20,
-    paddingBottom: 50,
-    fontFamily: "OpenSans-Regular", 
-    fontSize: 18,
-    lineHeight:30,
   },
 
   bottomTitle:{
@@ -125,8 +89,8 @@ const styles = {
     alignItems:"center",
     backgroundColor:"#fff", 
     flexDirection:"column", 
-    paddingTop: 60, 
-    paddingBottom:140
+    paddingTop: 30*em, 
+    paddingBottom:80*em
   }
 }
 

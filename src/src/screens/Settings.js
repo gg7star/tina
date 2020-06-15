@@ -2,9 +2,7 @@ import React, { Component} from 'react';
 import { View, Text, Image, TouchableOpacity, StatusBar, StyleSheet } from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
-import {WIDTH} from '../common/constants';
-import { TextInput } from 'react-native-gesture-handler';
-import MyTextInput from '../components/MyTextInput';
+import {WIDTH, em} from '../common/constants';
 import Notification from '../components/svgicons/Notification';
 import User from '../components/svgicons/User';
 import ArrowSmall from '../components/svgicons/ArrowSmall';
@@ -32,23 +30,23 @@ class Settings extends Component {
             <Text style={styles.titleText}>Réglages</Text>
 
             <View style={styles.ChoiceWrapper}>
-                  <TouchableOpacity style={[styles.ActionButton, {height: 90}]} onPress={()=>Actions.myaccount()}>
+                  <TouchableOpacity style={[styles.ActionButton, {height: 70*em}]} onPress={()=>Actions.myaccount()}>
                     <View style={styles.ButtonWrapper}>
                         <View style={[styles.circleIconOverlay, {backgroundColor:"#e9f9fd"}]}>
-                            <User width={20} height={20} />
+                            <User width={14*em} height={14*em} />
                         </View>
 
                         <Text style={styles.contentTitle}>Mon compte</Text>
 
-                        <ArrowSmall width={17} height={17} />
+                        <ArrowSmall width={14*em} height={14*em} />
                     </View>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={[styles.ActionButton, {height: 120, marginTop:30}]} onPress={()=>this.setState({isNotificationChecked:!this.state.isNotificationChecked})}>
+                  <TouchableOpacity style={[styles.ActionButton, {height: 90*em, marginTop:20*em}]} onPress={()=>this.setState({isNotificationChecked:!this.state.isNotificationChecked})}>
                     
                     <View style={styles.ButtonWrapper}>
                         <View style={[styles.circleIconOverlay, {backgroundColor:"#f1eeff"}]}>
-                            <Notification width={20} height={20} />
+                            <Notification width={14*em} height={14*em} />
                         </View>
 
                         <View style={{flex:1, flexDirection:"row", justifyContent:"space-around"}}>
@@ -79,53 +77,26 @@ const styles = {
 
   menuWrapper:{
     position:"absolute", 
-    left:25,
-    top:25
+    left:20*em,
+    top:20*em
   },
 
   contentContainer: {
     flexDirection: "column", 
-    marginTop: 120, 
-    paddingLeft: 25,
-    paddingRight:25
-  },
-
-  tinaLogo:{
-    width: 110, 
-    height:118, 
-    marginBottom: 20
-  },
-
-  contentWrapper:{
-    width:WIDTH, 
-    paddingLeft: 30, 
-    paddingRight: 30, 
-    paddingTop: 20
+    marginTop: 90*em, 
+    paddingLeft: 20*em,
+    paddingRight:20*em
   },
 
   titleText:{
-    fontSize: 35,  
+    fontSize: 24*em,  
     color:"#251b4d", 
     fontFamily:"Merriweather-Black"
-  },
-
-  contentText:{
-    fontSize: 18, 
-    marginTop: 10, 
-    color:"#251b4d", 
-    fontFamily:"OpenSans-Regular"
-  },
-
-  descText:{
-    fontSize: 18, 
-    marginTop: 15, 
-    color:"#928da6", 
-    fontFamily:"OpenSans-Regular"
   },
   
   ActionButton: {
     overflow: 'hidden',
-    borderRadius: 25,
+    borderRadius: 18*em,
     alignItems: 'center',
     backgroundColor: '#fff',
     justifyContent: 'center',
@@ -139,66 +110,40 @@ const styles = {
     elevation: 10,
   },
 
-  TextInput:{
-    height: 60, 
-    fontSize: 20, 
-    color:"#28c7ee", 
-    borderBottomWidth:2, 
-    borderBottomColor:"#28c7ee", 
-    marginBottom: 100,
-    fontFamily:"OpenSans-Regular"
-  },
-
-  ActionText:{
-    color:"#fff", 
-    fontSize: 20, 
-    fontFamily: "OpenSans-SemiBold"
-  },
-
   ChoiceWrapper:{
     flex: 1, 
     flexDirection: "column", 
-    marginTop: 20
+    marginTop: 18*em
   },
 
   ButtonWrapper:{
     flexDirection:"row", 
     justifyContent:"center", 
     alignItems:"center", 
-    paddingLeft:20,
-    paddingRight:20,
+    paddingLeft:15*em,
+    paddingRight:15*em,
   },
 
   contentTitle:{
     flex:1, 
     color:"#251b4d", 
-    fontSize: 18, 
-    paddingLeft: 20, 
-    paddingRight: 15,
+    fontSize: 14*em, 
+    paddingLeft: 15*em, 
+    paddingRight: 15*em,
     fontFamily:"OpenSans-SemiBold"
   },
 
   contentDesc:{
-    marginLeft: -95,
+    marginLeft: -30*em,
     color:"#ada9bc", 
-    fontSize: 16, 
+    fontSize: 12*em, 
     fontFamily:"OpenSans-Regular",
   },
 
-  circleOverlay: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor:"#fff",
-    elevation: 20
-  },
-
   circleIconOverlay: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 34*em,
+    height: 34*em,
+    borderRadius: 17*em,
     alignItems: 'center',
     justifyContent: 'center',
   },

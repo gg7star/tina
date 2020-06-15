@@ -1,11 +1,12 @@
 import React from 'react'
 import {View, Text, StyleSheet} from 'react-native';
 import Dash from 'react-native-dash';
+import { em } from '../common/constants';
 
 export default ResultItem = ({id, title, answer}) => {
     var itemStyle = styles.ResultItem;
     // If first item, give it top margin because of shadow
-    if (id == 1) itemStyle = StyleSheet.flatten([styles.ResultItem, {marginTop:20}]);
+    if (id == 1) itemStyle = StyleSheet.flatten([styles.ResultItem, {marginTop:15*em}]);
     
     return(
         <View style={itemStyle}>
@@ -15,7 +16,7 @@ export default ResultItem = ({id, title, answer}) => {
             </View>
 
             <View style={styles.AnswerContainer}>
-                <Dash style={styles.verticalDash} dashColor={"#fff"} dashThickness={1} dashGap={8} dashLength={10}/>
+                <Dash style={styles.verticalDash} dashColor={"#fff"} dashThickness={1*em} dashGap={6*em} dashLength={8*em}/>
                 <Text style={styles.answerText}>{answer}</Text>
             </View>
         </View>
@@ -25,8 +26,8 @@ export default ResultItem = ({id, title, answer}) => {
 const styles = {
     ResultItem: {
         flexDirection: "column", 
-        paddingLeft: 30, 
-        paddingRight: 30
+        paddingLeft: 25*em, 
+        paddingRight: 25*em
       },
     TitleContainer:{
         flexDirection:"row", 
@@ -41,33 +42,33 @@ const styles = {
     numberCircle:{
         backgroundColor:"#fff", 
         elevation:20, 
-        width:26, 
-        height:26, 
-        borderRadius:13, 
+        width:20*em, 
+        height:20*em, 
+        borderRadius:10*em, 
         color:"#251b4d", 
-        fontSize: 14, 
+        fontSize: 11*em, 
         fontFamily:"OpenSans-Bold", 
         textAlign:"center", 
         paddingTop:3
     },
 
     titleText:{
-        paddingLeft: 20, 
+        paddingLeft: 14*em, 
         color:"#251b4d", 
-        fontSize: 18, 
+        fontSize: 14*em, 
         fontFamily:"OpenSans-SemiBold"
     },
 
     verticalDash:{
         flexDirection:"column", 
-        height:64, 
-        paddingLeft:13       
+        height:50*em, 
+        paddingLeft:10*em       
     },
 
     answerText:{
         color:"#a099b0", 
-        paddingLeft: 33, 
+        paddingLeft: 30*em, 
         fontFamily: "OpenSans-Regular", 
-        fontSize: 16       
+        fontSize: 14*em       
     }
 }

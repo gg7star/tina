@@ -1,7 +1,8 @@
 import React, { Component} from 'react';
-import { View, Text, FlatList, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text, StatusBar, TouchableOpacity } from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
+import { em } from '../common/constants';
 
 const Divider = () => (<View style={styles.listDivider} />)
 
@@ -32,7 +33,7 @@ class MyAccount extends Component {
           <View style={styles.contentContainer}>
             <Text style={styles.titleText}>Mon compte</Text>
 
-            <View style={{marginTop:30}}>
+            <View style={{marginTop:25*em}}>
               <AccountItem title="Nom" content="Florin Bruno" onPress={()=>Actions.myname()} />
               <AccountItem title="Adresee email" content="bruno@tina.fr" onPress={()=>Actions.myemail()} />
               <AccountItem title="Pays" content="France" />
@@ -57,54 +58,46 @@ const styles = {
 
   menuWrapper:{
     position:"absolute", 
-    left:25,
-    top:25
-  },
-  
-  listWrapper:{
-    borderRadius:20, 
-    marginTop: 20,
-    backgroundColor:"#fff", 
-    elevation:10, 
-    flex: 1,
+    left:20*em,
+    top:20*em
   },
 
   contentContainer: {
     flex: 1,
     flexDirection: "column", 
-    marginTop: 120, 
+    marginTop: 90*em, 
   },
 
   listDivider:{
-    height:1.5, 
-    marginLeft:20, 
-    marginTop:20, 
-    marginBottom:20,
+    height:1*em, 
+    marginLeft:18*em, 
+    marginTop:15*em, 
+    marginBottom:15*em,
     backgroundColor:"#eee"
   },
 
   titleText:{
-    fontSize: 35,  
+    fontSize: 24*em,  
     color:"#251b4d", 
     fontFamily:"Merriweather-Black",
-    marginLeft:25
+    marginLeft:20*em
   },
 
   itemTitle:{
     color:"#a099b0", 
-    fontSize:15, 
+    fontSize:11*em, 
     fontFamily:"OpenSans-Regular", 
-    paddingLeft:25
+    paddingLeft:20*em
   },
 
   itemContentWraper:{
-    paddingTop:5, 
-    paddingLeft:25
+    paddingTop:4*em, 
+    paddingLeft:20*em
   },
 
   itemContentText:{
     color:"#251b4d", 
-    fontSize:22, 
+    fontSize:16*em, 
     fontFamily:"OpenSans-Regular"
   },
 }

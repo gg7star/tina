@@ -4,7 +4,7 @@ import Modal from 'react-native-modal'
 import MenuBtn from './MenuBtn'
 import { BlurView } from "@react-native-community/blur";
 
-var {height, width} = Dimensions.get('window');
+import {WIDTH, em} from '../common/constants'
 
 export default InfoModal = ({isModalVisible, onPress}) => (
   <View style={styles.absolute}>
@@ -52,23 +52,23 @@ const styles = {
     flexDirection: "column", 
     justifyContent:'center', 
     alignItems: 'center', 
-    marginBottom:30
+    marginBottom:20*em
   },
 
   infoBg:{
-    width: width - 60, 
-    height: (width - 60) * 1.08, 
-    marginBottom: 30
+    width: WIDTH - 40*em, 
+    height: (WIDTH - 40*em) * 1.08, 
+    marginBottom: 20*em
   },
   
   infoThumb:{
-    width: 120, 
-    height: 120
+    width: 80*em, 
+    height: 80*em
   },
 
   contentWrapper:{
     position:"absolute", 
-    paddingBottom: 50, 
+    paddingBottom: 50*em, 
     flexDirection:"column", 
     justifyContent:"center", 
     alignItems:"center"
@@ -76,8 +76,8 @@ const styles = {
 
   infoTextTitle: {
     color:"#251b4d", 
-    fontSize: 28, 
-    paddingTop:20,
+    fontSize: 18*em, 
+    paddingTop:16*em,
     textAlign:"center",
     fontFamily:"Merriweather-Black"
   },
@@ -85,10 +85,10 @@ const styles = {
   infoTextContent: {
     color:"#928da6", 
     textAlign: "center", 
-    fontSize: 18, 
+    fontSize: 13*em, 
     fontFamily: "OpenSans-Regular",
-    paddingLeft:80, 
-    paddingRight:80, 
-    marginTop: 30
+    paddingLeft:50*em, 
+    paddingRight:50*em, 
+    marginTop: 20*em
   }
 }

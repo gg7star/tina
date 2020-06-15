@@ -3,27 +3,28 @@ import {TouchableOpacity, View, Text, Image} from 'react-native';
 import Location from '../components/svgicons/Location';
 import Phone from '../components/svgicons/Phone';
 import Email from '../components/svgicons/Email';
+import {em} from '../common/constants'
 
 export default DepanneurItem = ({image, title, location, phone, email}) => (
     <TouchableOpacity style={styles.ActionButton}>
         <View style={{flexDirection:"row"}}>
-            <Image style={{width: 80, height: 80, borderRadius: 40}} source={image}></Image>
-            <View style={{flex: 1, flexDirection:"column", marginLeft: 20}}>
-                <Text style={{fontSize: 23, color:"#251b4d", fontFamily:"Merriweather-Black"}}>{title}</Text>
+            <Image style={styles.ItemImage} source={image}></Image>
+            <View style={styles.ContentWrapper}>
+                <Text style={styles.TitleText}>{title}</Text>
 
-                <View style={{flexDirection:"row", alignItems:"center", marginTop: 15}}>
-                    <Location width={20} height={20} />
-                    <Text style={{color:"#928da6", fontSize: 18, paddingLeft: 10, fontFamily:"OpenSans-Regular"}}>{location}</Text>
+                <View style={styles.ItemWrapper}>
+                    <Location width={15*em} height={15*em} />
+                    <Text style={styles.ItemText}>{location}</Text>
                 </View>
 
-                <View style={{flexDirection:"row", alignItems:"center", marginTop: 15}}>
-                    <Phone width={20} height={20} />
-                    <Text style={{color:"#928da6", fontSize: 18, paddingLeft: 10, fontFamily:"OpenSans-Regular"}}>{phone}</Text>
+                <View style={styles.ItemWrapper}>
+                    <Phone width={15*em} height={15*em} />
+                    <Text style={styles.ItemText}>{phone}</Text>
                 </View>
 
-                <View style={{flexDirection:"row", alignItems:"center", marginTop: 15}}>
-                    <Email width={20} height={20} />
-                    <Text style={{color:"#928da6", fontSize: 18, paddingLeft: 10, fontFamily:"OpenSans-Regular"}}>{email}</Text>
+                <View style={styles.ItemWrapper}>
+                    <Email width={15*em} height={15*em} />
+                    <Text style={styles.ItemText}>{email}</Text>
                 </View>
             </View>
         </View>
@@ -33,10 +34,10 @@ export default DepanneurItem = ({image, title, location, phone, email}) => (
 const styles = {
     ActionButton: {
         overflow: 'hidden',
-        borderRadius: 25,
+        borderRadius: 20*em,
         alignItems: 'center',
         backgroundColor: '#ffffff',
-        padding:25,
+        padding:18*em,
         justifyContent: 'center',
         shadowOffset: {
           width: 0,
@@ -45,10 +46,41 @@ const styles = {
         shadowRadius: 20,
         shadowColor: '#000',
         shadowOpacity: 0.1,
-        marginTop: 20,
-        marginBottom: 10,
-        marginLeft: 20,
-        marginRight: 20,
+        marginTop: 8*em,
+        marginBottom: 8*em,
+        marginLeft: 15*em,
+        marginRight: 15*em,
         elevation: 20,
       },
+
+    ContentWrapper:{
+        flex: 1, 
+        flexDirection:"column",
+        marginLeft: 15*em
+    },
+
+    ItemImage:{
+        width: 48*em, 
+        height: 48*em, 
+        borderRadius: 24*em
+    },
+    
+    ItemWrapper:{
+        flexDirection:"row", 
+        alignItems:"center", 
+        marginTop: 10*em
+    },
+
+    TitleText:{
+        fontSize: 16*em, 
+        color:"#251b4d", 
+        fontFamily:"Merriweather-Black"
+    },
+
+    ItemText:{
+        color:"#928da6", 
+        fontSize: 12*em, 
+        paddingLeft: 8*em, 
+        fontFamily:"OpenSans-Regular"
+    }
 }

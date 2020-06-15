@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
 import { View, Text, Dimensions, Image, TouchableOpacity, StyleSheet, StatusBar, FlatList } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {colors, WIDTH, Q_TYPES} from '../common/constants';
+import {colors, WIDTH, Q_TYPES, em} from '../common/constants';
 import Ordinateur from '../components/svgicons/Ordinateur';
 import Periferique from '../components/svgicons/Periferique';
 import Astuce from '../components/svgicons/Astuce';
@@ -52,15 +52,15 @@ class FoundResult extends Component {
 
   renderIcons(){
     if (this.props.qType == Q_TYPES.L){
-      return (<Logiciel width={40} height={40} />)
+      return (<Logiciel width={30*em} height={30*em} />)
     }else if (this.props.qType == Q_TYPES.O){
-      return (<Ordinateur width={40} height={40} />)
+      return (<Ordinateur width={30*em} height={30*em} />)
     }else if (this.props.qType == Q_TYPES.P){
-      return (<Periferique width={40} height={40} />)
+      return (<Periferique width={30*em} height={30*em} />)
     }else if (this.props.qType == Q_TYPES.I){
-      return (<Internet width={40} height={40} />)
+      return (<Internet width={25*em} height={25*em} />)
     }else if (this.props.qType == Q_TYPES.A){
-      return (<Astuce width={40} height={40} />)
+      return (<Astuce width={20*em} height={20*em} />)
     }
   }
 
@@ -83,7 +83,7 @@ class FoundResult extends Component {
                       {this.renderIcons()}
 
                       <View style={styles.AnswerFoundWrapper}>
-                          <AnswerFound width={30} height={30} />
+                          <AnswerFound width={25*em} height={25*em} />
                       </View>
                     </View>
                 </View>
@@ -96,7 +96,7 @@ class FoundResult extends Component {
 
                 {this.props.isLoggedIn?
                 (<View style={styles.dateWrapper}>
-                  <Text style={{color:"#fff", fontSize: 17, fontFamily:"OpenSans-Regular"}}>{this.props.dateString}</Text>
+                  <Text style={{color:"#fff", fontSize: 12*em, fontFamily:"OpenSans-Regular"}}>{this.props.dateString}</Text>
                 </View>):null}
             </LinearGradient>
           </View>
@@ -107,11 +107,11 @@ class FoundResult extends Component {
 
             <View style={styles.contentWrapper}>
 
-              <Text style={[styles.solutionText, {marginTop: 10}]}>
+              <Text style={[styles.solutionText, {marginTop: 15*em}]}>
                 {this.props.title? this.props.title:"Panne logicielle"}
               </Text>            
 
-              <ScrollView style={{flex: 1, paddingTop:20}}>              
+              <ScrollView style={{flex: 1, paddingTop:10*em}}>              
                   
                 {/* <FlatList data={DATA}
                   renderItem={({item}) => <ResultItem id={item.id} title={item.title} answer={item.answer} />}
@@ -121,7 +121,7 @@ class FoundResult extends Component {
 
                   <View style={{flexDirection:"column"}}>
                     <TouchableOpacity style={styles.ActionButtonNoBg}>
-                      <Good width={50} height={50}/>
+                      <Good width={45*em} height={45*em}/>
                     </TouchableOpacity>
 
                     <Text style={styles.solutionText}>Réponse</Text>
@@ -162,19 +162,19 @@ const styles = {
   },
 
   headerContainer: {
-    height: 260,
+    height: 180*em,
   },
 
   contentContainer: {
     flex:1,  
-    marginTop: -180, 
+    marginTop: -130*em, 
     flexDirection: "column"
   },
 
   contentWrapper:{
     flex: 1, 
     flexDirection:"column", 
-    marginTop:-100
+    marginTop:-80*em
   },
 
   absolute: {
@@ -194,15 +194,14 @@ const styles = {
 
   titleText:{
     color:"#fff", 
-    fontSize: 28, 
-    marginTop: 40, 
+    fontSize: 25*em, 
     fontFamily:"Merriweather-Black"
   },
 
   descText:{
     color:"#fff", 
-    fontSize: 18, 
-    marginTop: 10,
+    fontSize: 14*em, 
+    marginTop: 8*em,
     fontFamily:"OpenSans-Regular"
   },
 
@@ -217,96 +216,44 @@ const styles = {
     height: WIDTH*0.4
   },
 
-  ArrowWrapper: {
-    position:'absolute', 
-    left:0, 
-    right: 0, 
-    alignItems:'center', 
-    marginTop: 25
-  },
-
-  CheckWrapper:{
-    flex: 1, 
-    flexDirection:"row", 
-    justifyContent:"center", 
-    alignItems:"center", 
-    paddingTop:20, 
-    paddingBottom:20
-  },
-
-  CheckContent:{
-    flex:1, 
-    color:"#251b4d", 
-    fontSize: 16, 
-    paddingLeft: 20, 
-    paddingRight: 15,
-    fontFamily:"OpenSans-Regular"
-  },
-
-  ActionButton: {
-    overflow: 'hidden',
-    borderRadius: 25,
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
-    padding:25,
-    justifyContent: 'center',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowRadius: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    elevation: 2,
-  },
-
   solutionText:{
-    paddingLeft: 80, 
-    paddingRight: 80, 
-    fontSize: 24, 
+    paddingLeft: 60*em, 
+    paddingRight: 60*em, 
+    fontSize: 18*em, 
     color:"#251b4d", 
     textAlign: "center",
     fontFamily: "Merriweather-Black"
   },
 
   circleOverlay: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 80*em,
+    height: 80*em,
+    borderRadius: 40*em,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor:"#fff",
     elevation: 20
   },
 
-  circleIconOverlay: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 1
-  },
-
   ActionButtonBlue: {
     overflow: 'hidden',
-    borderRadius: 20,
+    borderRadius: 18*em,
     alignItems: 'center',
     backgroundColor: '#28c7ee',
-    height: 65,
+    height: 50*em,
     justifyContent: 'center',
-    marginLeft:30, 
-    marginRight:30,
-    marginBottom:20, 
+    marginLeft:20*em, 
+    marginRight:20*em,
+    marginBottom:15*em, 
   },
 
   ActionWrapper:{
     backgroundColor:"#fff", 
-    borderTopLeftRadius:25, 
-    borderTopRightRadius: 25, 
+    borderTopLeftRadius:20*em, 
+    borderTopRightRadius: 20*em, 
     width:WIDTH, 
-    paddingTop: 15, 
-    paddingBottom: 15, 
+    paddingTop: 13*em, 
+    paddingBottom: 13*em, 
     justifyContent:"center"
   },
 
@@ -315,47 +262,47 @@ const styles = {
     justifyContent:"center", 
     alignItems:"center",
     alignSelf:"center",
-    marginTop:10,
-    marginBottom:10,
+    marginTop:8*em,
+    marginBottom:8*em,
   },
 
   ActionBlueText:{
     color:"#fff", 
-    fontSize: 20,
+    fontSize: 14*em,
     fontFamily:"OpenSans-SemiBold"
   },
 
   ActionNoBgText:{
     color:"#a099b0", 
-    fontSize: 20, 
-    marginRight: -5,
-    marginLeft: -5,
+    fontSize: 14*em , 
+    marginRight: -5*em,
+    marginLeft: -5*em,
     fontFamily:"OpenSans-SemiBold",
-    paddingBottom:20,
+    paddingBottom:15*em,
   },
 
   menuWrapper:{
     position:"absolute", 
-    left:25,
-    top:20
+    left:20*em,
+    top:20*em
   },
 
   dateWrapper:{
     position:"absolute", 
-    right:25,
-    top:35
+    right:20*em,
+    top:30*em
   },
 
   resultText:{
     color:"#a099b0", 
-    paddingTop: 20,
-    paddingBottom: 60,
-    paddingLeft: 35,
-    paddingRight: 35, 
+    paddingTop: 15*em,
+    paddingBottom: 50*em,
+    paddingLeft: 25*em,
+    paddingRight: 25*em, 
     fontFamily: "OpenSans-Regular", 
     textAlign:"center",
-    fontSize: 18,
-    lineHeight:30,
+    fontSize: 13*em,
+    lineHeight:20*em,
   }
 }
 

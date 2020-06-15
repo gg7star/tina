@@ -1,23 +1,20 @@
 import React from 'react'
 import {TouchableOpacity, View, Text, Image} from 'react-native';
-import Location from '../components/svgicons/Location';
-import Phone from '../components/svgicons/Phone';
-import Email from '../components/svgicons/Email';
-import {colors, WIDTH, Q_TYPES} from '../common/constants';
+import {colors, WIDTH, Q_TYPES, em} from '../common/constants';
 import ArrowSmall from './svgicons/ArrowSmall';
 import { Actions } from 'react-native-router-flux';
 
 const renderIcons = (type) => {
     if (type == Q_TYPES.L){
-      return (<Logiciel width={22} height={22} />)
+      return (<Logiciel width={18*em} height={18*em} />)
     }else if (type == Q_TYPES.O){
-      return (<Ordinateur width={22} height={22} />)
+      return (<Ordinateur width={18*em} height={18*em} />)
     }else if (type == Q_TYPES.P){
-      return (<Periferique width={22} height={22} />)
+      return (<Periferique width={18*em} height={18*em} />)
     }else if (type == Q_TYPES.I){
-      return (<Internet width={22} height={22} />)
+      return (<Internet width={18*em} height={18*em} />)
     }else if (type == Q_TYPES.A){
-      return (<Astuce width={22} height={22} />)
+      return (<Astuce width={18*em} height={18*em} />)
     }
 }
 
@@ -32,7 +29,7 @@ export default HistoryItem = ({id, type, title, date}) => {
 
             <Text style={styles.dateText}>{date}</Text>
 
-            <ArrowSmall width={17} height={17} />
+            <ArrowSmall width={14*em} height={14*em} />
         </View>
     </TouchableOpacity>)
 }
@@ -43,31 +40,32 @@ const styles = {
         alignItem:"center", 
         justifyContent:"center", 
         alignItems:"center", 
-        paddingLeft: 20, 
-        paddingRight:20, 
-        paddingTop:25, 
-        paddingBottom:25
+        paddingLeft: 17*em, 
+        paddingRight:17*em, 
+        paddingTop:18*em, 
+        paddingBottom:18*em
       },
 
       titleText:{
-        marginLeft: 20, 
-        fontSize: 18, 
+        marginLeft: 15*em, 
+        fontSize: 13*em, 
         flex: 1, 
         color:"#251b4d", 
         fontFamily:"OpenSans-SemiBold"
       },
 
       dateText:{
-        fontSize: 14, 
+        fontSize: 12*em, 
         color:"#928da6", 
         fontFamily:"OpenSans-Regular",
-         paddingLeft:20, paddingRight:20
+        paddingLeft:15*em, 
+        paddingRight:15*em
       },
       
       circleBg:{
-        width: 40,
-        height: 40,
-        borderRadius: 20,
+        width: 34*em,
+        height: 34*em,
+        borderRadius: 17*em,
         alignItems: 'center',
         justifyContent: 'center'
       }

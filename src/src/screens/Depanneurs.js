@@ -4,6 +4,7 @@ import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
 import DepanneurItem from '../components/DepanneurItem';
 import { FlatList } from 'react-native-gesture-handler';
+import { em } from '../common/constants';
 
 const DATA = [
   {
@@ -116,33 +117,27 @@ const styles = {
 
   headerContainer: {
     flexDirection: "column", 
-    paddingLeft:20, 
-    paddingRight:20, 
-    paddingTop: 100, 
-    paddingBottom: 20
+    paddingLeft:16*em, 
+    paddingRight:16*em, 
+    paddingTop: 80*em, 
+    paddingBottom: 10*em
   },
 
   menuWrapper:{
     position:"absolute", 
-    right:25,
-    top:25
-  },
-
-  contentWrapper:{
-    flex: 1, 
-    flexDirection:"column", 
-    marginTop:-100
+    right:20*em,
+    top:20*em
   },
 
   titleText:{
-    fontSize: 35,  
+    fontSize: 24*em,  
     color:"#251b4d", 
     fontFamily:"Merriweather-Black"
   },
 
   contentText:{
-    fontSize: 18, 
-    marginTop: 15, 
+    fontSize: 12*em, 
+    marginTop: 12*em, 
     color:"#928da6", 
     fontFamily:"OpenSans-Regular"
   },

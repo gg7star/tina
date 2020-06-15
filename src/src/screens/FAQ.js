@@ -2,9 +2,7 @@ import React, { Component} from 'react';
 import { View, Text, FlatList, StatusBar, TouchableOpacity } from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
-import {WIDTH, HEIGHT} from '../common/constants';
-import {Q_TYPES} from '../common/constants';
-import HistoryItem from '../components/HistoryItem';
+import {em} from '../common/constants';
 import FAQItem from '../components/FAQItem';
 
 const DATA = [
@@ -58,7 +56,7 @@ class FAQ extends Component {
 
             <View style={styles.bottomTitle}>
               <Text style={[styles.descText, {color:"#251b4d"}]}>Vous n'avez pas trouvé votre réponse ?</Text>
-              <TouchableOpacity><Text style={[styles.descText, {color:"#26c8ee", paddingTop:10}]}>Contacter notre service client ici</Text></TouchableOpacity>
+              <TouchableOpacity><Text style={[styles.descText, {color:"#26c8ee", paddingTop:8*em}]}>Contacter notre service client ici</Text></TouchableOpacity>
             </View>
           </View>
         </View>
@@ -79,13 +77,13 @@ const styles = {
 
   menuWrapper:{
     position:"absolute", 
-    left:25,
-    top:25
+    left:20*em,
+    top:20*em
   },
   
   listWrapper:{
-    borderRadius:20, 
-    marginTop: 20,
+    borderRadius:18*em, 
+    marginTop: 15*em,
     backgroundColor:"#fff", 
     elevation:10, 
     flex: 1,
@@ -94,25 +92,25 @@ const styles = {
   contentContainer: {
     flex: 1,
     flexDirection: "column", 
-    marginTop: 120, 
-    paddingLeft: 25,
-    paddingRight:25
+    marginTop: 100*em, 
+    paddingLeft: 20*em,
+    paddingRight:20*em
   },
 
   listDivider:{
-    height:1.5, 
-    marginLeft:20, 
+    height:1*em, 
+    marginLeft:18*em, 
     backgroundColor:"#eee"
   },
 
   titleText:{
-    fontSize: 35,  
+    fontSize: 24*em,  
     color:"#251b4d", 
     fontFamily:"Merriweather-Black"
   },
 
   descText:{
-    fontSize: 20,
+    fontSize: 13*em,
     fontFamily:"OpenSans-SemiBold"
   },
 
@@ -121,8 +119,8 @@ const styles = {
     alignItems:"center",
     backgroundColor:"#fff", 
     flexDirection:"column", 
-    paddingTop: 40, 
-    paddingBottom:100
+    paddingTop: 30*em, 
+    paddingBottom:80*em
   }
 }
 

@@ -2,7 +2,7 @@ import React, { Component} from 'react';
 import { View, Text, FlatList, StatusBar } from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
-import {WIDTH, HEIGHT} from '../common/constants';
+import {WIDTH, HEIGHT, em} from '../common/constants';
 import {Q_TYPES} from '../common/constants';
 import HistoryItem from '../components/HistoryItem';
 
@@ -125,33 +125,33 @@ const styles = {
 
   menuWrapper:{
     position:"absolute", 
-    left:25,
-    top:25
+    left:20*em,
+    top:20*em
   },
   
   listWrapper:{
-    borderRadius:20, 
-    marginTop: 20,
+    borderRadius:18*em, 
+    marginTop: 18*em,
     backgroundColor:"#fff", 
     elevation:10, 
-    height: HEIGHT - 250,
+    height: HEIGHT - 190*em,
   },
 
   contentContainer: {
     flexDirection: "column", 
-    marginTop: 120, 
-    paddingLeft: 25,
-    paddingRight:25
+    marginTop: 100*em, 
+    paddingLeft: 20*em,
+    paddingRight:20*em
   },
 
   listDivider:{
-    height:1.5, 
-    marginLeft:20, 
+    height:1*em, 
+    marginLeft:18*em, 
     backgroundColor:"#eee"
   },
 
   titleText:{
-    fontSize: 35,  
+    fontSize: 24*em,  
     color:"#251b4d", 
     fontFamily:"Merriweather-Black"
   },

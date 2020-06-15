@@ -2,10 +2,7 @@ import React, { Component} from 'react';
 import { View, Text, Image, TouchableOpacity, StatusBar} from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
-import {WIDTH} from '../common/constants';
-import { TextInput } from 'react-native-gesture-handler';
-import Position from '../components/svgicons/Position';
-import CheckBox from '@react-native-community/checkbox';
+import {WIDTH, em} from '../common/constants';
 import TermsNormal from '../components/svgicons/TermsNormal';
 import MyTextInput from '../components/MyTextInput';
 
@@ -40,9 +37,9 @@ class RegPassword extends Component {
             <View style={styles.contentWrapper}>
               <MyTextInput style={styles.TextInput} secureTextEntry={true} textContentType={"password"} autoFocus={true} placeholder={"Mot de passe"}/>
               
-                <View style={{flexDirection:"row", marginTop:100, marginBottom: 30}}>
+                <View style={{flexDirection:"row", marginTop:80*em, marginBottom: 20*em}}>
 
-                <TermsNormal width={25} height={25} />
+                <TermsNormal width={18*em} height={18*em} />
                   <Text style={styles.TermsText}>
                     En cochant cette case j'accepte les
                     <Text style={styles.linkText}> Conditions d'utilisation </Text>
@@ -76,94 +73,73 @@ const styles = {
 
   menuWrapper:{
     position:"absolute", 
-    left:25,
-    top:25
+    left:20*em,
+    top:20*em
   },
 
   contentContainer: {
     flexDirection: "column", 
-    marginTop: 50, 
+    marginTop: 45*em, 
     alignItems:"center"
   },
 
   tinaLogo:{
-    width: 110, 
-    height:118, 
-    marginBottom: 20
+    width: 80*em, 
+    height:85*em, 
+    marginBottom: 15*em
   },
 
   contentWrapper:{
     width:WIDTH, 
-    paddingLeft: 30, 
-    paddingRight: 30, 
-    paddingTop: 20
+    paddingLeft: 20*em, 
+    paddingRight: 20*em, 
+    paddingTop: 15*em
   },
 
   titleText:{
-    fontSize: 35,  
+    fontSize: 22*em,  
     color:"#251b4d", 
     fontFamily:"Merriweather-Black"
   },
 
   contentText:{
-    fontSize: 18, 
-    marginTop: 10, 
+    fontSize: 13*em, 
+    marginTop: 8*em, 
     color:"#251b4d", 
-    fontFamily:"OpenSans-Regular"
-  },
-
-  contentBlueText:{
-    fontSize: 18, 
-    fontFamily:"OpenSans-Regular",
-    color:"#28c7ee",
-    marginLeft: 15
-  },
-
-  positionWrapper:{
-    flexDirection:"row",
-    alignItems:"center",
-    marginTop: 20, 
-    marginBottom: 100
-  },
-
-  descText:{
-    fontSize: 18, 
-    marginTop: 15, 
-    color:"#928da6", 
     fontFamily:"OpenSans-Regular"
   },
   
   ActionButton: {
     overflow: 'hidden',
-    borderRadius: 26,
-    height: 70, 
+    borderRadius: 18*em,
+    height: 50*em, 
     alignItems: 'center',
     backgroundColor: '#918da6',
     justifyContent: 'center',
-    marginTop: 20
+    marginTop: 18*em
   },
 
   TextInput:{
-    height: 60, 
-    fontSize: 20, 
+    height: 45*em, 
+    fontSize: 13*em, 
     color:"#28c7ee", 
-    borderBottomWidth:2, 
+    borderBottomWidth:1*em, 
     borderBottomColor:"#28c7ee", 
     fontFamily:"OpenSans-Regular"
   },
 
   ActionText:{
     color:"#fff", 
-    fontSize: 20, 
+    fontSize: 14*em, 
     fontFamily: "OpenSans-SemiBold"
   },
 
   TermsText:{
-    paddingLeft:20,
-    fontSize: 15,
-    marginTop:-3, 
+    paddingLeft:15*em,
+    fontSize: 11*em,
+    marginTop:-2*em, 
     color:"#928da6", 
-    lineHeight: 24,
+    lineHeight: 18*em,
     fontFamily:"OpenSans-Regular"
   },
 

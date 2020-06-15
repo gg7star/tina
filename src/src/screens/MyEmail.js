@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StatusBar} from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
 import MyTextInput from '../components/MyTextInput';
+import { em } from '../common/constants';
 
 class MyEmail extends Component {
   constructor(props){
@@ -52,70 +53,57 @@ const styles = {
 
   menuWrapper:{
     position:"absolute", 
-    left:25,
-    top:25
+    left:20*em,
+    top:20*em
   },
 
   contentContainer: {
     flexDirection: "column", 
-    marginTop: 120, 
-    paddingLeft:25, 
-    paddingRight: 25
-  },
-
-  tinaLogo:{
-    width: 110, 
-    height:118, 
-    marginBottom: 20
+    marginTop: 90*em, 
+    paddingLeft:20*em, 
+    paddingRight: 20*em
   },
 
   contentWrapper:{
     flexDirection:"column",
-    paddingTop: 20,
+    paddingTop: 18*em,
   },
 
   titleText:{
-    fontSize: 32,  
+    fontSize: 24*em,  
     color:"#251b4d", 
     fontFamily:"Merriweather-Black"
   },
 
-  contentText:{
-    fontSize: 18, 
-    marginTop: 10, 
-    color:"#251b4d", 
-    fontFamily:"OpenSans-Regular"
-  },
-
   descText:{
-    fontSize: 15, 
-    marginTop: 15, 
+    fontSize: 11*em, 
+    marginTop: 11*em, 
     color:"#928da6", 
     fontFamily:"OpenSans-Regular"
   },
   
   ActionButton: {
     overflow: 'hidden',
-    borderRadius: 26,
-    height: 70, 
+    borderRadius: 18*em,
+    height: 50*em, 
     alignItems: 'center',
     backgroundColor: '#28c7ee',
     justifyContent: 'center',
-    marginTop: 150
+    marginTop: 100*em
   },
 
   TextInput:{
-    height: 60, 
-    fontSize: 20, 
+    height: 45*em, 
+    fontSize: 13*em, 
     color:"#28c7ee", 
-    borderBottomWidth:2, 
+    borderBottomWidth:1*em, 
     borderBottomColor:"#28c7ee", 
     fontFamily:"OpenSans-Regular"
   },
 
   ActionText:{
     color:"#fff", 
-    fontSize: 20, 
+    fontSize: 14*em, 
     fontFamily: "OpenSans-SemiBold"
   }
 }

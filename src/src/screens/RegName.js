@@ -2,8 +2,7 @@ import React, { Component} from 'react';
 import { View, Text, Image, TouchableOpacity, StatusBar, PermissionsAndroid } from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
-import {WIDTH} from '../common/constants';
-import { TextInput } from 'react-native-gesture-handler';
+import {WIDTH, em} from '../common/constants';
 import MyTextInput from '../components/MyTextInput';
 
 // const requestLocationPermission = async () => {
@@ -82,72 +81,72 @@ const styles = {
 
   menuWrapper:{
     position:"absolute", 
-    left:25,
-    top:25
+    left:20*em,
+    top:20*em
   },
 
   contentContainer: {
     flexDirection: "column", 
-    marginTop: 50, 
+    marginTop:45*em, 
     alignItems:"center"
   },
 
   tinaLogo:{
-    width: 110, 
-    height:118, 
-    marginBottom: 20
+    width:80*em, 
+    height:85*em, 
+    marginBottom: 15*em
   },
 
   contentWrapper:{
     width:WIDTH, 
-    paddingLeft: 30, 
-    paddingRight: 30, 
-    paddingTop: 20
+    paddingLeft: 20*em, 
+    paddingRight: 20*em, 
+    paddingTop: 15*em
   },
 
   titleText:{
-    fontSize: 35,  
+    fontSize: 22*em,  
     color:"#251b4d", 
     fontFamily:"Merriweather-Black"
   },
 
   contentText:{
-    fontSize: 18, 
-    marginTop: 10, 
+    fontSize: 13*em, 
+    marginTop: 8*em, 
     color:"#251b4d", 
     fontFamily:"OpenSans-Regular"
   },
 
   descText:{
-    fontSize: 18, 
-    marginTop: 15, 
+    fontSize: 12*em, 
+    marginTop: 10*em, 
     color:"#928da6", 
     fontFamily:"OpenSans-Regular"
   },
   
   ActionButton: {
     overflow: 'hidden',
-    borderRadius: 26,
-    height: 70, 
+    borderRadius: 18*em,
+    height: 50*em, 
     alignItems: 'center',
     backgroundColor: '#918da6',
     justifyContent: 'center',
-    marginTop: 20
+    marginTop: 18*em
   },
 
   TextInput:{
-    height: 60, 
-    fontSize: 20, 
+    height: 45*em, 
+    fontSize: 13*em, 
     color:"#28c7ee", 
-    borderBottomWidth:2, 
+    borderBottomWidth:1*em, 
     borderBottomColor:"#28c7ee", 
-    marginBottom: 100,
+    marginBottom: 60*em,
     fontFamily:"OpenSans-Regular"
   },
 
   ActionText:{
     color:"#fff", 
-    fontSize: 20, 
+    fontSize: 14*em, 
     fontFamily: "OpenSans-SemiBold"
   }
 }

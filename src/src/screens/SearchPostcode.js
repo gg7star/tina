@@ -1,10 +1,9 @@
 import React, { Component} from 'react';
-import { View, Text, Image, TouchableOpacity, StatusBar } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
-import {WIDTH} from '../common/constants';
-import { TextInput, FlatList } from 'react-native-gesture-handler';
-import Position from '../components/svgicons/Position';
+import {em} from '../common/constants';
+import { FlatList } from 'react-native-gesture-handler';
 import MyTextInput from '../components/MyTextInput';
 import PostcodeItem from '../components/PostcodeItem';
 
@@ -101,7 +100,7 @@ class SearchPostcode extends Component {
             <MenuBtn image={"back"} onPress={() => Actions.pop()}/>                  
           </View>
 
-          <View style={{paddingLeft:25, paddingRight:25, marginTop:130}}>
+          <View style={{paddingLeft:20*em, paddingRight:20*em, marginTop:100*em}}>
             <MyTextInput handleChange={this.handleChange} style={styles.TextInput} textContentType={"telephoneNumber"} autoFocus={true} placeholder={"Code postal"} value={this.state.postCode} />
             <FlatList data={searchData}
                 ItemSeparatorComponent={this.renderDivider}
@@ -126,93 +125,21 @@ const styles = {
 
   menuWrapper:{
     position:"absolute", 
-    left:25,
-    top:25
-  },
-
-  contentContainer: {
-    backgroundColor:"#ff0",
-    flexDirection: "column", 
-    marginTop: 130, 
-    alignItems:"center",
-    paddingLeft: 25,
-    paddingRight: 25
-  },
-
-  tinaLogo:{
-    width: 110, 
-    height:118, 
-    marginBottom: 20
-  },
-
-  contentWrapper:{
-    width:WIDTH, 
-    paddingLeft: 30, 
-    paddingRight: 30, 
-    paddingTop: 20
-  },
-
-  titleText:{
-    fontSize: 35,  
-    color:"#251b4d", 
-    fontFamily:"Merriweather-Black"
-  },
-
-  contentText:{
-    fontSize: 18, 
-    marginTop: 10, 
-    color:"#251b4d", 
-    fontFamily:"OpenSans-Regular"
-  },
-
-  contentBlueText:{
-    fontSize: 18, 
-    fontFamily:"OpenSans-Regular",
-    color:"#28c7ee",
-    marginLeft: 15
-  },
-
-  positionWrapper:{
-    flexDirection:"row",
-    alignItems:"center",
-    marginTop: 20, 
-    marginBottom: 100
-  },
-
-  descText:{
-    fontSize: 18, 
-    marginTop: 15, 
-    color:"#928da6", 
-    fontFamily:"OpenSans-Regular"
-  },
-  
-  ActionButton: {
-    overflow: 'hidden',
-    borderRadius: 26,
-    height: 70, 
-    alignItems: 'center',
-    backgroundColor: '#918da6',
-    justifyContent: 'center',
-    marginTop: 20
+    left:20*em,
+    top:20*em
   },
 
   TextInput:{
-    height: 60, 
-    fontSize: 20, 
+    height: 45*em, 
+    fontSize: 13*em, 
     color:"#28c7ee", 
-    borderBottomWidth:2, 
+    borderBottomWidth:1*em, 
     borderBottomColor:"#28c7ee", 
     fontFamily:"OpenSans-Regular"
   },
 
-  ActionText:{
-    color:"#fff", 
-    fontSize: 20, 
-    fontFamily: "OpenSans-SemiBold"
-  },
-
   listDivider:{
-    height:1.5, 
+    height:1.2*em, 
     backgroundColor:"#eee"
   },
 }

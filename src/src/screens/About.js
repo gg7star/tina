@@ -1,11 +1,8 @@
 import React, { Component} from 'react';
-import { View, Text, FlatList, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text, StatusBar, TouchableOpacity } from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
-import {WIDTH, HEIGHT} from '../common/constants';
-import {Q_TYPES} from '../common/constants';
-import HistoryItem from '../components/HistoryItem';
-import FAQItem from '../components/FAQItem';
+import {em} from '../common/constants';
 import ArrowSmall from '../components/svgicons/ArrowSmall'
 
 const Item = ({title, hasDivider}) => (
@@ -13,7 +10,7 @@ const Item = ({title, hasDivider}) => (
     <TouchableOpacity>
       <View style={styles.mainWrapper}>            
         <Text style={styles.itemText}>{title}</Text>
-        <ArrowSmall width={17} height={17} />
+        <ArrowSmall width={14*em} height={14*em} />
       </View>
     </TouchableOpacity>
 
@@ -63,13 +60,13 @@ const styles = {
 
   menuWrapper:{
     position:"absolute", 
-    left:25,
-    top:25
+    left:20*em,
+    top:20*em
   },
   
   listWrapper:{
-    borderRadius:20, 
-    marginTop: 20,
+    borderRadius:18*em, 
+    marginTop: 18*em,
     backgroundColor:"#fff", 
     elevation:10
   },
@@ -77,35 +74,21 @@ const styles = {
   contentContainer: {
     flex: 1,
     flexDirection: "column", 
-    marginTop: 120, 
-    paddingLeft: 25,
-    paddingRight:25
+    marginTop: 100*em, 
+    paddingLeft: 20*em,
+    paddingRight:20*em
   },
 
   listDivider:{
-    height:1.5, 
-    marginLeft:20, 
+    height:1*em, 
+    marginLeft:18*em, 
     backgroundColor:"#eee"
   },
 
   titleText:{
-    fontSize: 35,  
+    fontSize: 24*em, 
     color:"#251b4d", 
     fontFamily:"Merriweather-Black"
-  },
-
-  descText:{
-    fontSize: 20,
-    fontFamily:"OpenSans-SemiBold"
-  },
-
-  bottomTitle:{
-    justifyContent:"center", 
-    alignItems:"center",
-    backgroundColor:"#fff", 
-    flexDirection:"column", 
-    paddingTop: 40, 
-    paddingBottom:100
   },
 
   mainWrapper:{
@@ -113,15 +96,14 @@ const styles = {
     alignItem:"center", 
     justifyContent:"center", 
     alignItems:"center", 
-    paddingLeft: 20, 
-    paddingRight:20, 
-    paddingTop:30, 
-    paddingBottom:30
+    paddingLeft: 18*em, 
+    paddingRight:18*em, 
+    paddingTop:23*em, 
+    paddingBottom:23*em
   },
 
   itemText:{
-    marginLeft: 20, 
-    fontSize: 18, 
+    fontSize: 12*em, 
     flex: 1, 
     color:"#251b4d", 
     fontFamily:"OpenSans-SemiBold"
