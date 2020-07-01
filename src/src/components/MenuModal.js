@@ -18,7 +18,7 @@ import { em } from '../common/constants'
 
 var {height, width} = Dimensions.get('window');
 
-export default MenuModal = ({isModalVisible, isLoggedIn, onPress, onPressHistory, onPressFAQ, onPressSignIn, onPressRegister, onPressBecomeAdvertiser, onPressSettings, onPressAbout, onPressLogout}) => (
+export default MenuModal = ({isModalVisible, isLoggedIn, onPress, onPressNonAd, onPressHistory, onPressFAQ, onPressSignIn, onPressRegister, onPressBecomeAdvertiser, onPressSettings, onPressAbout, onPressLogout}) => (
   <View style={styles.absolute}>
       <BlurView
         style={styles.absolute}
@@ -48,7 +48,7 @@ export default MenuModal = ({isModalVisible, isLoggedIn, onPress, onPressHistory
                 <MenuBtn image="close" onPress={onPress} />
                 <View style={styles.menuWrapper}>
                   <Text style={styles.menuText}>Version sans publicité</Text>
-                  <TouchableOpacity style={styles.menuBtn} onPress={onPress} elevation={2}>
+                  <TouchableOpacity style={styles.menuBtn} onPress={onPressNonAd} elevation={2}>
                       <NonVersion width={15*em} height={15*em}/>
                   </TouchableOpacity>
                 </View>

@@ -13,6 +13,9 @@ import Alert from '../components/svgicons/Alert';
 import CheckBox from '../components/CheckBox';
 import Tool from '../components/svgicons/Tool';
 import { Actions } from 'react-native-router-flux';
+import { AppActions, QuestionActions } from '../actions'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 class NoResult extends Component {
   constructor(props){
@@ -34,6 +37,21 @@ class NoResult extends Component {
     }
   }
 
+  handleContinueClick = () => {
+    Actions.depanneurs()
+  }
+
+  handleBackToHome = () => {
+    this.props.questionActions.clearQuestions();
+    Actions.reset('home');
+  }
+
+  componentWillUnmount(){
+    if (this.props.question.questions.length > 0){
+      this.props.questionActions.removeLastQuestion()
+    }    
+  }
+  
   render(){
     return (
         <View style={styles.mainContainer}>
@@ -107,11 +125,11 @@ class NoResult extends Component {
               <View style={{flex:1, justifyContent:"flex-end"}}>
                 <View style={styles.ActionWrapper}>
 
-                  <TouchableOpacity style={styles.ActionButtonBlue} onPress={()=>Actions.depanneurs()}>
+                  <TouchableOpacity style={styles.ActionButtonBlue} onPress={this.handleContinueClick}>
                     <Text style={styles.ActionBlueText}>Continuer</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.ActionButtonNoBg} onPress={()=>Actions.reset('home')}>
+                  <TouchableOpacity style={styles.ActionButtonNoBg} onPress={this.handleBackToHome}>
                     <Text style={styles.ActionNoBgText}>Fermer</Text>
                   </TouchableOpacity>
                 </View>
@@ -311,4 +329,16 @@ const styles = {
   }
 }
 
-export default NoResult;
+const mapStateToProps = state => ({
+  app: state.app || {},
+  question: state.question || {}
+});
+
+const mapDispatchToProps = dispatch => ({
+  appActions: bindActionCreators(AppActions, dispatch),
+  questionActions: bindActionCreators(QuestionActions, dispatch)
+});
+
+export default connect(
+    mapStateToProps, 
+    mapDispatchToProps)(NoResult);

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "62117918069",
+    "firebase_url": "https://tina-960fc.firebaseio.com",
+    "project_id": "tina-960fc",
+    "storage_bucket": "tina-960fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:62117918069:android:dffa5aef1dfb12fc004f3c",
+        "android_client_info": {
+          "package_name": "com.tina"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "62117918069-m2hkp8sskq47lghtuo9uhtejvf2mejpm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLH3hoJmgfn8-KxXk7fJq6pcQ--jN8YwY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "62117918069-m2hkp8sskq47lghtuo9uhtejvf2mejpm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

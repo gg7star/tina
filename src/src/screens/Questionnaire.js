@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { View, Text, Dimensions, Image, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import RectangleImage from '../components/RectangleImage';
 import Back from '../components/svgicons/Back';
@@ -9,13 +9,27 @@ import { Actions } from 'react-native-router-flux';
 import InfoModal from '../components/InfoModal';
 import {colors, WIDTH, em} from '../common/constants';
 import EvaluationModal from '../components/EvaluationModal';
-
+import { getQuestionByCategoryAndId } from '../common/firebase/database';
+import { AppActions, QuestionActions } from '../actions'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 class Questionnaire extends Component {
+  ANSWER_TYPE_YES = 1;
+  ANSWER_TYPE_NO = 2;
+  ANSWER_TYPE_DUNNO = 3;
+
   constructor(props){
     super(props)
     this.state = {
       infoVisible: false,
-      evaluationVisible: false}
+      evaluationVisible: false
+    }
+  }
+
+  componentWillUnmount(){
+    if (this.props.question.questions.length > 0){
+      this.props.questionActions.removeLastQuestion()
+    }    
   }
 
   renderInfoModal(){
@@ -31,6 +45,52 @@ class Questionnaire extends Component {
   handleEvaluationClick(){
     this.setState({evaluationVisible:false})
     Actions.foundresult(this.props)
+  }
+
+  handleAnswerClick(type){
+    const { qinfo, qType, questionActions } = this.props;
+    let qid = "";
+    let answerText = "";
+    if (type == this.ANSWER_TYPE_YES){
+      qid = qinfo.yid;
+      answerText = "Oui";
+    }else if (type == this.ANSWER_TYPE_NO){
+      qid = qinfo.nid;
+      answerText = "Non";
+    }else if (type == this.ANSWER_TYPE_DUNNO){
+      qid = qinfo.did;
+      answerText = "Je ne sais pas";
+    }
+
+    questionActions.addQuestion({
+      "qid":qinfo['qid'],
+      "title":qinfo['title'],
+      "answerId":qid,
+      "answerText":answerText
+    })
+
+    if (qid != ""){
+      // Get the corresponding question
+      const _this = this;
+      getQuestionByCategoryAndId(qType, qid).then(res => {
+        if (res['qid'] != undefined){
+          Actions.questionnaire({qType:qType, qinfo:res}) 
+        }else if (res['solution'] != undefined && res['solution'] != ""){
+          Actions.foundresult({qType:qType, solution:res['solution']})
+        }else if (res['solution'] != undefined && res['solution'] == ""){
+          Actions.noresult(this.props)
+        }
+      });
+    }
+  }
+
+  handleGoBack(){
+    Actions.pop();
+  }
+
+  handleClose(event){
+    this.props.questionActions.clearQuestions();
+    Actions.popTo('home');
   }
 
   renderEvaluationModal(){
@@ -62,7 +122,7 @@ class Questionnaire extends Component {
                                 justifyContent:'flex-end',
                                 alignItems:'center'}}>
                     <Image source={require("../Assets/tina_header.png")} style={{position:"absolute", left: 0, alignSelf: 'center', height: 30*em, width: WIDTH}} resizeMode={"center"}/>
-                    <MenuBtn image={"close"} onPress={() => Actions.pop()}/>                  
+                    <MenuBtn image={"close"} onPress={this.handleClose.bind(this)}/>                  
                   </View>
 
                   <View style={styles.absolute}>
@@ -90,14 +150,14 @@ class Questionnaire extends Component {
           <View style={styles.contentContainer}>
             <Image source={require('../Assets/questionair_split.png')} style={{width: WIDTH, height: WIDTH*0.4}} resizeMode={'stretch'} />
 
-            <TouchableOpacity style={styles.ButtonWrapper} elevation={20}>
+            <TouchableOpacity style={styles.ButtonWrapper} elevation={20} onPress={this.handleGoBack}>
               <Back width={15*em} height={15*em}/>
             </TouchableOpacity>
 
             <View style={styles.contentWrapper}>
               
               <Text style={styles.questionText}>
-                Votre ordinateur est un Apple?
+                {this.props.qinfo.title}
               </Text>
 
               <View style={{flex: 1, flexDirection:"column-reverse"}}>
@@ -113,17 +173,17 @@ class Questionnaire extends Component {
                 </View>
 
                 <View style={styles.answerWrapper}>
-                    <TouchableOpacity style={StyleSheet.flatten([styles.ActionButtion, {flex:1}])} onPress={() => this.setState({evaluationVisible:true})}>
+                    <TouchableOpacity style={StyleSheet.flatten([styles.ActionButtion, {flex:1}])} onPress={this.handleAnswerClick.bind(this, this.ANSWER_TYPE_YES)}>
                       <Text style={StyleSheet.flatten([styles.answerText, {color:colors[this.props.qType][0]}])}>Oui</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={StyleSheet.flatten([styles.ActionButtion, {flex:1, marginLeft: 15*em}])} onPress={() => Actions.noresult({qType: this.props.qType})}>
+                    <TouchableOpacity style={StyleSheet.flatten([styles.ActionButtion, {flex:1, marginLeft: 15*em}])} onPress={this.handleAnswerClick.bind(this, this.ANSWER_TYPE_NO)}>
                       <Text style={StyleSheet.flatten([styles.answerText, {color:colors[this.props.qType][0]}])}>Non</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View styles={{backgroundColor:"#fff"}}>
-                  <TouchableOpacity style={styles.ActionButtionNoShadow}>
+                  <TouchableOpacity style={styles.ActionButtionNoShadow} onPress={this.handleAnswerClick.bind(this, this.ANSWER_TYPE_DUNNO)}>
                     <Text style={styles.dunnoText}>Je ne sais pas</Text>
                   </TouchableOpacity>
                   
@@ -287,4 +347,16 @@ const styles = {
   }
 }
 
-export default Questionnaire;
+const mapStateToProps = state => ({
+  app: state.app || {},
+  question: state.question || {}
+});
+
+const mapDispatchToProps = dispatch => ({
+  appActions: bindActionCreators(AppActions, dispatch),
+  questionActions: bindActionCreators(QuestionActions, dispatch)
+});
+
+export default connect(
+    mapStateToProps, 
+    mapDispatchToProps)(Questionnaire);

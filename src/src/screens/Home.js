@@ -10,8 +10,15 @@ import Internet from '../components/svgicons/Internet';
 import MenuModal from '../components/MenuModal';
 import { Actions } from 'react-native-router-flux';
 import {Q_TYPES, WIDTH, HEIGHT, em} from '../common/constants';
+import { AppActions, QuestionActions } from '../actions'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { createDummyJSON } from '../common/firebase/database'
+import { getQuestionByCategoryAndId } from '../common/firebase/database';
 
 class Home extends Component {
+  _isMounted = false;
+
   constructor(props){
     super(props)
     this.state = {
@@ -25,12 +32,22 @@ class Home extends Component {
     this.setState({isLoggedIn:nextProps.isLoggedIn})
   }
 
+  componentDidMount(){
+    this._isMounted = true;
+    this.setDummyJSON();
+  }
+
+  componentWillUnmount(){
+    this._isMounted = false;
+  }
+
   renderMenu(){
     if (this.state.menuVisible){
       return (
         <MenuModal isModalVisible={true} 
                   isLoggedIn={this.state.isLoggedIn}
-                  onPress={()=>{this.setState({menuVisible: false})}} 
+                  onPress={()=>this.setState({menuVisible:false})} 
+                  onPressNonAd={()=>this.setState({menuVisible:false})}
                   onPressHistory={()=>{this.setState({menuVisible: false}); Actions.history()}}
                   onPressFAQ={()=>{this.setState({menuVisible:false}); Actions.faq()}}
                   onPressSignIn={()=>{this.setState({menuVisible: false}); Actions.signin()}}
@@ -43,6 +60,24 @@ class Home extends Component {
     }else{
       return null;
     }
+  }
+
+  setDummyJSON = () => {
+      createDummyJSON().then(res => {
+        if (this._isMounted) this.setState({menuVisible:false});        
+      });
+  }
+
+  moveToQuestionnair = (type) => {
+    const _this = this;
+    getQuestionByCategoryAndId(type, "root").then(res => {
+      if (res == null){
+        _this.props.appActions.setGlobalNotification({"message":"No Questions ready yet!"})
+      }else{
+        _this.props.questionActions.clearQuestions();
+        Actions.questionnaire({qType:type, qinfo:res}) 
+      }
+    });
   }
 
   render() {
@@ -82,7 +117,7 @@ class Home extends Component {
             <ImageBackground source={require('../Assets/home_bg.png')} style={styles.menuBackgroundWrapper} resizeMode={'stretch'}>
               <View style={{flex:1, flexDirection:"column", marginRight:26*em}}>
                 <View style={{flex:1}}>
-                  <TouchableOpacity style={styles.mainBtn} onPress={() => Actions.questionnaire({qType: Q_TYPES.O})}>
+                  <TouchableOpacity style={styles.mainBtn} onPress={this.moveToQuestionnair.bind(this, Q_TYPES.O)}>
                     <View style={StyleSheet.flatten([styles.circleOverlay, {backgroundColor:"#d4f4fc"}])}>
                       <Ordinateur width={21*em} height={21*em}/>
                     </View>
@@ -91,7 +126,7 @@ class Home extends Component {
                 </View>
 
                 <View style={{flex:1}}>
-                    <TouchableOpacity style={styles.mainBtn} onPress={() => Actions.questionnaire({qType: Q_TYPES.P})}>
+                    <TouchableOpacity style={styles.mainBtn} onPress={this.moveToQuestionnair.bind(this, Q_TYPES.P)}>
                       <View style={StyleSheet.flatten([styles.circleOverlay, {backgroundColor:"#ccf7f4"}])}>
                         <Periferique width={21*em} height={21*em}/>
                       </View>
@@ -100,7 +135,7 @@ class Home extends Component {
                 </View>
 
                 <View style={{flex:1}}>
-                  <TouchableOpacity style={styles.mainBtn} onPress={() => Actions.questionnaire({qType: Q_TYPES.A})}>
+                  <TouchableOpacity style={styles.mainBtn} onPress={this.moveToQuestionnair.bind(this, Q_TYPES.A)}>
                       <View style={StyleSheet.flatten([styles.circleOverlay, {backgroundColor:"#ffefe2"}])}>
                         <Astuce width={21*em} height={21*em} />
                       </View>
@@ -112,7 +147,7 @@ class Home extends Component {
                 <View style={{flex:0.5}}></View>
                 
                 <View style={{flex:1}}>
-                  <TouchableOpacity style={styles.mainBtn} onPress={() => Actions.questionnaire({qType: Q_TYPES.L})}>
+                  <TouchableOpacity style={styles.mainBtn} onPress={this.moveToQuestionnair.bind(this, Q_TYPES.L)}>
                       <View style={StyleSheet.flatten([styles.circleOverlay, {backgroundColor:"#e9e5fb"}])}>
                         <Logiciel width={21*em} height={21*em} />
                       </View>
@@ -120,7 +155,7 @@ class Home extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={{flex:1}}>
-                  <TouchableOpacity style={styles.mainBtn} onPress={() => Actions.questionnaire({qType: Q_TYPES.I})}>
+                  <TouchableOpacity style={styles.mainBtn} onPress={this.moveToQuestionnair.bind(this, Q_TYPES.I)}>
                       <View style={StyleSheet.flatten([styles.circleOverlay, {backgroundColor:"#edf3ff"}])}>
                         <Internet width={16*em} height={16*em} />
                       </View>
@@ -234,4 +269,16 @@ const styles = {
     right: 0
   }, 
 }
-export default Home;
+
+const mapStateToProps = state => ({
+  app: state.app || {}
+});
+
+const mapDispatchToProps = dispatch => ({
+  appActions: bindActionCreators(AppActions, dispatch),
+  questionActions: bindActionCreators(QuestionActions, dispatch)
+});
+
+export default connect(
+    mapStateToProps, 
+    mapDispatchToProps)(Home);

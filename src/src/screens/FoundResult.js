@@ -12,42 +12,19 @@ import ResultItem from '../components/ResultItem';
 import { Actions } from 'react-native-router-flux';
 import Good from '../components/svgicons/Good';
 import { ScrollView } from 'react-native-gesture-handler';
+import { AppActions, QuestionActions } from '../actions'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-const DATA = [
-  {
-    id: 1,
-    title: "Lorem ipsum dolor situndefined - 1",
-    answer: "Oui"
-  },
-  {
-    id: 2,
-    title: "Lorem ipsum dolor situndefined - 2",
-    answer: "Non"
-  },
-  {
-    id: 3,
-    title: "Lorem ipsum dolor situndefined - 3",
-    answer: "Oui"
-  },
-  {
-    id: 4,
-    title: "Lorem ipsum dolor situndefined - 4",
-    answer: "Oui"
-  },
-  {
-    id: 5,
-    title: "Lorem ipsum dolor situndefined - 5",
-    answer: "Non"
-  },
-  {
-    id: 6,
-    title: "Lorem ipsum dolor situndefined - 6",
-    answer: "Oui"
-  },
-]
 class FoundResult extends Component {
   constructor(props){
     super(props)
+  }
+
+  componentWillUnmount(){
+    if (this.props.question.questions.length > 0){
+      this.props.questionActions.removeLastQuestion()
+    }    
   }
 
   renderIcons(){
@@ -64,9 +41,14 @@ class FoundResult extends Component {
     }
   }
 
+  handleBackToHome = () => {
+    this.props.questionActions.clearQuestions();
+    Actions.reset('home');
+  }
+
   render(){
-    const questionsItems = DATA.map((item) => 
-      <ResultItem key={item.id.toString()} id={item.id} title={item.title} answer={item.answer} />
+    const questionsItems = this.props.question.questions.map((item, index) => 
+      <ResultItem key={item.qid} id={index+1} title={item.title} answer={item.answerText} />
     )
     return (
         <View style={styles.mainContainer}>
@@ -126,7 +108,7 @@ class FoundResult extends Component {
 
                     <Text style={styles.solutionText}>Réponse</Text>
                     <Text style={styles.resultText}>
-                        Lorem ipsum dolor sit amet, conseteur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
+                        {this.props.solution}
                     </Text>
                   </View>
 
@@ -140,7 +122,7 @@ class FoundResult extends Component {
                     <Text style={styles.ActionBlueText}>Enregistrer le résultat</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.ActionButtonNoBg} onPress={()=>Actions.reset('home')}>
+                  <TouchableOpacity style={styles.ActionButtonNoBg} onPress={this.handleBackToHome}>
                     <Text style={styles.ActionNoBgText}>Revenir au menu</Text>
                   </TouchableOpacity>
                 </View>):null}
@@ -306,4 +288,16 @@ const styles = {
   }
 }
 
-export default FoundResult;
+const mapStateToProps = state => ({
+  app: state.app || {},
+  question: state.question || {}
+});
+
+const mapDispatchToProps = dispatch => ({
+  appActions: bindActionCreators(AppActions, dispatch),
+  questionActions: bindActionCreators(QuestionActions, dispatch)
+});
+
+export default connect(
+    mapStateToProps, 
+    mapDispatchToProps)(FoundResult);

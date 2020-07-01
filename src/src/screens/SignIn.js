@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import { View, Text, Image, TouchableOpacity, StatusBar} from 'react-native';
+import { View, Text, Image, TouchableOpacity, StatusBar, DrawerLayoutAndroidBase} from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
 import {WIDTH, em} from '../common/constants';

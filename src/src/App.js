@@ -29,28 +29,42 @@ import MyAccount from './screens/MyAccount'
 import MyName from './screens/MyName'
 import MyEmail from './screens/MyEmail'
 import SearchPostcode from './screens/SearchPostcode';
+import { Provider } from 'react-redux';
+import AppView from './screens/AppView';
+import store from './store/store';
 
 class App extends Component{
   constructor(props){
     super(props)
     this.state = {
-      didFinish: false,
+      visible: false,
     }
   }
+
+  onComplete = () => {
+
+  };
+
+  onFailedLoad = () => {
+
+  };
 
   componentDidMount(){
     setTimeout(() => {
       SplashScreen.hide();
-      this.setState({didFinish: true});
+      this.setState({visible: true});
     }, 2500)
   }
 
   render(){
-    if (this.state.didFinish) {
+    if (this.state.visible) {
       return(
           // <NoResult qType={"ordinateur"}/>
           // <Home />
-          <RootRoutes />
+          <Provider store={store(this.onComplete, this.onFailedLoad)}>
+            <AppView />
+          </Provider>
+          //  <RootRoutes />
           // <Depanneurs />
           // <FoundResult qType={"ordinateur"}/>
           //  <RegEmail />
