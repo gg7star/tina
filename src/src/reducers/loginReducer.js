@@ -39,7 +39,7 @@ export default function reducer(state = initialState, action) {
           statusMessage: ''
         };
     case loginActionTypes.LOGOUT_DONE:
-      const logout_state = {
+      return {
         ...state,
         isAuthenticated: false,
         credential: null

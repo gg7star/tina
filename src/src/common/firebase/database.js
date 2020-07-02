@@ -141,8 +141,7 @@ export async function createDummyJSON(){
         return null;
       });
   } catch (e) {
-    console.log('==== error: ', e)
-    return null
+    return e;
   }  
 }
 
@@ -168,8 +167,7 @@ export async function createUserDummyJSON(){
         return null;
       });
   } catch (e) {
-    console.log('==== error: ', e)
-    return null
+    return e;
   }
 }
 

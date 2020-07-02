@@ -43,6 +43,7 @@ class Home extends Component {
   handleOnLogout = () => {
     const {loginActions} = this.props;
     loginActions.doLogout();
+    this.setState({menuVisible: false})
   }
 
   renderMenu(){
@@ -60,7 +61,7 @@ class Home extends Component {
                   onPressBecomeAdvertiser={()=>{this.setState({menuVisible: false}); Actions.becomeadvertiser()}}
                   onPressSettings={()=>{this.setState({menuVisible: false}); Actions.settings()}}
                   onPressAbout={()=>{this.setState({menuVisible:false}); Actions.about()}}
-                  onPressLogout={()=>{this.setState({menuVisible: false, isLoggedIn: false})}} />
+                  onPressLogout={() => this.handleOnLogout()} />
       )
     }else{
       return null;
@@ -72,13 +73,17 @@ class Home extends Component {
           if (this._isMounted){
             console.log("=====Dummy Maps created!");
           }
+        }).catch(e => {
+          console.log(e)
         });
 
-        createUserDummyJSON().then(res => {
-          if (this._isMounted){
-            console.log("=====Dummy Users created!");
-          }
-        })
+        // createUserDummyJSON().then(res => {
+        //   if (this._isMounted){
+        //     console.log("=====Dummy Users created!");
+        //   }
+        // }).catch(e => {
+        //   console.log(e)
+        // });
   }
 
   moveToQuestionnair = (type) => {
@@ -95,7 +100,7 @@ class Home extends Component {
   }
 
   render() {
-    const {isAuthenticated, credentials} = this.props.auth;
+    const {isAuthenticated, credential} = this.props.auth;
     
     return (
       <View style={{flex: 1}}>
@@ -103,7 +108,7 @@ class Home extends Component {
           <View style={styles.helloContainer}>
               <ImageBackground source={require('../Assets/home_hello_bg.png')} style={styles.helloLogo} resizeMode={'stretch'}>
                 <Text style={styles.helloText}>
-                  {isAuthenticated? ('Hello ' + credentials.firstname + " " + credentials.lastname + '!'):'Hello!'}
+                  {isAuthenticated? ('Hello ' + credential.firstname + " " + credential.lastname + '!'):'Hello!'}
                 </Text>
               </ImageBackground>
           </View>
