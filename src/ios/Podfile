@@ -89,6 +89,8 @@ target 'Tina' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
   target 'TinaTests' do
     inherit! :complete
     # Pods for testing

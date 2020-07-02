@@ -29,5 +29,5 @@ function* LoginWithEmail(action) {
 }
 
 export function* processLoginSuccess() {
-  Actions['dashboard']();
+  Actions.reset('home')
 }

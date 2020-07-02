@@ -3,8 +3,8 @@ import {TouchableOpacity, View, Text, Image} from 'react-native';
 import {em} from '../common/constants'
 import { Actions } from 'react-native-router-flux';
 
-export default PostcodeItem = ({id, title}) => {
-    return (<TouchableOpacity onPress={() => Actions.pop()}>
+export default PostcodeItem = ({id, title, code, onClick}) => {
+    return (<TouchableOpacity onPress={onClick}>
         <View style={styles.mainWrapper}>            
             <Text style={styles.titleText}>{title}</Text>
         </View>

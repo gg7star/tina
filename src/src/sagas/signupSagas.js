@@ -19,7 +19,7 @@ export default function* watcher() {
 export function* trySignup(action) {
   const { signupInfo } = action.payload;
   console.log('===== signupInfo: ', signupInfo);
-  const { firstName, lastName, email, password, birthday } = signupInfo;
+  const { email, firstname, lastname, password, zipcode } = signupInfo;
   var errorMessage = null;
   try {
     const res = yield call(attempSignup, {email, password});
@@ -38,14 +38,14 @@ export function* trySignup(action) {
     );
     console.log('==== resCreateUser: ', resCreateUser);
     yield put(signUpSuccess());
-    Actions.signin();
+    //Actions.signin();
     yield put(tryLogin({email, password}));
     return;
   } catch (e) {
     console.log('===== e: ', e);
     var errorMessage = e.message;
     if(e.code === 'auth/email-already-in-use')
-      errorMessage = 'The phone number is already registered. Please try again with other phone number.';
+      errorMessage = 'The email is already registered. Please try again with other email.';
     yield put({
       type: signupActionTypes.SIGNUP_FAILURE,
       payload: {statusMessage: errorMessage}

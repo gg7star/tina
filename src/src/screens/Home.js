@@ -10,11 +10,12 @@ import Internet from '../components/svgicons/Internet';
 import MenuModal from '../components/MenuModal';
 import { Actions } from 'react-native-router-flux';
 import {Q_TYPES, WIDTH, HEIGHT, em} from '../common/constants';
-import { AppActions, QuestionActions } from '../actions'
+import { AppActions, QuestionActions, LoginActions } from '../actions'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createDummyJSON } from '../common/firebase/database'
+import { createDummyJSON, createUserDummyJSON } from '../common/firebase/database'
 import { getQuestionByCategoryAndId } from '../common/firebase/database';
+import { showRootToast } from '../common/utils';
 
 class Home extends Component {
   _isMounted = false;
@@ -23,13 +24,11 @@ class Home extends Component {
     super(props)
     this.state = {
       menuVisible: false,
-      isLoggedIn: this.props.isLoggedIn,
     }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log("ComponentWillReceiveProps")
-    this.setState({isLoggedIn:nextProps.isLoggedIn})
+    // this.setState({isLoggedIn:nextProps.isLoggedIn})
   }
 
   componentDidMount(){
@@ -41,11 +40,17 @@ class Home extends Component {
     this._isMounted = false;
   }
 
+  handleOnLogout = () => {
+    const {loginActions} = this.props;
+    loginActions.doLogout();
+  }
+
   renderMenu(){
+    const {isAuthenticated} = this.props.auth;
     if (this.state.menuVisible){
       return (
         <MenuModal isModalVisible={true} 
-                  isLoggedIn={this.state.isLoggedIn}
+                  isLoggedIn={isAuthenticated}
                   onPress={()=>this.setState({menuVisible:false})} 
                   onPressNonAd={()=>this.setState({menuVisible:false})}
                   onPressHistory={()=>{this.setState({menuVisible: false}); Actions.history()}}
@@ -63,16 +68,25 @@ class Home extends Component {
   }
 
   setDummyJSON = () => {
-      createDummyJSON().then(res => {
-        if (this._isMounted) this.setState({menuVisible:false});        
-      });
+        createDummyJSON().then(res => {
+          if (this._isMounted){
+            console.log("=====Dummy Maps created!");
+          }
+        });
+
+        createUserDummyJSON().then(res => {
+          if (this._isMounted){
+            console.log("=====Dummy Users created!");
+          }
+        })
   }
 
   moveToQuestionnair = (type) => {
     const _this = this;
     getQuestionByCategoryAndId(type, "root").then(res => {
       if (res == null){
-        _this.props.appActions.setGlobalNotification({"message":"No Questions ready yet!"})
+        //_this.props.appActions.setGlobalNotification({"message":"No Questions ready yet!"})
+        showRootToast('No Questions ready yet!')
       }else{
         _this.props.questionActions.clearQuestions();
         Actions.questionnaire({qType:type, qinfo:res}) 
@@ -81,13 +95,15 @@ class Home extends Component {
   }
 
   render() {
+    const {isAuthenticated, credentials} = this.props.auth;
+    
     return (
       <View style={{flex: 1}}>
         <View style={styles.mainContainer}>
           <View style={styles.helloContainer}>
               <ImageBackground source={require('../Assets/home_hello_bg.png')} style={styles.helloLogo} resizeMode={'stretch'}>
                 <Text style={styles.helloText}>
-                  {this.state.isLoggedIn? 'Hello Bruno!':'Hello!'}
+                  {isAuthenticated? ('Hello ' + credentials.firstname + " " + credentials.lastname + '!'):'Hello!'}
                 </Text>
               </ImageBackground>
           </View>
@@ -271,12 +287,14 @@ const styles = {
 }
 
 const mapStateToProps = state => ({
-  app: state.app || {}
+  app: state.app || {},
+  auth: state.auth || {}
 });
 
 const mapDispatchToProps = dispatch => ({
   appActions: bindActionCreators(AppActions, dispatch),
-  questionActions: bindActionCreators(QuestionActions, dispatch)
+  questionActions: bindActionCreators(QuestionActions, dispatch),
+  loginActions: bindActionCreators(LoginActions, dispatch)
 });
 
 export default connect(

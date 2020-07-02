@@ -3,12 +3,41 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, StatusBar } from 'reac
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
 import {WIDTH, em} from '../common/constants';
-import { TextInput } from 'react-native-gesture-handler';
 import MyTextInput from '../components/MyTextInput';
+import { AppActions } from '../actions'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { validateEmail, showRootToast } from '../common/utils';
+import { checkUserEmail } from '../common/firebase/database';
 
 class RegEmail extends Component {
   constructor(props){
     super(props)
+
+    this.state = {
+      email: ""
+    }
+  }
+
+  handleGoLogin = () => {
+    Actions.pop();
+    Actions.signin();
+  }
+
+  handleContinue = () => {
+    const {email} = this.state;
+
+    if (!validateEmail(email)){
+      showRootToast('Please enter valid email address')
+    }else{
+      checkUserEmail(email).then(res => {
+        if (res){
+          showRootToast('The email address already exists')
+        }else{
+          Actions.regname({email});
+        }
+      });
+    }
   }
 
   render(){
@@ -29,14 +58,14 @@ class RegEmail extends Component {
 
             <View style={styles.contentWrapper}>
               <Text style={styles.descText}>Adresse email</Text>
-              <MyTextInput style={styles.TextInput} textContentType={"emailAddress"} autoFocus={true}/>
+              <MyTextInput style={styles.TextInput} textContentType={"emailAddress"} autoFocus={true} value={this.state.email} handleChange={(text)=>this.setState({email:text})} />
 
               <Text style={StyleSheet.flatten([styles.descText, {alignSelf:"center", fontSize: 13*em}])}>
                 Déjà un compte? 
-                <Text style={styles.linkText}> Se connecter ici</Text>
+                <Text style={styles.linkText} onPress={this.handleGoLogin}> Se connecter ici</Text>
               </Text>
 
-              <TouchableOpacity style={styles.ActionButton} onPress={() => Actions.regname()}>
+              <TouchableOpacity style={styles.ActionButton} onPress={this.handleContinue.bind(this)}>
                   <Text style={styles.ActionText}>Continuer</Text>
               </TouchableOpacity>
 
@@ -135,4 +164,14 @@ const styles = {
   }
 }
 
-export default RegEmail;
+const mapStateToProps = state => ({
+  app: state.app || {},
+});
+
+const mapDispatchToProps = dispatch => ({
+  appActions: bindActionCreators(AppActions, dispatch)
+});
+
+export default connect(
+    mapStateToProps, 
+    mapDispatchToProps)(RegEmail);

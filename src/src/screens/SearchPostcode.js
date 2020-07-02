@@ -1,97 +1,73 @@
 import React, { Component} from 'react';
-import { View, StatusBar } from 'react-native';
+import { View, StatusBar, Platform } from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
 import {em} from '../common/constants';
 import { FlatList } from 'react-native-gesture-handler';
 import MyTextInput from '../components/MyTextInput';
 import PostcodeItem from '../components/PostcodeItem';
-
-const DATA = [
-  {
-    id: 1,
-    postCode: "3000 Leuven, Belgique",
-  },
-
-  {
-    id: 2,
-    postCode: "3000 Nimes",
-  },
-
-  {
-    id: 3,
-    postCode: "3001 Heverlee, Belgique",
-  },
-
-  {
-    id: 4,
-    postCode: "3010 Kessel, Belgique",
-  },
-
-  {
-    id: 5,
-    postCode: "4000 Leuven, Belgique",
-  },
-
-  {
-    id: 6,
-    postCode: "4000 Nimes",
-  },
-
-  {
-    id: 7,
-    postCode: "4001 Heverlee, Belgique",
-  },
-
-  {
-    id: 8,
-    postCode: "4010 Kessel, Belgique",
-  },
-
-  {
-    id: 9,
-    postCode: "5000 Leuven, Belgique",
-  },
-
-  {
-    id: 10,
-    postCode: "5000 Nimes",
-  },
-
-  {
-    id: 11,
-    postCode: "5001 Heverlee, Belgique",
-  },
-
-  {
-    id: 12,
-    postCode: "5010 Kessel, Belgique",
-  }
-]
+// import {byCode} from 'fr-zip';
+//import {zipcodes} from '../zipcodes.json'
+// import {RNFetchBlob} from 'react-native-fs'
 
 class SearchPostcode extends Component {
   constructor(props){
     super(props)
 
-    this.state = { postCode: "" }
+    this.state = { 
+      postCode: "",
+      listData: []
+    }
+  }
+
+  async lookupZipcodes(partialZip){
+    let jsonFile = partialZip.slice(0, 2);
+    var RNFS = require('react-native-fs');
+    let asset_content = null;
+    try {
+        if (Platform.OS === 'android'){
+          asset_content = await RNFS.readFileAssets(`zipcodes/${jsonFile}.json`, 'utf8')
+        }else{
+          asset_content = "";
+        }
+      } catch (err) {
+        console.log('ERROR:', err);
+    }
+
+    const assets = JSON.parse(asset_content);
+    var list = [];
+    var r = new RegExp(`^${partialZip}.*`);
+
+    assets.map((item) => {
+      if (r.test(item['fields']['code_postal'])){
+        list.push({id:item['recordid'], zipcode:item['fields']['code_postal'], title:item['fields']['code_postal'] + " " + item['fields']['nom_de_la_commune']});
+      }
+    })
+
+    return list;
   }
 
   handleChange = (text) => {
     this.setState({postCode: text})
+
+    if (text.length >= 2){
+      this.lookupZipcodes(text).then((list) => 
+        this.setState({listData: list})
+      )
+    }else{
+      this.setState({listData:[]})
+    }
+  }
+
+  handleOnItemClick = (zipcode, title) => {
+    this.props.cb(zipcode, title)
+    Actions.pop()
   }
 
   renderDivider = () => (<View style={styles.listDivider} />)
 
   render(){
-    let searchData = [];
-    DATA.map((item) => 
-      { 
-        if (this.state.postCode != "" && item.postCode.indexOf(this.state.postCode) !== -1){
-          searchData.push(item) 
-        } 
-      }
-    );
-
+    let _this = this;
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
@@ -101,10 +77,10 @@ class SearchPostcode extends Component {
           </View>
 
           <View style={{paddingLeft:20*em, paddingRight:20*em, marginTop:100*em}}>
-            <MyTextInput handleChange={this.handleChange} style={styles.TextInput} textContentType={"telephoneNumber"} autoFocus={true} placeholder={"Code postal"} value={this.state.postCode} />
-            <FlatList data={searchData}
+            <MyTextInput handleChange={this.handleChange.bind(this)} style={styles.TextInput} textContentType={"telephoneNumber"} autoFocus={true} placeholder={"Code postal"} value={this.state.postCode} />
+            <FlatList data={this.state.listData}
                 ItemSeparatorComponent={this.renderDivider}
-                renderItem={({item}) => <PostcodeItem id={item.id} title={item.postCode} />}
+                renderItem={({item}) => <PostcodeItem id={item.id} title={item.title} onClick={() => this.handleOnItemClick(item.zipcode, item.title)}/>}
                 keyExtractor={item => item.id.toString()} />
           </View>
         </View>

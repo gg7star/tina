@@ -21,6 +21,7 @@ export default class MyTextInput extends React.Component{
     return (<TextInput
       onChangeText={this.props.handleChange}
       value={this.props.value}
+      editable={this.props.editable}
       clearButtonMode="while-editing"
       onFocus={this.handleFocus}
       onBlur={this.handleBlur}

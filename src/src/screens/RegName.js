@@ -1,42 +1,70 @@
 import React, { Component} from 'react';
-import { View, Text, Image, TouchableOpacity, StatusBar, PermissionsAndroid } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StatusBar, PermissionsAndroid, TouchableHighlightBase } from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
 import {WIDTH, em} from '../common/constants';
 import MyTextInput from '../components/MyTextInput';
+import { showRootToast } from '../common/utils';
 
-// const requestLocationPermission = async () => {
-//   try {
-//     const granted = await PermissionsAndroid.request(
-//       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-//       {
-//         title: 'Autoriser "Tina" a acceder a votre position?',
-//         message:
-//           "Pour mieux vous aider, nous avons besoin d'utiliser la geolocalisation, ces donnees resteront strictement confidentielles.",
-//         buttonNeutral: "Demande moi plus tard",
-//         buttonNegative: "Annuler",
-//         buttonPositive: "D'accord"
-//       }
-//     );
-//     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-//       console.log("You can use the location");
-//     } else {
-//       console.log("Location permission denied");
-//     }
-//   } catch (err) {
-//     console.warn(err);
-//   }
-// };
+/*const requestLocationPermission = async () => {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: 'Autoriser "Tina" a acceder a votre position?',
+        message:
+          "Pour mieux vous aider, nous avons besoin d'utiliser la geolocalisation, ces donnees resteront strictement confidentielles.",
+        buttonNeutral: "Demande moi plus tard",
+        buttonNegative: "Annuler",
+        buttonPositive: "D'accord"
+      }
+    );
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      console.log("You can use the location");
+    } else {
+      console.log("Location permission denied");
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+};*/
 
 
 class RegName extends Component {
   constructor(props){
     super(props)
+    this.state = {
+      username:""
+    }
   }
 
   // componentDidMount(){
-  //   requestLocationPermission();
+  //   requestLocationPermission().then(res => {
+
+  //   });
   // }
+
+  handleContinue = () => {
+    const {email} = this.props;
+    const {username} = this.state;
+
+    if (username == ""){
+      showRootToast('Please enter your name');
+    }else{
+      const splits = username.split(" ");
+      let firstname = "", lastname = "";
+      if (splits.length == 1){
+        firstname = splits[0];
+      }else if (splits.length == 2){
+        firstname = splits[0];
+        lastname = splits[1];
+      }else if (splits.length > 2){
+        firstname = splits[0];
+        lastname = username.substring(firstname.length + 1);
+      }
+      Actions.regpostcode({email, firstname, lastname})
+    }
+  }
 
   render(){
     return (
@@ -56,9 +84,9 @@ class RegName extends Component {
 
             <View style={styles.contentWrapper}>
               <Text style={styles.descText}>Nom</Text>
-              <MyTextInput style={styles.TextInput} autoFocus={true}/>
+              <MyTextInput style={styles.TextInput} autoFocus={true} value={this.state.username} handleChange={(text)=>this.setState({username:text})} />
 
-              <TouchableOpacity style={styles.ActionButton} onPress={() => Actions.regpostcode()}>
+              <TouchableOpacity style={styles.ActionButton} onPress={this.handleContinue.bind(this)}>
                   <Text style={styles.ActionText}>Continuer</Text>
               </TouchableOpacity>
             </View>

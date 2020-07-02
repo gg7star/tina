@@ -31,42 +31,12 @@ class AppView extends Component {
     appActions.setGlobalNotification({message: null, type: ''});
   }
 
-  showToast() {
-    const { appActions, app } = this.props;
-
-    if (app.globalNotification && app.globalNotification.message) {
-      
-      const { message, type, duration } = app.globalNotification;
-
-      const toastStyle = {
-        height: 30*em,
-        borderRadius: 15*em,
-        paddingHorizontal: 10*em,
-        backgroundColor: 'rgba(34, 34, 34, 0.7)',
-        bottom: 40*em,
-      };
-      let toastPosition = Toast.positions.BOTTOM;
-      const toastOption = { containerStyle: toastStyle, shadow: false, position: toastPosition};
-      Toast.show(message, toastOption);
-
-      appActions.setGlobalNotification({message: null, type: ''});
-    }
-  }
-  
-  render() {
-    const { loaded } = this.state;
-
-    if (loaded) this.showToast();
-    
+  render() {    
     return (
       <RootSiblingParent>
         <View style={styles.safeArea}>
           <View style={styles.container}>
-          { loaded 
-            ? (
-                <RootRoutes />
-            ):null
-          }
+            <RootRoutes />
           </View>
         </View>
       </RootSiblingParent>
@@ -84,14 +54,15 @@ const styles = StyleSheet.create({
   }  
 });
 
-const mapStateToProps = state => ({
-  app: state.app || {},
-});
+//export default AppView;
+// const mapStateToProps = state => ({
+//   app: state.app || {},
+// });
 
 const mapDispatchToProps = dispatch => ({
   appActions: bindActionCreators(AppActions, dispatch),
 });
 
 export default connect(
-    mapStateToProps, 
+    null, 
     mapDispatchToProps)(AppView);

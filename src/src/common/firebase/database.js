@@ -2,9 +2,10 @@ import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/database';
 
 const USER_TABLE_NAME = 'users';
+const MAPS_TABLE_NAME = 'maps';
 
 export async function createAccount({credential, signupInfo}) {
-  const { firstName, lastName, email, birthday } = signupInfo;
+  const { firstname, lastname, zipcode } = signupInfo;
   const user = credential.user._user;
   const { uid } = user;
   if (uid) {
@@ -13,10 +14,9 @@ export async function createAccount({credential, signupInfo}) {
       actived: true,
       signedUp: firebase.database.ServerValue.TIMESTAMP,
       lastLoggedIn: firebase.database.ServerValue.TIMESTAMP,
-      isSocialUser: false,
-      firstName,
-      lastName,
-      birthday: birthday || '',
+      firstname,
+      lastname,
+      zipcode,
       ...user
     };
     try {
@@ -46,24 +46,6 @@ export function getUserInfo(uid) {
 export function getCurrentUserInfo() {
   const uid = firebase.auth().currentUser.uid;
   return getUserInfo(uid)
-}
-
-export async function findUserByEmail(email) {
-  var items = [];
-  firebase.database()
-    .ref(`users`)
-    .orderByChild("email")
-    .startAt(email)
-    .endAt(email)
-    .on('value', (snap) => {
-      items = [];
-      snap.forEach((child) => {
-        items.push(child);
-      });
-      console.log('==== items: ', items);
-      return items;
-    });
-  return items;
 }
 
 export async function createDummyJSON(){
@@ -154,8 +136,35 @@ export async function createDummyJSON(){
   }
 
   try {
-    return firebase.database().ref(`maps`)
+    return firebase.database().ref(`${MAPS_TABLE_NAME}`)
       .set(maps).then(() => {
+        return null;
+      });
+  } catch (e) {
+    console.log('==== error: ', e)
+    return null
+  }  
+}
+
+export async function createUserDummyJSON(){
+  let users = {
+    "-MBC5lHoTRfthA545U7Y":{
+      "email":"alex@gmail.com",
+      "firstname":"Alex",
+      "lastname":"Hong",
+      "zipcode":"391029"
+    },
+    "-MBC6RCGSgLNcGJglgSi":{
+      "email":"james@gmail.com",
+      "firstname":"James",
+      "lastname":"Bruto",
+      "zipcode":"385043"
+    }
+  }
+
+  try {
+    return firebase.database().ref(`${USER_TABLE_NAME}`)
+      .set(users).then(() => {
         return null;
       });
   } catch (e) {
@@ -166,10 +175,29 @@ export async function createDummyJSON(){
 
 export async function getQuestionByCategoryAndId(category, id){
   return firebase.database()
-    .ref(`maps/${category}/${id}`)
+    .ref(`${MAPS_TABLE_NAME}/${category}/${id}`)
     .once('value')
     .then((snapshot) => {
       if (snapshot.exists) return snapshot.val();
       else return null;
     });
+}
+
+export async function checkUserEmail(email){
+  return await new Promise((resolve, reject) => {
+    // const timerId = setTimeout(() => { reject(new Error('DB: Timeout')); }, 5000);
+    firebase.database()
+      .ref(`${USER_TABLE_NAME}`)
+      .orderByChild("email")
+      .startAt(email)
+      .endAt(email)
+      .on('value', (snap) => {
+        items = [];
+        snap.forEach((child) => {
+          items.push(child);
+        });
+        // clearTimeout(timerId);
+        resolve(items.length > 0);
+      })
+  });
 }

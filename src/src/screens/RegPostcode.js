@@ -6,15 +6,39 @@ import {WIDTH, em} from '../common/constants';
 import { TextInput } from 'react-native-gesture-handler';
 import Position from '../components/svgicons/Position';
 import MyTextInput from '../components/MyTextInput';
+import { showRootToast } from '../common/utils';
 
 class RegPostcode extends Component {
   constructor(props){
     super(props)
+
+    this.state = {
+      zipcode:"",
+      address:""
+    }
   }
 
-  handleFocus = () => Actions.searchpostcode()
+  onPickedZipcode = (zipcode, address) => {
+    this.setState({zipcode, address})
+  }
+
+  handleFocus = () => {
+    Actions.searchpostcode({cb: this.onPickedZipcode})
+  }
+
+  handleContinue = () => {
+    const {email, firstname, lastname} = this.props;
+    const {zipcode} = this.state;
+
+    if (zipcode == ""){
+      showRootToast('Please enter your zipcode');
+    }else{
+      Actions.regpassword({email, firstname, lastname, zipcode})
+    }
+  }
 
   render(){
+    const {zipcode, address} = this.state;
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
@@ -31,13 +55,14 @@ class RegPostcode extends Component {
             <Text style={styles.contentText}>Quel est votre code postal?</Text>
 
             <View style={styles.contentWrapper}>
-              <MyTextInput handleFocus={this.handleFocus} style={styles.TextInput} textContentType={"telephoneNumber"} placeholder={"Code postal"}/>
-              <View style={styles.positionWrapper}>
-                <Position width={14*em} height={14*em} />
-                <Text style={styles.contentBlueText}>Position actuelle : 33000 Bordeaux</Text>
-              </View>
-
-              <TouchableOpacity style={styles.ActionButton} onPress={() => Actions.regpassword()}>
+              <MyTextInput handleFocus={this.handleFocus} style={styles.TextInput} textContentType={"telephoneNumber"} placeholder={"Code postal"} value={zipcode} />
+                {(zipcode != null && address != "") &&
+                  <View style={styles.positionWrapper}>
+                    <Position width={14*em} height={14*em} />
+                    <Text style={styles.contentBlueText}>Position actuelle: {address}</Text>
+                  </View>
+                }
+              <TouchableOpacity style={styles.ActionButton} onPress={this.handleContinue.bind(this)}>
                   <Text style={styles.ActionText}>Continuer</Text>
               </TouchableOpacity>
             </View>            

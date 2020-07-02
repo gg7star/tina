@@ -1,24 +1,70 @@
 import React, { Component} from 'react';
 import { View, Text, Image, TouchableOpacity, StatusBar} from 'react-native';
+import CheckBox from '@react-native-community/checkbox'
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
 import {WIDTH, em} from '../common/constants';
 import TermsNormal from '../components/svgicons/TermsNormal';
 import MyTextInput from '../components/MyTextInput';
+import { showRootToast } from '../common/utils';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { AppActions, SignupActions } from '../actions'
 
 class RegPassword extends Component {
   constructor(props){
     super(props)
+
+    this.state = {
+      password: "",
+      isTermChecked: false,
+    }
   }
 
   handleLoginDone(){
-    Actions.popTo('home');
-    setTimeout(() => {
-      Actions.refresh({isLoggedIn:true})
+    const {password, isTermChecked} = this.state;
+    const {email, firstname, lastname, zipcode, signupActions, appActions} = this.props;
+    const {isFetching} = this.props.signup;
+
+    if (password == ""){
+      showRootToast('Please enter your password');
+      return;
+    }
+    
+    if (!isTermChecked){
+      showRootToast('You must agree the terms and condition');
+      return;
+    }
+    
+    const timerId = setTimeout(() => {
+       if (isFetching){
+         signupActions.signUpFailed("DB: Timeout")
+         appActions.setGlobalNotification({
+          message: "Check the device network connection",
+        })
+       }
+    }, 5000);
+    signupActions.trySignup({
+      email,
+      firstname,
+      lastname,
+      zipcode,
+      password
     })
   }
 
   render(){
+    const {signup} = this.props;
+    const signingUp = false;  // signup.isFetching
+    console.log("isFetching", signingUp)
+    const {app, appActions} = this.props;
+    
+    if (app.globalNotification && app.globalNotification.message) {      
+      const { message, type, duration } = app.globalNotification;
+      showRootToast(message);
+      appActions.setGlobalNotification({"message":""});
+    }
+
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
@@ -35,11 +81,11 @@ class RegPassword extends Component {
             <Text style={styles.contentText}>Créez un mot de passe</Text>
 
             <View style={styles.contentWrapper}>
-              <MyTextInput style={styles.TextInput} secureTextEntry={true} textContentType={"password"} autoFocus={true} placeholder={"Mot de passe"}/>
+              <MyTextInput style={styles.TextInput} secureTextEntry={true} textContentType={"password"} autoFocus={true} placeholder={"Mot de passe"} value={this.state.password} handleChange={(text)=>this.setState({password:text})}/>
               
                 <View style={{flexDirection:"row", marginTop:80*em, marginBottom: 20*em}}>
 
-                <TermsNormal width={18*em} height={18*em} />
+                  <CheckBox style={styles.checkBox} value={this.state.isTermChecked} onValueChange={(isSelected) => this.setState({isTermChecked:isSelected})} />
                   <Text style={styles.TermsText}>
                     En cochant cette case j'accepte les
                     <Text style={styles.linkText}> Conditions d'utilisation </Text>
@@ -50,7 +96,7 @@ class RegPassword extends Component {
                 
                 </View>
 
-              <TouchableOpacity style={styles.ActionButton} onPress={this.handleLoginDone}>
+              <TouchableOpacity style={styles.ActionButton} onPress={this.handleLoginDone.bind(this)} disabled={signingUp}>
                   <Text style={styles.ActionText}>Continuer</Text>
               </TouchableOpacity>
             </View>
@@ -146,7 +192,24 @@ const styles = {
   linkText:{
     color:"#28c7ee", 
     fontFamily:"OpenSans-Regular"
+  },
+
+  checkBox: {
+    alignSelf: "center"
   }
 }
 
-export default RegPassword;
+const mapStateToProps = state => ({
+  app: state.app || {},
+  signup: state.signup || {}
+});
+
+const mapDispatchToProps = dispatch => ({
+  appActions: bindActionCreators(AppActions, dispatch),
+  signupActions: bindActionCreators(SignupActions, dispatch)
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(RegPassword);
