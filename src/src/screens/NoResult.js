@@ -16,6 +16,8 @@ import { Actions } from 'react-native-router-flux';
 import { AppActions, QuestionActions } from '../actions'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { addTinaHistory } from '../common/firebase/database';
+import { showRootToast } from '../common/utils';
 
 class NoResult extends Component {
   constructor(props){
@@ -38,7 +40,25 @@ class NoResult extends Component {
   }
 
   handleContinueClick = () => {
-    Actions.depanneurs()
+    const {solutionIndex} = this.state;
+    const {questions} = this.props.question;
+    const {qType} = this.props;
+    if (solutionIndex == 1){
+      Actions.depanneurs()
+    }else{
+      const {isAuthenticated} = this.props.auth;
+      if (isAuthenticated){
+        // notify this answer when it's solved... just add it to history
+        const solution = "";
+        addTinaHistory({type:qType, questions, solution})
+        showRootToast("The questions has been saved");
+
+        this.props.questionActions.clearQuestions();
+        Actions.reset('home');
+      }else{
+        Actions.signin();
+      }
+    }
   }
 
   handleBackToHome = () => {
@@ -331,6 +351,7 @@ const styles = {
 
 const mapStateToProps = state => ({
   app: state.app || {},
+  auth: state.auth || {},
   question: state.question || {}
 });
 

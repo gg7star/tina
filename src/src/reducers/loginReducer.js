@@ -26,6 +26,11 @@ export default function reducer(state = initialState, action) {
         isFetching: false,
         credential: payload.credential
       };
+    case loginActionTypes.LOGIN_UPDATE_INFO:
+      return {
+        ...state,
+        credential: payload.credential
+      };
     case loginActionTypes.LOGIN_FAILURE:
       return {
         ...state,

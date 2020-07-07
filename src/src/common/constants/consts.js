@@ -9,4 +9,11 @@ export const Q_TYPES = {
   L: "logiciel", 
   I: "internet", 
   A: "astuce"
+};
+export const Q_TYPE_STRINGS = {
+  ordinateur: "ordinateur",
+  periferique: "périphérique",
+  logiciel: "logiciel",
+  internet: "internet",
+  astuce: "astuce"
 }

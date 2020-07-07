@@ -1,34 +1,10 @@
 import React, { Component} from 'react';
-import { View, Text, Image, TouchableOpacity, StatusBar, PermissionsAndroid, TouchableHighlightBase } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StatusBar, TouchableHighlightBase } from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
 import {WIDTH, em} from '../common/constants';
 import MyTextInput from '../components/MyTextInput';
 import { showRootToast } from '../common/utils';
-
-/*const requestLocationPermission = async () => {
-  try {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      {
-        title: 'Autoriser "Tina" a acceder a votre position?',
-        message:
-          "Pour mieux vous aider, nous avons besoin d'utiliser la geolocalisation, ces donnees resteront strictement confidentielles.",
-        buttonNeutral: "Demande moi plus tard",
-        buttonNegative: "Annuler",
-        buttonPositive: "D'accord"
-      }
-    );
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log("You can use the location");
-    } else {
-      console.log("Location permission denied");
-    }
-  } catch (err) {
-    console.warn(err);
-  }
-};*/
-
 
 class RegName extends Component {
   constructor(props){
@@ -36,13 +12,7 @@ class RegName extends Component {
     this.state = {
       username:""
     }
-  }
-
-  // componentDidMount(){
-  //   requestLocationPermission().then(res => {
-
-  //   });
-  // }
+  }  
 
   handleContinue = () => {
     const {email} = this.props;
@@ -52,7 +22,7 @@ class RegName extends Component {
       showRootToast('Please enter your name');
     }else{
       const splits = username.split(" ");
-      let firstname = "", lastname = "";
+      let firstname = "", lastname = " ";
       if (splits.length == 1){
         firstname = splits[0];
       }else if (splits.length == 2){

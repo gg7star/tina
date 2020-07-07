@@ -4,8 +4,8 @@ import ArrowSmall from './svgicons/ArrowSmall';
 import { Actions } from 'react-native-router-flux';
 import {em} from '../common/constants'
 
-export default FAQItem = ({id, title}) => {
-    return (<TouchableOpacity onPress={() => Actions.faqdetail()}>
+export default FAQItem = ({id, title, onPress}) => {
+    return (<TouchableOpacity onPress={onPress}>
         <View style={styles.mainWrapper}>            
             <Text style={styles.titleText}>{title}</Text>
             <ArrowSmall width={14*em} height={14*em} />

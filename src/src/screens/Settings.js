@@ -7,17 +7,31 @@ import Notification from '../components/svgicons/Notification';
 import User from '../components/svgicons/User';
 import ArrowSmall from '../components/svgicons/ArrowSmall';
 import Switch from '../components/Switch';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { updateUserInfo } from '../common/firebase/database';
+import { LoginActions, QuestionActions } from '../actions';
 
 class Settings extends Component {
   constructor(props){
     super(props)
+  }
 
-    this.state = {
-      isNotificationChecked: true
-    }
+  handleNotiSettingsChange = () => {
+    const {loginActions} = this.props;
+    const {credential} = this.props.auth;
+    const {_user} = credential;
+    const {receiveNoti} = _user;
+    updateUserInfo({receiveNoti:!receiveNoti}).then(res => {
+      if (res){
+          // Update user info with new credential, changed the zipcode, lat, lng
+          loginActions.loginUpdateInfo({...credential, _user:{..._user, receiveNoti:!receiveNoti}})
+      }
+    })
   }
 
   render(){
+    const {receiveNoti} = this.props.auth.credential._user;
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
@@ -42,7 +56,7 @@ class Settings extends Component {
                     </View>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={[styles.ActionButton, {height: 90*em, marginTop:20*em}]} onPress={()=>this.setState({isNotificationChecked:!this.state.isNotificationChecked})}>
+                  <TouchableOpacity style={[styles.ActionButton, {height: 90*em, marginTop:20*em}]} onPress={this.handleNotiSettingsChange.bind(this)}>
                     
                     <View style={styles.ButtonWrapper}>
                         <View style={[styles.circleIconOverlay, {backgroundColor:"#f1eeff"}]}>
@@ -51,12 +65,12 @@ class Settings extends Component {
 
                         <View style={{flex:1, flexDirection:"row", justifyContent:"space-around"}}>
                           <Text style={styles.contentTitle}>Notifications</Text>
-                          <Switch checked={this.state.isNotificationChecked} />
+                          <Switch checked={receiveNoti} />
                         </View>
                     </View>
 
                     <Text style={styles.contentDesc}>Recevoir des notifications push</Text>
-                  </TouchableOpacity>                 
+                  </TouchableOpacity>
               </View>
           </View>
         </View>
@@ -149,4 +163,14 @@ const styles = {
   },
 }
 
-export default Settings;
+const mapStateToProps = state => ({
+  auth: state.auth || {}
+});
+
+const mapDispatchToProps = dispatch => ({
+  loginActions: bindActionCreators(LoginActions, dispatch),
+});
+
+export default connect(
+  mapStateToProps, 
+  mapDispatchToProps)(Settings);

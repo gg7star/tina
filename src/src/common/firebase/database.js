@@ -3,9 +3,14 @@ import '@react-native-firebase/database';
 
 const USER_TABLE_NAME = 'users';
 const MAPS_TABLE_NAME = 'maps';
+const DEPANNEUR_TABLE_NAME = 'stores';
+const HISTORY_TABLE_NAME = 'histories';
+const FAQS_TABLE_NAME = 'faqs';
+const SETTINGS_TABLE_NAME = 'settings';
+const ABOUT_TABLE_NAME = 'about';
 
 export async function createAccount({credential, signupInfo}) {
-  const { firstname, lastname, zipcode } = signupInfo;
+  const { firstname, lastname, zipcode, lat, lng, password } = signupInfo;
   const user = credential.user._user;
   const { uid } = user;
   if (uid) {
@@ -17,6 +22,10 @@ export async function createAccount({credential, signupInfo}) {
       firstname,
       lastname,
       zipcode,
+      password,
+      lat,
+      lng,
+      receiveNoti: true,
       ...user
     };
     try {
@@ -32,9 +41,9 @@ export async function createAccount({credential, signupInfo}) {
   return null;
 }
 
-export function getUserInfo(uid) {
+export async function getUserInfo(uid) {
   return firebase.database()
-    .ref(`users/${uid}`)
+    .ref(`${USER_TABLE_NAME}/${uid}`)
     .once('value')
     .then((snapshot) => {
       if (snapshot.exists) return snapshot.val();
@@ -43,9 +52,20 @@ export function getUserInfo(uid) {
   );
 }
 
-export function getCurrentUserInfo() {
+export async function getCurrentUserInfo() {
   const uid = firebase.auth().currentUser.uid;
   return getUserInfo(uid)
+}
+
+export async function updateUserInfo(data){
+  const uid = firebase.auth().currentUser.uid;
+  if (uid) {
+    return firebase.database().ref(`${USER_TABLE_NAME}/${uid}`)
+      .set(data).then(() => {
+        return uid;
+    });
+  }
+  return null;
 }
 
 export async function createDummyJSON(){
@@ -171,6 +191,177 @@ export async function createUserDummyJSON(){
   }
 }
 
+export async function createStoresDummyJSON(){
+  let stores = [
+    {
+      "id":"-MBL0z2CURWQKV58VvCw",
+      "title":"Fibrotech",
+      "phone":"00 00 00 00 01",
+      "email":"fibrotech@store.com",
+      "latitude":24.0001,
+      "longitude":10.0001,
+      "address":"11 rue de preside",
+      "image":"http://anr.gwl.mybluehost.me/depanneur_fibrotech.png"
+    },
+    {
+      "id":"-MBL11apGxIpMSFXuS6r",
+      "title":"igeek",
+      "phone":"00 00 00 00 02",
+      "email":"igeek@store.com",
+      "latitude":25.0001,
+      "longitude":11.0001,
+      "address":"12 rue de preside",
+      "image":"http://anr.gwl.mybluehost.me/depanneur_igeek.png"
+    },
+    {
+      "id":"-MBL15TxRmYxAUNweJXN",
+      "title":"Cultura",
+      "phone":"00 00 00 00 03",
+      "email":"Cultura@store.com",
+      "latitude":26.0001,
+      "longitude":12.0001,
+      "address":"13 rue de preside",
+      "image":"http://anr.gwl.mybluehost.me/depanneur_cultura.png"
+    },
+    {
+      "id":"-MBL19n4cA4AuZz-O5QJ",
+      "title":"fnac",
+      "phone":"00 00 00 00 04",
+      "email":"fnac@store.com",
+      "latitude":27.0001,
+      "longitude":13.0001,
+      "address":"14 rue de preside",
+      "image":"http://anr.gwl.mybluehost.me/depanneur_fnac.png"
+    }
+  ]
+
+  try {
+    return firebase.database().ref(`${DEPANNEUR_TABLE_NAME}`)
+      .set(stores).then(() => {
+        return null;
+      });
+  } catch (e) {
+    return e;
+  }
+}
+
+export async function createFAQDummyJSON(){
+  let faqs = {
+    "-MBL0z2CURWQKV58VvCw":{
+      "displayOrder":1,
+      "title":"Question 1",
+      "description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam noumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eoset accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et doloreundefined",
+      "answers":{
+        "-MBPd3aLhT3Z0SxJ7NA_":{
+          "title":"Lorem ipsumundefined1",
+          "description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam noumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eoset accusam et justo duo dolores et ea rebum."
+        },
+        "-MBPdCmTmuFVm2hOHTEA":{
+          "title":"Lorem ipsumundefined2",
+          "description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam noumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eoset accusam et justo duo dolores et ea rebum."
+        },
+        "-MBPdIjMENvUolMEI4OB":{
+          "title":"Lorem ipsumundefined3",
+          "description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam noumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eoset accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et doloreundefined"
+        },
+      }
+    },
+    "-MBPWwEiG2kHgmO11zQp":{
+      "displayOrder":2,
+      "title":"Question 2",
+      "description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam noumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eoset accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et doloreundefined",
+      "answers":{
+        "-MBPdXXNahNi3Xwssag2":{
+          "title":"Lorem ipsumundefined1",
+          "description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam noumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eoset accusam et justo duo dolores et ea rebum."
+        },
+        "-MBPdZR7wJbj9s7qSmIS":{
+          "title":"Lorem ipsumundefined2",
+          "description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam noumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eoset accusam et justo duo dolores et ea rebum."
+        },
+        "-MBPd_XMr6bLvO8hh1rh":{
+          "title":"Lorem ipsumundefined3",
+          "description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam noumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eoset accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et doloreundefined"
+        },
+      }
+    },
+    "-MBPX-W534yv4bn7oB3D":{
+      "displayOrder":3,
+      "title":"Question 3",
+      "description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam noumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eoset accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et doloreundefined",
+      "answers":{
+        "-MBPdbJVBzLGg-ce5n0x":{
+          "title":"Lorem ipsumundefined1",
+          "description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam noumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eoset accusam et justo duo dolores et ea rebum."
+        },
+        "-MBPdCmTmuFVm2hOHTEA":{
+          "title":"Lorem ipsumundefined2",
+          "description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam noumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eoset accusam et justo duo dolores et ea rebum."
+        },
+        "-MBPdeWVEVZKc5KnhBmk":{
+          "title":"Lorem ipsumundefined3",
+          "description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam noumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eoset accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et doloreundefined"
+        },
+      }
+    },
+  }
+
+  try {
+    return firebase.database().ref(`${FAQS_TABLE_NAME}`)
+      .set(faqs).then(() => {
+        return null;
+      });
+  } catch (e) {
+    return e;
+  }
+}
+
+export async function createAboutusDummyJSON(){
+  let aboutus = {
+    "-MBRQOSzqyoc1zwxLald":{
+      "displayOrder":1,
+      "title":"À propos de Tina",
+      "url":"http://www.tina.com/about"
+    },
+    "-MBRQdkTsqd39fLhIhzA":{
+      "displayOrder":2,
+      "title":"Conditions générales d'utilisation",
+      "url":"http://www.tina.com/terms"
+    },
+    "-MBRQf_jE0743t4G647T":{
+      "displayOrder":3,
+      "title":"RGPD: autorisation de la conservation des données",
+      "url":"http://www.tina.com/conservation"
+    }
+  }
+
+  try {
+    return firebase.database().ref(`${ABOUT_TABLE_NAME}`)
+      .set(aboutus).then(() => {
+        return null;
+      });
+  } catch (e) {
+    return e;
+  }
+}
+
+export async function createSettingDummyJSON(){
+  let settings = {
+    "contact_us":{
+      "url":"http://www.tina.com/contact"
+    }
+  }
+
+  try {
+    return firebase.database().ref(`${SETTINGS_TABLE_NAME}`)
+      .set(settings).then(() => {
+        return null;
+      });
+  } catch (e) {
+    return e;
+  }
+}
+
 export async function getQuestionByCategoryAndId(category, id){
   return firebase.database()
     .ref(`${MAPS_TABLE_NAME}/${category}/${id}`)
@@ -197,5 +388,108 @@ export async function checkUserEmail(email){
         // clearTimeout(timerId);
         resolve(items.length > 0);
       })
+  });
+}
+
+export async function getAllStores(){
+  return firebase.database().ref(`${DEPANNEUR_TABLE_NAME}`)
+    .once('value')
+    .then((snapshot) => {
+    if (snapshot.exists) {
+      return snapshot.val()
+    } else {
+      throw new Error('Stores table does not exist')
+    }
+  });
+}
+
+export async function addTinaHistory({type, questions, solution}){
+  try{
+    const uid = firebase.auth().currentUser.uid;
+    if (uid) {
+      let data = {uid, type, questions, solution, created: firebase.database.ServerValue.TIMESTAMP}
+      firebase.database().ref(`${HISTORY_TABLE_NAME}`).push(data)
+    }
+  }catch(e){
+    console.log("======= error", e);
+  }
+  return null; 
+}
+
+export async function getAllHistoryList(){
+  return await new Promise((resolve, reject) => {
+    // const timerId = setTimeout(() => { reject(new Error('DB: Timeout')); }, 5000);
+    const uid = firebase.auth().currentUser.uid;
+    var items = [];
+    if (uid){
+      firebase.database()
+        .ref(`${HISTORY_TABLE_NAME}`)
+        .orderByChild("uid")
+        .startAt(uid)
+        .endAt(uid)
+        .on('value', (snap) => {
+          items = [];
+          snap.forEach((child) => {
+            // We only get the history that solution found ones.
+            if (child.val().solution != ""){
+              items.push({...child.val(), id:child.key});
+            }
+          });
+          // clearTimeout(timerId);
+          resolve(items);
+        })
+    }else{
+      reject(null)
+    }
+  });
+}
+
+export async function getAllFAQsList(){
+  var items = [];
+  return firebase.database().ref(`${FAQS_TABLE_NAME}`)
+    .once('value')
+    .then((snapshot) => {
+    if (snapshot.exists) {
+      items = [];
+      snapshot.forEach((child) => {
+        items.push({...child.val(), id:child.key});
+      });
+      //console.log("===== Items", items)
+      return items;
+    } else {
+      throw new Error('FAQs table does not exist')
+    }
+  });
+}
+
+export async function getAllAboutList(){
+  var items = [];
+
+  return firebase.database().ref(`${ABOUT_TABLE_NAME}`)
+    .orderByChild("displayOrder")  
+    .once('value')
+    .then((snapshot) => {
+    if (snapshot.exists) {
+      items = [];
+      snapshot.forEach((child) => {
+        items.push({...child.val(), id:child.key});
+      });
+      //console.log("===== Items", items)
+      return items;
+    } else {
+      throw new Error('About table does not exist')
+    }
+  });
+}
+
+export async function getSettingsInfo(){
+  return firebase.database().ref(`${SETTINGS_TABLE_NAME}`)
+    .once('value')
+    .then((snapshot) => {
+    if (snapshot.exists) {
+      return snapshot.val()
+    } else {
+      throw new Error('Settings table does not exist')
+    }
   });
 }

@@ -79,5 +79,23 @@ export async function resetPasswordWithEmail(email) {
     }
     return {token: null, errorType: error.code, errorMessage};
   }
-  
+}
+
+export async function logout(){
+  try{
+    return firebase.auth().signOut().then(() => console.log('User signed out!'));
+  }catch (error){
+    console.log("===== logout error", error);
+  } 
+}
+
+export async function updateUserEmail(email){
+  try{
+    //let credential = await firebase.auth().signInWithEmailAndPassword(email, password);
+    await firebase.auth().currentUser.updateEmail(email);
+    return true;
+  }catch(error){
+    console.log("===== update user info error", error);
+    return false;
+  }
 }

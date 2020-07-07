@@ -1,12 +1,17 @@
 import React, { Component} from 'react';
-import { View, Text, Image, TouchableOpacity, StatusBar } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StatusBar, PermissionsAndroid } from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
 import {WIDTH, em} from '../common/constants';
-import { TextInput } from 'react-native-gesture-handler';
 import Position from '../components/svgicons/Position';
 import MyTextInput from '../components/MyTextInput';
 import { showRootToast } from '../common/utils';
+import GeoLocation from '@react-native-community/geolocation';
+import {requestLocationPermission} from '../common/utils';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { updateUserInfo } from '../common/firebase/database';
+import { LoginActions, AppActions } from '../actions';
 
 class RegPostcode extends Component {
   constructor(props){
@@ -14,8 +19,43 @@ class RegPostcode extends Component {
 
     this.state = {
       zipcode:"",
-      address:""
+      address:"",
+      lat:"",
+      lng:""
     }
+  }
+
+  componentDidMount(){
+    const {appActions} = this.props;
+    const {isAuthenticated} = this.props.auth;
+
+    if (Platform.OS === 'android'){
+      requestLocationPermission().then(res => {
+        if (res){
+          GeoLocation.getCurrentPosition(
+            info => {
+              console.log("=====Location", info);
+              const coords = info.coords;
+              const data = {
+                lat:coords.latitude,
+                lng:coords.longitude
+              };
+              this.setState(data);
+              appActions.setGeoLocation(data);
+            },
+            error => {
+              console.log(error);
+            }
+          )
+        }
+      });
+    }
+
+    if (isAuthenticated){
+      const {_user} = this.props.auth.credential;
+      this.setState({zipcode:_user.zipcode})
+    }
+    
   }
 
   onPickedZipcode = (zipcode, address) => {
@@ -28,12 +68,26 @@ class RegPostcode extends Component {
 
   handleContinue = () => {
     const {email, firstname, lastname} = this.props;
-    const {zipcode} = this.state;
+    const {isAuthenticated} = this.props.auth;
+    const {zipcode, lat, lng} = this.state;
 
     if (zipcode == ""){
       showRootToast('Please enter your zipcode');
     }else{
-      Actions.regpassword({email, firstname, lastname, zipcode})
+      if (!isAuthenticated){
+        Actions.regpassword({email, firstname, lastname, zipcode, lat, lng})  
+      }else{
+        const {loginActions} = this.props;
+        const {credential} = this.props.auth;
+        const {_user} = credential;      
+        updateUserInfo({zipcode, lat, lng}).then(res => {
+          if (res){
+            // Update user info with new credential, changed the zipcode, lat, lng
+            loginActions.loginUpdateInfo({...credential, _user:{..._user, zipcode, lat, lng}})
+            Actions.pop();
+          }
+        })
+      }
     }
   }
 
@@ -161,4 +215,15 @@ const styles = {
   }
 }
 
-export default RegPostcode;
+const mapStateToProps = state => ({
+  auth: state.auth || {}
+});
+
+const mapDispatchToProps = dispatch => ({
+  appActions: bindActionCreators(AppActions, dispatch),
+  loginActions: bindActionCreators(LoginActions, dispatch)
+});
+
+export default connect(
+  mapStateToProps, 
+    mapDispatchToProps)(RegPostcode);

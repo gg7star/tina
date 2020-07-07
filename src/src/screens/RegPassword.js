@@ -23,7 +23,7 @@ class RegPassword extends Component {
 
   handleLoginDone(){
     const {password, isTermChecked} = this.state;
-    const {email, firstname, lastname, zipcode, signupActions, appActions} = this.props;
+    const {email, firstname, lastname, zipcode, lat, lng, signupActions, appActions} = this.props;
     const {isFetching} = this.props.signup;
 
     if (password == ""){
@@ -49,7 +49,9 @@ class RegPassword extends Component {
       firstname,
       lastname,
       zipcode,
-      password
+      password,
+      lat,
+      lng
     })
   }
 

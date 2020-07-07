@@ -1,5 +1,6 @@
 import Toast from 'react-native-root-toast';
 import {em} from '../constants'
+import {Linking} from 'react-native';
 
 export const delay = (ms = 1000) =>
   new Promise((resolve, reject) => {
@@ -34,3 +35,14 @@ export const showRootToast = (text, position = 'bottom') => {
   const toastOption = { containerStyle: toastStyle, shadow: false, position: toastPosition };
   Toast.show(text, toastOption);
 };
+
+export const goToWebBrowser = (url) => {
+  console.log("URL", url);
+  Linking.canOpenURL(url).then(supported => {
+    if (supported){
+      Linking.openURL(url);
+    }else{
+      console.log("Don't know how to open URI: " + url);
+    }
+  })
+}

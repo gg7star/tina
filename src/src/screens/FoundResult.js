@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
 import { View, Text, Dimensions, Image, TouchableOpacity, StyleSheet, StatusBar, FlatList } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {colors, WIDTH, Q_TYPES, em} from '../common/constants';
+import {colors, WIDTH, Q_TYPES, em, Q_TYPE_STRINGS} from '../common/constants';
 import Ordinateur from '../components/svgicons/Ordinateur';
 import Periferique from '../components/svgicons/Periferique';
 import Astuce from '../components/svgicons/Astuce';
@@ -12,9 +12,10 @@ import ResultItem from '../components/ResultItem';
 import { Actions } from 'react-native-router-flux';
 import Good from '../components/svgicons/Good';
 import { ScrollView } from 'react-native-gesture-handler';
-import { AppActions, QuestionActions } from '../actions'
+import { QuestionActions } from '../actions'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { addTinaHistory } from '../common/firebase/database';
 
 class FoundResult extends Component {
   constructor(props){
@@ -22,8 +23,22 @@ class FoundResult extends Component {
   }
 
   componentWillUnmount(){
-    if (this.props.question.questions.length > 0){
-      this.props.questionActions.removeLastQuestion()
+    const {isFromHistory} = this.props.isFromHistory;
+    if (!isFromHistory){
+      if (this.props.question.questions.length > 0){
+        this.props.questionActions.removeLastQuestion()
+      }    
+    }
+  }
+
+  componentDidMount(){
+    const {isAuthenticated} = this.props.auth;
+    const {solution, qType} = this.props;
+    const {isFromHistory} = this.props.isFromHistory;
+    if (!isFromHistory && isAuthenticated){
+      const {questions} = this.props.question;
+      // Add history
+      if (questions.length > 0) addTinaHistory({type:qType, questions, solution})      
     }    
   }
 
@@ -47,7 +62,10 @@ class FoundResult extends Component {
   }
 
   render(){
-    const questionsItems = this.props.question.questions.map((item, index) => 
+    const {isFromHistory} = this.props;
+    const {isAuthenticated} = this.props.auth;
+    let {questions} = isFromHistory? this.props:this.props.question;
+    const questionsItems = questions.map((item, index) => 
       <ResultItem key={item.qid} id={index+1} title={item.title} answer={item.answerText} />
     )
     return (
@@ -70,13 +88,13 @@ class FoundResult extends Component {
                     </View>
                 </View>
                 
-                {this.props.isLoggedIn?
+                {isAuthenticated?
                 (
                 <View style={styles.menuWrapper}>
                   <MenuBtn image={"back"} onPress={() => Actions.pop()}/>                  
                 </View>):null}
 
-                {this.props.isLoggedIn?
+                {isAuthenticated?
                 (<View style={styles.dateWrapper}>
                   <Text style={{color:"#fff", fontSize: 12*em, fontFamily:"OpenSans-Regular"}}>{this.props.dateString}</Text>
                 </View>):null}
@@ -90,7 +108,7 @@ class FoundResult extends Component {
             <View style={styles.contentWrapper}>
 
               <Text style={[styles.solutionText, {marginTop: 15*em}]}>
-                {this.props.title? this.props.title:"Panne logicielle"}
+                {"Panne " + Q_TYPE_STRINGS[this.props.qType]}
               </Text>            
 
               <ScrollView style={{flex: 1, paddingTop:10*em}}>              
@@ -102,9 +120,9 @@ class FoundResult extends Component {
                   {questionsItems}
 
                   <View style={{flexDirection:"column"}}>
-                    <TouchableOpacity style={styles.ActionButtonNoBg}>
+                    <View style={styles.ActionButtonNoBg}>
                       <Good width={45*em} height={45*em}/>
-                    </TouchableOpacity>
+                    </View>
 
                     <Text style={styles.solutionText}>Réponse</Text>
                     <Text style={styles.resultText}>
@@ -115,7 +133,7 @@ class FoundResult extends Component {
                   
               </ScrollView>
 
-              {!this.props.isLoggedIn?
+              {!isAuthenticated?
                 (<View style={styles.ActionWrapper}>
 
                   <TouchableOpacity style={styles.ActionButtonBlue} onPress={()=>Actions.signin()}>
@@ -289,12 +307,11 @@ const styles = {
 }
 
 const mapStateToProps = state => ({
-  app: state.app || {},
-  question: state.question || {}
+  question: state.question || {},
+  auth: state.auth || {}
 });
 
 const mapDispatchToProps = dispatch => ({
-  appActions: bindActionCreators(AppActions, dispatch),
   questionActions: bindActionCreators(QuestionActions, dispatch)
 });
 

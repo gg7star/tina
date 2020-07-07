@@ -3,6 +3,7 @@ import { Actions } from 'react-native-router-flux';
 import { loginActionTypes } from '../actions/types';
 import { loginInWithEmailPassword } from '../common/firebase/auth';
 import { AppActions, LoginActions } from '../actions';
+import { getCurrentUserInfo } from '../common/firebase/database';
 
 const { setGlobalNotification } = AppActions;
 const { loginSuccess, loginFailed } = LoginActions;
@@ -25,7 +26,9 @@ function* LoginWithEmail(action) {
     }));
     return;
   }
-  yield put(loginSuccess(res.credential));
+  const _user = yield call(getCurrentUserInfo);
+  console.log('===== current user info:', _user);
+  yield put(loginSuccess({...res.credential, _user}));
 }
 
 export function* processLoginSuccess() {

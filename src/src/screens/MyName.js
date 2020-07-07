@@ -4,19 +4,46 @@ import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
 import MyTextInput from '../components/MyTextInput';
 import {em} from '../common/constants'
+import { LoginActions } from '../actions'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { updateUserInfo } from '../common/firebase/database';
 
 class MyName extends Component {
   constructor(props){
     super(props)
     this.state = {
-      firstName: "Florin",
-      lastName: "Bruno"
+      firstname: "",
+      lastname: ""
     }
   }
 
-  // componentDidMount(){
-  //   requestLocationPermission();
-  // }
+  UNSAFE_componentWillMount(){
+    const {_user} = this.props.auth.credential;
+    this.setState({
+      firstname: _user.firstname,
+      lastname: _user.lastname
+    })
+  }
+
+  handleOnClickSave = () => {
+    const {firstname, lastname} = this.state;
+    const {loginActions} = this.props;
+    const {credential} = this.props.auth;
+    const {_user} = credential;
+
+    if (firstname == ""){
+      showRootToast('Please enter your firstname')
+    }else{
+      updateUserInfo({firstname, lastname}).then(res => {
+        if (res){
+          // Update user info with new credential, changed the zipcode, lat, lng
+          loginActions.loginUpdateInfo({...credential, _user:{..._user, firstname, lastname}})
+          Actions.pop();
+        }
+      });
+    }
+  }
 
   render(){
     return (
@@ -32,12 +59,12 @@ class MyName extends Component {
 
             <View style={styles.contentWrapper}>
               <Text style={styles.descText}>Nom</Text>
-              <MyTextInput style={styles.TextInput} autoFocus={true} value={this.state.firstName} handleChange={(text)=>this.setState({firstName:text})}/>
+              <MyTextInput style={styles.TextInput} autoFocus={true} value={this.state.firstname} handleChange={(text)=>this.setState({firstname:text})}/>
 
               <Text style={[styles.descText, {marginTop:20}]}>Prénom</Text>
-              <MyTextInput style={styles.TextInput} autoFocus={false} value={this.state.lastName} handleChange={(text)=>this.setState({lastName:text})}/>
+              <MyTextInput style={styles.TextInput} autoFocus={false} value={this.state.lastname} handleChange={(text)=>this.setState({lastname:text})}/>
 
-              <TouchableOpacity style={styles.ActionButton} onPress={() => Actions.pop()}>
+              <TouchableOpacity style={styles.ActionButton} onPress={this.handleOnClickSave.bind(this)}>
                   <Text style={styles.ActionText}>Valider</Text>
               </TouchableOpacity>
             </View>
@@ -115,4 +142,14 @@ const styles = {
   }
 }
 
-export default MyName;
+const mapStateToProps = state => ({
+  auth: state.auth || {}
+});
+
+const mapDispatchToProps = dispatch => ({
+  loginActions: bindActionCreators(LoginActions, dispatch)
+});
+
+export default connect(
+    mapStateToProps, 
+    mapDispatchToProps)(MyName);

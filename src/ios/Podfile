@@ -91,6 +91,8 @@ target 'Tina' do
 
   pod 'RNFS', :path => '../node_modules/react-native-fs'
 
+  pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
+
   target 'TinaTests' do
     inherit! :complete
     # Pods for testing

@@ -4,38 +4,62 @@ import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
 import {em} from '../common/constants';
 import FAQItem from '../components/FAQItem';
-
-const DATA = [
-  {
-    id: 1,
-    title: "Question 1"
-  },
-  {
-    id: 2,
-    title: "Question 2"
-  },
-  {
-    id: 3,
-    title: "Question 3"
-  },
-  {
-    id: 4,
-    title: "Question 4"
-  },
-  {
-    id: 5,
-    title: "Question 5"
-  }
-]
+import { getAllFAQsList, getSettingsInfo } from '../common/firebase/database';
+import { goToWebBrowser } from '../common/utils';
 
 class FAQ extends Component {
   constructor(props){
     super(props)
+
+    this.state = {
+      faqs:null,
+      contact_us:""
+    }
+  }
+
+  UNSAFE_componentWillMount(){
+    getAllFAQsList().then(res => {
+      // console.log('====== getAllFaqs: res: ', res);
+      this.setState({
+        faqs: res || null
+      });
+    })
+
+    getSettingsInfo().then(res => {
+      // console.log('====== Settings: res: ', res['contact_us']);
+      this.setState({contact_us: res['contact_us']['url']})
+    })
   }
 
   renderDivider = () => (<View style={styles.listDivider} />)
 
+  // convertFAQtoArray = () => {
+  //   const {faqs} = this.state;
+  //   if (!faqs) return [];
+    
+  //   const faqKeys = Object.keys(faqs);
+
+  //   console.log(faqKeys);
+
+  //   const farray = [];
+  //   faqKeys.map(item => {
+  //     farray.push({...faqs[item], id:item})
+  //   })
+  //   return farray;
+  // }
+
+  handleGoFAQDetail = (item) => {
+    const {contact_us} = this.state;
+    Actions.faqdetail({faq:item, url:contact_us});
+  }
+
+  handleContactUs = () => {
+    const {contact_us} = this.state;
+    goToWebBrowser(contact_us)
+  }
+
   render(){
+    const {faqs} = this.state;
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
@@ -48,15 +72,15 @@ class FAQ extends Component {
             <Text style={styles.titleText}>Foire aux questions</Text>
 
             <View style={styles.listWrapper}>
-              <FlatList data={DATA}
+              <FlatList data={faqs}
                 ItemSeparatorComponent={this.renderDivider}
-                renderItem={({item}) => <FAQItem id={item.id} title={item.title} />}
+                renderItem={({item}) => <FAQItem id={item.id} title={item.title} onPress={() => this.handleGoFAQDetail(item)}/>}
                 keyExtractor={item => item.id.toString()} />
             </View>
 
             <View style={styles.bottomTitle}>
               <Text style={[styles.descText, {color:"#251b4d"}]}>Vous n'avez pas trouvé votre réponse ?</Text>
-              <TouchableOpacity><Text style={[styles.descText, {color:"#26c8ee", paddingTop:8*em}]}>Contacter notre service client ici</Text></TouchableOpacity>
+              <TouchableOpacity onPress={this.handleContactUs.bind(this)}><Text style={[styles.descText, {color:"#26c8ee", paddingTop:8*em}]}>Contacter notre service client ici</Text></TouchableOpacity>
             </View>
           </View>
         </View>

@@ -14,3 +14,10 @@ export function setGlobalNotification({message, type, duration}) {
     }
   };
 }
+
+export function setGeoLocation({lat, lng}){
+  return{
+    type: types.SET_GEOLOCATION,
+    payload: {lat, lng}
+  }
+}

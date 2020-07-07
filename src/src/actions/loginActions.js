@@ -20,6 +20,13 @@ export function loginSuccess(credential) {
   }
 }
 
+export function loginUpdateInfo(credential) {
+  return {
+    type: types.LOGIN_UPDATE_INFO,
+    payload: { credential }
+  }
+}
+
 export function loginCanceled() {
   return {
     type: types.LOGIN_CANCELED

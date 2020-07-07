@@ -3,6 +3,10 @@ import { View, Text, StatusBar, TouchableOpacity } from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
 import { em } from '../common/constants';
+import { LoginActions } from '../actions'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { updateUserInfo } from '../common/firebase/database';
 
 const Divider = () => (<View style={styles.listDivider} />)
 
@@ -22,6 +26,10 @@ class MyAccount extends Component {
   }
 
   render(){
+    const {credential} = this.props.auth;
+    const {firstname, lastname, zipcode, email} = credential._user;
+    const displayName = firstname + " " + lastname;
+    
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
@@ -34,10 +42,10 @@ class MyAccount extends Component {
             <Text style={styles.titleText}>Mon compte</Text>
 
             <View style={{marginTop:25*em}}>
-              <AccountItem title="Nom" content="Florin Bruno" onPress={()=>Actions.myname()} />
-              <AccountItem title="Adresee email" content="bruno@tina.fr" onPress={()=>Actions.myemail()} />
+              <AccountItem title="Nom" content={displayName} onPress={()=>Actions.myname()} />
+              <AccountItem title="Adresee email" content={email} onPress={()=>Actions.myemail()} />
               <AccountItem title="Pays" content="France" />
-              <AccountItem title="Code postal" content="33000" />
+              <AccountItem title="Code postal" content={zipcode} onPress={()=>Actions.regpostcode()}/>
             </View>
           </View>
         </View>
@@ -102,4 +110,10 @@ const styles = {
   },
 }
 
-export default MyAccount;
+const mapStateToProps = state => ({
+  auth: state.auth || {}
+});
+
+export default connect(
+    mapStateToProps, 
+    null)(MyAccount);

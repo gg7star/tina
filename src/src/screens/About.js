@@ -4,10 +4,12 @@ import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
 import {em} from '../common/constants';
 import ArrowSmall from '../components/svgicons/ArrowSmall'
+import { getAllAboutList } from '../common/firebase/database';
+import { goToWebBrowser } from '../common/utils';
 
-const Item = ({title, hasDivider}) => (
+const Item = ({title, url, hasDivider}) => (
   <View styles={{flexDirection:"column"}}>
-    <TouchableOpacity>
+    <TouchableOpacity onPress={()=>goToWebBrowser(url)}>
       <View style={styles.mainWrapper}>            
         <Text style={styles.itemText}>{title}</Text>
         <ArrowSmall width={14*em} height={14*em} />
@@ -21,9 +23,26 @@ const Item = ({title, hasDivider}) => (
 class About extends Component {
   constructor(props){
     super(props)
+
+    this.state = {
+      abouts:[]
+    }
   }
 
+  UNSAFE_componentWillMount(){
+    getAllAboutList().then(res => {
+      this.setState({
+        abouts: res
+      });
+    })
+  }
+  
   render(){
+    let aboutus = [];
+    const {abouts} = this.state;
+    abouts.map((item, index) => {
+      aboutus.push(<Item key={item.id} title={item.title} url={item.url} hasDivider={index < abouts.length - 1}/>)
+    })
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
@@ -36,10 +55,7 @@ class About extends Component {
             <Text style={styles.titleText}>À propos</Text>
 
             <View style={styles.listWrapper}>
-              <Item title="À propos de Tina" hasDivider={true} />
-              <Item title="Conditions générales d'utilisation" hasDivider={true} />
-              <Item title="RGPD: autorisation de la conservation des données" hasDivider={false} />
-              
+              {aboutus}              
             </View>
           </View>
         </View>

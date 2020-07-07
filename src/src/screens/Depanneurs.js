@@ -5,81 +5,55 @@ import { Actions } from 'react-native-router-flux';
 import DepanneurItem from '../components/DepanneurItem';
 import { FlatList } from 'react-native-gesture-handler';
 import { em } from '../common/constants';
-
-const DATA = [
-  {
-    id: 1,
-    image: require("../Assets/depanneur_fibrotech.png"),
-    title: "Fibrotech",
-    location: "500m, 11 rue de preside...",
-    phone: "00 00 00 00 00",
-    email: "fibrotech@mail.com"
-  },
-  {
-    id: 2,
-    image: require("../Assets/depanneur_igeek.png"),
-    title: "igeek",
-    location: "600m, 12 rue de preside...",
-    phone: "00 00 00 00 01",
-    email: "igeek@mail.com"
-  },
-  {
-    id: 3,
-    image: require("../Assets/depanneur_cultura.png"),
-    title: "Cultura",
-    location: "700m, 11 rue de preside...",
-    phone: "00 00 00 00 03",
-    email: "cultura@mail.com"
-  },
-  {
-    id: 4,
-    image: require("../Assets/depanneur_fnac.png"),
-    title: "fnac",
-    location: "1km, 11 rue de preside...",
-    phone: "00 00 00 00 04",
-    email: "fnac@mail.com"
-  },
-  
-  {
-    id: 5,
-    image: require("../Assets/depanneur_fibrotech.png"),
-    title: "Fibrotech",
-    location: "500m, 11 rue de preside...",
-    phone: "00 00 00 00 05",
-    email: "fibrotech@mail.com"
-  },
-  {
-    id: 6,
-    image: require("../Assets/depanneur_igeek.png"),
-    title: "igeek",
-    location: "600m, 12 rue de preside...",
-    phone: "00 00 00 00 06",
-    email: "igeek@mail.com"
-  },
-  {
-    id: 7,
-    image: require("../Assets/depanneur_cultura.png"),
-    title: "Cultura",
-    location: "700m, 11 rue de preside...",
-    phone: "00 00 00 00 07",
-    email: "cultura@mail.com"
-  },
-  {
-    id: 8,
-    image: require("../Assets/depanneur_fnac.png"),
-    title: "fnac",
-    location: "1km, 11 rue de preside...",
-    phone: "00 00 00 00 08",
-    email: "fnac@mail.com"
-  },
-]
+import { getAllStores } from '../common/firebase/database';
+import { connect } from 'react-redux';
+import {getDistance} from 'geolib';
 
 class Depanneurs extends Component {
   constructor(props){
     super(props)
+
+    this.state = {
+      stores: []
+    }
+  }
+
+  UNSAFE_componentWillMount() {
+    const _this = this;
+    const {lat, lng} = _this.props.app;
+    getAllStores().then(res => {
+      console.log('====== getAllStores: res: ', res);
+      let allstores = res;
+      if (allstores.length > 0){
+        let sortedStores = allstores.sort((a, b) => (getDistance(a, {latitude:lat, longitude:lng}) > getDistance(b, {latitude:lat, longitude:lng}) ? 1:-1));
+        allstores = sortedStores;
+      }
+
+      let index = 0;
+      let stores = [];
+      allstores.map(item => {
+        if (index++ < 10){
+          item.addr = (getDistance(item, {latitude:lat, longitude:lng}) / 1000).toFixed(2) + "km, " + item.address;
+          stores.push(item);
+        }
+      })
+      _this.setState({stores});
+    }).catch(e => {
+      console.log("======= error", e);
+    });
+  }
+
+  handleResetPostal = () => {
+    const {isAuthenticated} = this.props.auth;
+    if (isAuthenticated){
+      Actions.regpostcode();
+    }else{
+      Actions.signin();
+    }
   }
 
   render(){
+    const {stores} = this.state;
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
@@ -92,14 +66,14 @@ class Depanneurs extends Component {
             <Text style={styles.titleText}>Dépanneurs</Text>
             <Text style={styles.contentText}>
               Si la localisation de nos partenaires ne correspond pas a votre localisation
-              <Text style={styles.linkText}> cliquez icipour modifier code postal</Text>
+              <Text style={styles.linkText} onPress={this.handleResetPostal.bind(this)}> cliquez icipour modifier code postal</Text>
             </Text>
           </View>
 
           <View style={{flex: 1}}>
               
-            <FlatList data={DATA}
-              renderItem={({item}) => <DepanneurItem id={item.id} image={item.image} title={item.title} location={item.location} phone={item.phone} email={item.email} />}
+            <FlatList data={stores}
+              renderItem={({item}) => <DepanneurItem id={item.id} image={{uri:item.image}} title={item.title} location={item.addr} phone={item.phone} email={item.email} />}
               keyExtractor={item => item.id.toString()} />
             
           </View>
@@ -148,4 +122,11 @@ const styles = {
   }
 }
 
-export default Depanneurs;
+const mapStateToProps = state => ({
+  app: state.app || {},
+  auth: state.auth || {}
+});
+
+export default connect(
+    mapStateToProps, 
+    null)(Depanneurs);

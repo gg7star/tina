@@ -1,45 +1,36 @@
 import React, { Component} from 'react';
-import { View, Text, FlatList, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StatusBar, TouchableOpacity, Linking } from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
 import { ScrollView } from 'react-native-gesture-handler';
 import FAQDetailItem from '../components/FAQDetailItem';
 import {em} from '../common/constants'
-
-const DATA = [
-  {
-    id: 1,
-    title: "Question 1",
-    description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam noumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eoset accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et doloreundefined",
-  },
-
-  {
-    id: 2,
-    title: "Lorem ipsumundefined",
-    description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam noumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eoset accusam et justo duo dolores et ea rebum.",
-  },
-
-  {
-    id: 3,
-    title: "Lorem ipsumundefined",
-    description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam noumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eoset accusam et justo duo dolores et ea rebum.",
-  },
-
-  {
-    id: 4,
-    title: "Lorem ipsumundefined",
-    description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam noumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eoset accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et doloreundefined",
-  }
-]
+import { goToWebBrowser } from '../common/utils';
 
 class FAQDetail extends Component {
   constructor(props){
     super(props)
   }
 
+  convertPropToData = () => {
+    const {faq} = this.props;
+    const data = [{id:faq.id, title:faq.title, description:faq.description}];
+    const answerKeys = Object.keys(faq.answers).reverse();
+    answerKeys.map(item => {
+      data.push({...faq.answers[item], id:item})
+    })
+    return data;
+  }
+
+  handleContactUs = () => {
+    const {url} = this.props;
+    goToWebBrowser(url);
+  }
+
   render(){
-    let content = DATA.map((item) => 
-      <FAQDetailItem key={item.id.toString()} id={item.id} title={item.title} description={item.description} />
+    const DATA = this.convertPropToData();
+    let content = DATA.map((item, index) => 
+      <FAQDetailItem key={item.id.toString()} id={item.id} index={index} title={item.title} description={item.description} />
     );
     return (
         <View style={styles.mainContainer}>
@@ -50,7 +41,7 @@ class FAQDetail extends Component {
 
             <View style={styles.bottomTitle}>
               <Text style={[styles.descText, {color:"#251b4d"}]}>Vous n'avez pas trouvé votre réponse ?</Text>
-              <TouchableOpacity><Text style={[styles.descText, {color:"#26c8ee", paddingTop:8*em}]}>Contacter notre service client ici</Text></TouchableOpacity>
+              <TouchableOpacity onPress={this.handleContactUs.bind(this)}><Text style={[styles.descText, {color:"#26c8ee", paddingTop:8*em}]}>Contacter notre service client ici</Text></TouchableOpacity>
             </View>
           </ScrollView>
           

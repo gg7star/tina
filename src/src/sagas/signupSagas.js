@@ -19,7 +19,7 @@ export default function* watcher() {
 export function* trySignup(action) {
   const { signupInfo } = action.payload;
   console.log('===== signupInfo: ', signupInfo);
-  const { email, firstname, lastname, password, zipcode } = signupInfo;
+  const { email, firstname, lastname, password, zipcode, lat } = signupInfo;
   var errorMessage = null;
   try {
     const res = yield call(attempSignup, {email, password});

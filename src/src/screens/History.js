@@ -2,93 +2,39 @@ import React, { Component} from 'react';
 import { View, Text, FlatList, StatusBar } from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
-import {WIDTH, HEIGHT, em} from '../common/constants';
+import {WIDTH, HEIGHT, em, Q_TYPE_STRINGS} from '../common/constants';
 import {Q_TYPES} from '../common/constants';
 import HistoryItem from '../components/HistoryItem';
-
-const DATA = [
-  {
-    id: 1,
-    qType:Q_TYPES.L,
-    title: "Panne logiciel",
-    dateString: "23/02/2020",
-  },
-  {
-    id: 2,
-    qType:Q_TYPES.O,
-    title: "Panne ordinateur",
-    dateString: "23/02/2020",
-  },
-  {
-    id: 3,
-    qType:Q_TYPES.P,
-    title: "Panne periferique",
-    dateString: "23/02/2020",
-  },
-  {
-    id: 4,
-    qType:Q_TYPES.A,
-    title: "Panne astuce",
-    dateString: "23/02/2020",
-  },
-  {
-    id: 5,
-    qType:Q_TYPES.I,
-    title: "Panne internet",
-    dateString: "23/02/2020",
-  },
-  {
-    id: 6,
-    qType:Q_TYPES.L,
-    title: "Panne logiciel",
-    dateString: "23/02/2020",
-  },
-  {
-    id: 7,
-    qType:Q_TYPES.O,
-    title: "Panne ordinateur",
-    dateString: "23/02/2020",
-  },
-  {
-    id: 8,
-    qType:Q_TYPES.P,
-    title: "Panne periferique",
-    dateString: "23/02/2020",
-  },
-  {
-    id: 9,
-    qType:Q_TYPES.A,
-    title: "Panne astuce",
-    dateString: "23/02/2020",
-  },
-  {
-    id: 10,
-    qType:Q_TYPES.I,
-    title: "Panne internet",
-    dateString: "23/02/2020",
-  },
-  {
-    id: 11,
-    qType:Q_TYPES.L,
-    title: "Panne logiciel",
-    dateString: "23/02/2020",
-  },
-  {
-    id: 12,
-    qType:Q_TYPES.O,
-    title: "Panne ordinateur",
-    dateString: "23/02/2020",
-  },
-]
+import { getAllHistoryList } from '../common/firebase/database';
+import moment from 'moment';
 
 class History extends Component {
   constructor(props){
     super(props)
+
+    this.state = {
+      histories:[]
+    }
+  }
+
+  UNSAFE_componentWillMount(){
+    getAllHistoryList().then(res => {
+      if (res){
+        let histories = [];
+        res.map(item => {
+          const dateString = moment(item.created).format("DD/MM/YYYY");
+          const title = "Panne " + Q_TYPE_STRINGS[item.type];
+          histories.push({...item, dateString, title})
+        })
+        this.setState({histories})
+      }
+    })
   }
 
   renderDivider = () => (<View style={styles.listDivider} />)
 
   render(){
+    const {histories} = this.state;  
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
@@ -101,10 +47,10 @@ class History extends Component {
             <Text style={styles.titleText}>Historique</Text>
 
             <View style={styles.listWrapper}>
-              <FlatList data={DATA}
+              <FlatList data={histories}
                 ItemSeparatorComponent={this.renderDivider}
-                renderItem={({item}) => <HistoryItem id={item.id} type={item.qType} title={item.title} date={item.dateString} />}
-                keyExtractor={item => item.id.toString()} />
+                renderItem={({item}) => <HistoryItem id={item.id} type={item.type} title={item.title} date={item.dateString} solution={item.solution} questions={item.questions}/>}
+                keyExtractor={item => item.id} />
             </View>
           </View>
         </View>

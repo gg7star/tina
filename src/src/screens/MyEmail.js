@@ -4,13 +4,65 @@ import MenuBtn from '../components/MenuBtn';
 import { Actions } from 'react-native-router-flux';
 import MyTextInput from '../components/MyTextInput';
 import { em } from '../common/constants';
+import { LoginActions } from '../actions'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { updateUserEmail, loginInWithEmailPassword } from '../common/firebase/auth';
+import { validateEmail, showRootToast } from '../common/utils';
+import { checkUserEmail, updateUserInfo } from '../common/firebase/database';
 
 class MyEmail extends Component {
   constructor(props){
     super(props)
 
     this.state = {
-      email: "bruno@tina.fr"
+      email: ""
+    }
+  }
+
+  UNSAFE_componentWillMount(){
+    const {_user} = this.props.auth.credential;
+    this.setState({
+      email: _user.email
+    })
+  }
+
+  handleOnClickSave = () => {
+    const {email} = this.state;
+    const {loginActions} = this.props;
+    const {_user} = this.props.auth.credential;
+    const curemail = _user.email;
+    const password = _user.password;
+    
+    if (!validateEmail(email)){
+      showRootToast('Please enter valid email address')
+    }else{
+      // Update the email on firebase auth.
+      checkUserEmail(email).then(res => {
+        if (res){
+          showRootToast('The email address already exists')
+        }else{
+          //This is from firebase doc, because this kind of sensitive data (email change) needs the credentials should be recent one.
+          //Othewise error occurs
+          loginInWithEmailPassword({email:curemail, password}).then(result => {
+            let credential = result.credential;
+            loginActions.loginUpdateInfo({...credential, _user});
+            updateUserEmail(email).then(success => {
+              // If susccessfully signed in, and changed the email successfully
+              if (success){
+                updateUserInfo({email}).then(r => {
+                  if (r){
+                    // Update user info with new credential, email
+                    loginActions.loginUpdateInfo({...credential, _user:{..._user, email}})
+                    Actions.pop();
+                  }
+                });              
+              }
+            })
+          })
+          
+        }
+      });
     }
   }
 
@@ -30,7 +82,7 @@ class MyEmail extends Component {
               <Text style={styles.descText}>Adresse email</Text>
               <MyTextInput style={styles.TextInput} autoFocus={true} value={this.state.email} handleChange={(text)=>this.setState({email:text})} />
 
-              <TouchableOpacity style={styles.ActionButton} onPress={() => Actions.pop()}>
+              <TouchableOpacity style={styles.ActionButton} onPress={this.handleOnClickSave.bind(this)}>
                   <Text style={styles.ActionText}>Valider</Text>
               </TouchableOpacity>
             </View>
@@ -108,4 +160,14 @@ const styles = {
   }
 }
 
-export default MyEmail;
+const mapStateToProps = state => ({
+  auth: state.auth || {}
+});
+
+const mapDispatchToProps = dispatch => ({
+  loginActions: bindActionCreators(LoginActions, dispatch)
+});
+
+export default connect(
+    mapStateToProps, 
+    mapDispatchToProps)(MyEmail);

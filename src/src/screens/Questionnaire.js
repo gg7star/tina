@@ -26,6 +26,15 @@ class Questionnaire extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState){
+    if (this.state.infoVisible == nextState.infoVisible && 
+        this.state.evaluationVisible == nextState.evaluationVisible){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
   componentWillUnmount(){
     if (this.props.question.questions.length > 0){
       this.props.questionActions.removeLastQuestion()
@@ -76,7 +85,7 @@ class Questionnaire extends Component {
         if (res['qid'] != undefined){
           Actions.questionnaire({qType:qType, qinfo:res}) 
         }else if (res['solution'] != undefined && res['solution'] != ""){
-          Actions.foundresult({qType:qType, solution:res['solution']})
+          Actions.foundresult({qType:qType, solution:res['solution'], isFromHistory:false})
         }else if (res['solution'] != undefined && res['solution'] == ""){
           Actions.noresult(this.props)
         }
@@ -104,6 +113,8 @@ class Questionnaire extends Component {
   }
 
   render(){
+    const {qinfo} = this.props;
+    console.log("QUESTIONNAIR!", qinfo['title']);
     return (
       <View style={{flex:1}}>
           
@@ -189,10 +200,10 @@ class Questionnaire extends Component {
                   
                 </View>
 
-                <TouchableOpacity style={styles.infoWrapper} onPress={()=>this.setState({infoVisible:true})}>
+                {/* <TouchableOpacity style={styles.infoWrapper} onPress={()=>this.setState({infoVisible:true})}>
                   <Info width={12*em} height={12*em} color={colors[this.props.qType][0]}/>
                   <Text style={StyleSheet.flatten([styles.infoText, {color:colors[this.props.qType][0]}])}> +info</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
               
             </View>
@@ -307,7 +318,7 @@ const styles = {
 
   infoText:{
     fontSize: 12*em,
-    fontFamily: "OpenSans-Regular"
+    fontFamily: "OpenSans-Regular",
   },
 
   dunnoText:{

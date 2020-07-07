@@ -8,7 +8,9 @@ export const initialState = {
     type: 'success',
     duration: 4000
   },
-  loaded: false
+  loaded: false,
+  lat:"",
+  lng:"",
 };
 
 export default function AppStateReducer(
@@ -29,6 +31,12 @@ export default function AppStateReducer(
           type: action.payload.type,
           duration: action.payload.duration ? action.payload.duration : 4000
         }
+      }
+    case appActionTypes.SET_GEOLOCATION:
+      return{
+        ...state,
+        lat: action.payload.lat,
+        lng: action.payload.lng
       }
     case LOAD:
       console.log('==== LOAD: ', state);

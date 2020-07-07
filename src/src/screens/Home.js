@@ -13,9 +13,12 @@ import {Q_TYPES, WIDTH, HEIGHT, em} from '../common/constants';
 import { AppActions, QuestionActions, LoginActions } from '../actions'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createDummyJSON, createUserDummyJSON } from '../common/firebase/database'
+import { createDummyJSON, createUserDummyJSON, createStoresDummyJSON, createFAQDummyJSON, createSettingDummyJSON, createAboutusDummyJSON } from '../common/firebase/database'
 import { getQuestionByCategoryAndId } from '../common/firebase/database';
+import { logout } from '../common/firebase/auth';
 import { showRootToast } from '../common/utils';
+import {requestLocationPermission} from '../common/utils';
+import GeoLocation from '@react-native-community/geolocation';
 
 class Home extends Component {
   _isMounted = false;
@@ -26,13 +29,37 @@ class Home extends Component {
       menuVisible: false,
     }
   }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    // this.setState({isLoggedIn:nextProps.isLoggedIn})
-  }
-
-  componentDidMount(){
+  
+  UNSAFE_componentWillMount(){
     this._isMounted = true;
+
+    const { appActions, loginActions } = this.props;
+
+    // for Debug purpose
+    /*loginActions.loginSuccess(
+      {email:"alex@gmail.com", _user:{firstname:"Alex", lastname:"Hong", zipcode:"239876", lat:23.42123, lng:-53.23157, receiveNoti:true}}
+    )*/ 
+
+    if (Platform.OS === 'android'){
+      requestLocationPermission().then(res => {
+        if (res){
+          GeoLocation.getCurrentPosition(
+            info => {
+              console.log("=====Location", info);
+              const coords = info.coords;
+              appActions.setGeoLocation({
+                lat:coords.latitude,
+                lng:coords.longitude
+              })
+            },
+            error => {
+              console.log(error);
+            }
+          )
+        }
+      });
+    }
+
     this.setDummyJSON();
   }
 
@@ -41,9 +68,11 @@ class Home extends Component {
   }
 
   handleOnLogout = () => {
-    const {loginActions} = this.props;
-    loginActions.doLogout();
-    this.setState({menuVisible: false})
+    logout().then(() => {
+      const {loginActions} = this.props;
+      loginActions.doLogout();
+      this.setState({menuVisible: false})
+    })
   }
 
   renderMenu(){
@@ -60,7 +89,7 @@ class Home extends Component {
                   onPressRegister={()=>{this.setState({menuVisible: false}); Actions.regemail()}}
                   onPressBecomeAdvertiser={()=>{this.setState({menuVisible: false}); Actions.becomeadvertiser()}}
                   onPressSettings={()=>{this.setState({menuVisible: false}); Actions.settings()}}
-                  onPressAbout={()=>{this.setState({menuVisible:false}); Actions.about()}}
+                  onPressAbout={()=>{this.setState({menuVisible: false}); Actions.about()}}
                   onPressLogout={() => this.handleOnLogout()} />
       )
     }else{
@@ -84,6 +113,32 @@ class Home extends Component {
         // }).catch(e => {
         //   console.log(e)
         // });
+
+        createStoresDummyJSON().then(res => {
+          if (this._isMounted){
+            console.log("=====Dummy stores created!");
+          }
+        }).catch(e => {
+          console.log(e)
+        });
+
+        createFAQDummyJSON().then(res => {
+          if (this._isMounted){
+            console.log("=====Dummy FAQs created!");
+          }
+        })
+
+        createSettingDummyJSON().then(res => {
+          if (this._isMounted){
+            console.log("=====Dummy Settings created!");
+          }
+        })
+
+        createAboutusDummyJSON().then(res => {
+          if (this._isMounted){
+            console.log("=====Dummy Aboutus created!");
+          }
+        })
   }
 
   moveToQuestionnair = (type) => {
@@ -101,14 +156,13 @@ class Home extends Component {
 
   render() {
     const {isAuthenticated, credential} = this.props.auth;
-    
     return (
       <View style={{flex: 1}}>
         <View style={styles.mainContainer}>
           <View style={styles.helloContainer}>
               <ImageBackground source={require('../Assets/home_hello_bg.png')} style={styles.helloLogo} resizeMode={'stretch'}>
                 <Text style={styles.helloText}>
-                  {isAuthenticated? ('Hello ' + credential.firstname + " " + credential.lastname + '!'):'Hello!'}
+                  {isAuthenticated && credential? ('Hello ' + credential._user.firstname + '!'):'Hello!'}
                 </Text>
               </ImageBackground>
           </View>

@@ -18,8 +18,8 @@ const renderIcons = (type) => {
     }
 }
 
-export default HistoryItem = ({id, type, title, date}) => {
-    return (<TouchableOpacity onPress={() => Actions.foundresult({isLoggedIn:true, title:title, dateString:date, qType:type})}>
+export default HistoryItem = ({id, type, title, solution, date, questions}) => {
+    return (<TouchableOpacity onPress={() => Actions.foundresult({isFromHistory:true, title:title, dateString:date, qType:type, solution, questions})}>
         <View style={styles.mainWrapper}>
             <View style={[styles.circleBg, {backgroundColor:colors[type][3]}]}>
                 {renderIcons(type)}
