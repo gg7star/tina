@@ -32,7 +32,7 @@ class About extends Component {
   UNSAFE_componentWillMount(){
     getAllAboutList().then(res => {
       this.setState({
-        abouts: res
+        abouts: res || null
       });
     })
   }

@@ -61,7 +61,7 @@ export async function updateUserInfo(data){
   const uid = firebase.auth().currentUser.uid;
   if (uid) {
     return firebase.database().ref(`${USER_TABLE_NAME}/${uid}`)
-      .set(data).then(() => {
+      .update(data).then(() => {
         return uid;
     });
   }
@@ -392,14 +392,19 @@ export async function checkUserEmail(email){
 }
 
 export async function getAllStores(){
+  var items = [];
   return firebase.database().ref(`${DEPANNEUR_TABLE_NAME}`)
     .once('value')
     .then((snapshot) => {
-    if (snapshot.exists) {
-      return snapshot.val()
-    } else {
-      throw new Error('Stores table does not exist')
-    }
+      if (snapshot.exists) {
+        items = [];
+        snapshot.forEach((child) => {
+          items.push({...child.val(), id:child.key});
+        });
+        return items;
+      } else {
+        throw new Error('Stores table does not exist')
+      }
   });
 }
 

@@ -27,7 +27,8 @@ class FAQ extends Component {
 
     getSettingsInfo().then(res => {
       // console.log('====== Settings: res: ', res['contact_us']);
-      this.setState({contact_us: res['contact_us']['url']})
+      if (res)
+        this.setState({contact_us: res['contact_us']['url']})
     })
   }
 

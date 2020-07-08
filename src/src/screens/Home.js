@@ -60,7 +60,7 @@ class Home extends Component {
       });
     }
 
-    this.setDummyJSON();
+    //this.setDummyJSON();
   }
 
   componentWillUnmount(){
@@ -105,14 +105,13 @@ class Home extends Component {
         }).catch(e => {
           console.log(e)
         });
-
-        // createUserDummyJSON().then(res => {
-        //   if (this._isMounted){
-        //     console.log("=====Dummy Users created!");
-        //   }
-        // }).catch(e => {
-        //   console.log(e)
-        // });
+        createUserDummyJSON().then(res => {
+          if (this._isMounted){
+            console.log("=====Dummy Users created!");
+          }
+        }).catch(e => {
+          console.log(e)
+        });
 
         createStoresDummyJSON().then(res => {
           if (this._isMounted){
