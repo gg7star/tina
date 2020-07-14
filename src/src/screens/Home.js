@@ -68,7 +68,7 @@ class Home extends Component {
       this.getCurrentLocation();
     }
 
-    this.setDummyJSON();
+    //this.setDummyJSON();
   }
 
   componentWillUnmount(){
