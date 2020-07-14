@@ -51,8 +51,8 @@ class App extends Component{
 
   componentDidMount(){
     setTimeout(() => {
-      SplashScreen.hide();
-      this.setState({visible: true});
+     SplashScreen.hide();
+     this.setState({visible: true});
     }, 2500)
   }
 
@@ -82,7 +82,7 @@ class App extends Component{
       )
     }else{
       return null;
-    }    
+    }
   }
 }
 

@@ -69,9 +69,9 @@ class NoResult extends Component {
   componentWillUnmount(){
     if (this.props.question.questions.length > 0){
       this.props.questionActions.removeLastQuestion()
-    }    
+    }
   }
-  
+
   render(){
     return (
         <View style={styles.mainContainer}>
@@ -81,7 +81,7 @@ class NoResult extends Component {
               start={{x: 0, y: 0}} end={{x: 0, y: 1}}
               colors={colors[this.props.qType]}
               style={{flex:0.9}}>
-                
+
                 <View style={styles.headerContentContainer}>
                     <View style={styles.circleOverlay}>
 
@@ -93,12 +93,12 @@ class NoResult extends Component {
                     </View>
 
                     <Text style={styles.titleText}>Je suis désolée</Text>
-                    <Text style={styles.descText}>Je na'i pas trouvé de solution.</Text>                  
+                    <Text style={styles.descText}>Je na'i pas trouvé de solution.</Text>
                 </View>
             </LinearGradient>
           </View>
 
-          <View style={styles.contentContainer}>           
+          <View style={styles.contentContainer}>
 
             <Image source={require('../Assets/result_split.png')} style={styles.SplitImage} resizeMode={'stretch'} />
 
@@ -110,7 +110,7 @@ class NoResult extends Component {
 
               <Text style={styles.solutionText}>
                 Voici des autres solutions :
-              </Text>            
+              </Text>
 
               <View style={styles.ChoiceWrapper}>
                   <TouchableOpacity style={styles.ActionButton} onPress={() => {this.setState({solutionIndex: 0})}}>
@@ -139,9 +139,9 @@ class NoResult extends Component {
 
                         <CheckBox checked={this.state.solutionIndex == 1} />
                     </View>
-                  </TouchableOpacity>                 
+                  </TouchableOpacity>
               </View>
-              
+
               <View style={{flex:1, justifyContent:"flex-end"}}>
                 <View style={styles.ActionWrapper}>
 
@@ -176,14 +176,14 @@ const styles = {
   },
 
   contentContainer: {
-    flex:1,  
-    marginTop: -150*em, 
+    flex:1,
+    marginTop: -150*em,
     flexDirection: "column"
   },
 
   contentWrapper:{
-    flex: 1, 
-    flexDirection:"column", 
+    flex: 1,
+    flexDirection:"column",
     marginTop:-100*em
   },
 
@@ -192,74 +192,75 @@ const styles = {
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0, 
-  }, 
+    right: 0,
+  },
 
   headerContentContainer:{
-    flex: 1, 
-    flexDirection: "column", 
-    justifyContent: 'center', 
-    alignItems: 'center', 
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingBottom: 80*em
   },
 
   titleText:{
-    color:"#fff", 
-    fontSize: 18*em, 
-    marginTop: 20*em, 
+    color:"#fff",
+    fontSize: 18*em,
+    marginTop: 20*em,
     fontFamily:"Merriweather-Black"
   },
 
   descText:{
-    color:"#fff", 
-    fontSize: 14*em, 
+    color:"#fff",
+    fontSize: 14*em,
     marginTop: 8*em,
     fontFamily:"OpenSans-Regular"
   },
 
   AnswerNotFoundWrapper:{
     position: "absolute",
-    right: 0, 
+    right: 0,
     top: 0,
   },
 
   SplitImage: {
-    width: WIDTH, 
+    width: WIDTH,
     height: WIDTH*0.4
   },
 
   ArrowWrapper: {
-    position:'absolute', 
-    left:0, 
-    right: 0, 
-    alignItems:'center', 
+    position:'absolute',
+    left:0,
+    right: 0,
+    alignItems:'center',
     marginTop: 15*em
   },
 
   ChoiceWrapper:{
-    flex: 1, 
-    flexDirection: "column", 
-    paddingLeft: 20*em, 
-    paddingRight: 20*em, 
+    flex: 1,
+    flexDirection: "column",
+    paddingLeft: 20*em,
+    paddingRight: 20*em,
     marginTop: 18*em
   },
 
   CheckWrapper:{
-    flex: 1, 
-    flexDirection:"row", 
-    justifyContent:"center", 
-    alignItems:"center", 
-    paddingTop:18*em, 
+    flex: 1,
+    flexDirection:"row",
+    justifyContent:"center",
+    alignItems:"center",
+    paddingTop:18*em,
     paddingBottom:18*em
   },
 
   CheckContent:{
-    flex:1, 
-    color:"#251b4d", 
-    fontSize: 12*em, 
-    paddingLeft: 18*em, 
+    flex:1,
+    color:"#251b4d",
+    fontSize: 12*em,
+    paddingLeft: 18*em,
     paddingRight: 13*em,
-    fontFamily:"OpenSans-Regular"
+    fontFamily:"OpenSans-Regular",
+    height:34*em,
   },
 
   ActionButton: {
@@ -283,11 +284,11 @@ const styles = {
   },
 
   solutionText:{
-    paddingLeft: 60*em, 
-    paddingRight: 60*em, 
+    paddingLeft: 60*em,
+    paddingRight: 60*em,
     marginTop: 18*em,
-    fontSize: 16*em, 
-    color:"#251b4d", 
+    fontSize: 16*em,
+    color:"#251b4d",
     textAlign: "center",
     fontFamily: "Merriweather-Black"
   },
@@ -317,17 +318,17 @@ const styles = {
     backgroundColor: '#28c7ee',
     height: 50*em,
     justifyContent: 'center',
-    marginLeft:20*em, 
+    marginLeft:20*em,
     marginRight:20*em,
   },
 
   ActionWrapper:{
-    backgroundColor:"#fff", 
-    borderTopLeftRadius:20*em, 
-    borderTopRightRadius: 20*em, 
-    width:WIDTH, 
-    paddingTop: 13*em, 
-    paddingBottom: 13*em, 
+    backgroundColor:"#fff",
+    borderTopLeftRadius:20*em,
+    borderTopRightRadius: 20*em,
+    width:WIDTH,
+    paddingTop: 13*em,
+    paddingBottom: 13*em,
     justifyContent:"center"
   },
 
@@ -336,14 +337,14 @@ const styles = {
   },
 
   ActionBlueText:{
-    color:"#fff", 
+    color:"#fff",
     fontSize: 14*em,
     fontFamily:"OpenSans-SemiBold"
   },
 
   ActionNoBgText:{
-    color:"#a099b0", 
-    fontSize: 14*em, 
+    color:"#a099b0",
+    fontSize: 14*em,
     padding: 15*em,
     fontFamily:"OpenSans-SemiBold"
   }
@@ -361,5 +362,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-    mapStateToProps, 
+    mapStateToProps,
     mapDispatchToProps)(NoResult);

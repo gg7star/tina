@@ -14,7 +14,7 @@ class SearchPostcode extends Component {
   constructor(props){
     super(props)
 
-    this.state = { 
+    this.state = {
       postCode: "",
       listData: []
     }
@@ -28,10 +28,16 @@ class SearchPostcode extends Component {
         if (Platform.OS === 'android'){
           asset_content = await RNFS.readFileAssets(`zipcodes/${jsonFile}.json`, 'utf8')
         }else{
-          asset_content = "";
+          asset_content = await RNFS.readFile(RNFS.MainBundlePath + `/${jsonFile}.json`, 'utf8');
         }
       } catch (err) {
         console.log('ERROR:', err);
+    }
+
+    //console.log(asset_content);
+
+    if (!asset_content){
+      return [];
     }
 
     const assets = JSON.parse(asset_content);
@@ -51,7 +57,7 @@ class SearchPostcode extends Component {
     this.setState({postCode: text})
 
     if (text.length >= 2){
-      this.lookupZipcodes(text).then((list) => 
+      this.lookupZipcodes(text).then((list) =>
         this.setState({listData: list})
       )
     }else{
@@ -71,13 +77,13 @@ class SearchPostcode extends Component {
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
-          
+
           <View style={styles.menuWrapper}>
-            <MenuBtn image={"back"} onPress={() => Actions.pop()}/>                  
+            <MenuBtn image={"back"} onPress={() => Actions.pop()}/>
           </View>
 
-          <View style={{paddingLeft:20*em, paddingRight:20*em, marginTop:100*em}}>
-            <MyTextInput handleChange={this.handleChange.bind(this)} style={styles.TextInput} textContentType={"telephoneNumber"} autoFocus={true} placeholder={"Code postal"} value={this.state.postCode} />
+          <View style={{paddingLeft:20*em, paddingRight:20*em, marginTop:100*em, zIndex:-1}}>
+            <MyTextInput handleChange={this.handleChange.bind(this)} style={styles.TextInput} keyboardType={'numeric'} textContentType={"telephoneNumber"} autoFocus={true} placeholder={"Code postal"} value={this.state.postCode} />
             <FlatList data={this.state.listData}
                 ItemSeparatorComponent={this.renderDivider}
                 renderItem={({item}) => <PostcodeItem id={item.id} title={item.title} onClick={() => this.handleOnItemClick(item.zipcode, item.title)}/>}
@@ -100,22 +106,22 @@ const styles = {
   },
 
   menuWrapper:{
-    position:"absolute", 
+    position:"absolute",
     left:20*em,
     top:20*em
   },
 
   TextInput:{
-    height: 45*em, 
-    fontSize: 13*em, 
-    color:"#28c7ee", 
-    borderBottomWidth:1*em, 
-    borderBottomColor:"#28c7ee", 
+    height: 45*em,
+    fontSize: 13*em,
+    color:"#28c7ee",
+    borderBottomWidth:1*em,
+    borderBottomColor:"#28c7ee",
     fontFamily:"OpenSans-Regular"
   },
 
   listDivider:{
-    height:1.2*em, 
+    height:1.2*em,
     backgroundColor:"#eee"
   },
 }

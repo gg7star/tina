@@ -162,7 +162,7 @@ export async function createDummyJSON(){
       });
   } catch (e) {
     return e;
-  }  
+  }
 }
 
 export async function createUserDummyJSON(){
@@ -192,8 +192,8 @@ export async function createUserDummyJSON(){
 }
 
 export async function createStoresDummyJSON(){
-  let stores = [
-    {
+  let stores = {
+    "-MBL0z2CURWQKV58VvCw":{
       "id":"-MBL0z2CURWQKV58VvCw",
       "title":"Fibrotech",
       "phone":"00 00 00 00 01",
@@ -203,7 +203,7 @@ export async function createStoresDummyJSON(){
       "address":"11 rue de preside",
       "image":"http://anr.gwl.mybluehost.me/depanneur_fibrotech.png"
     },
-    {
+    "-MBL11apGxIpMSFXuS6r":{
       "id":"-MBL11apGxIpMSFXuS6r",
       "title":"igeek",
       "phone":"00 00 00 00 02",
@@ -213,7 +213,7 @@ export async function createStoresDummyJSON(){
       "address":"12 rue de preside",
       "image":"http://anr.gwl.mybluehost.me/depanneur_igeek.png"
     },
-    {
+    "-MBL15TxRmYxAUNweJXN":{
       "id":"-MBL15TxRmYxAUNweJXN",
       "title":"Cultura",
       "phone":"00 00 00 00 03",
@@ -223,7 +223,7 @@ export async function createStoresDummyJSON(){
       "address":"13 rue de preside",
       "image":"http://anr.gwl.mybluehost.me/depanneur_cultura.png"
     },
-    {
+    "-MBL19n4cA4AuZz-O5QJ":{
       "id":"-MBL19n4cA4AuZz-O5QJ",
       "title":"fnac",
       "phone":"00 00 00 00 04",
@@ -233,7 +233,7 @@ export async function createStoresDummyJSON(){
       "address":"14 rue de preside",
       "image":"http://anr.gwl.mybluehost.me/depanneur_fnac.png"
     }
-  ]
+  }
 
   try {
     return firebase.database().ref(`${DEPANNEUR_TABLE_NAME}`)
@@ -418,7 +418,7 @@ export async function addTinaHistory({type, questions, solution}){
   }catch(e){
     console.log("======= error", e);
   }
-  return null; 
+  return null;
 }
 
 export async function getAllHistoryList(){
@@ -471,7 +471,7 @@ export async function getAllAboutList(){
   var items = [];
 
   return firebase.database().ref(`${ABOUT_TABLE_NAME}`)
-    .orderByChild("displayOrder")  
+    .orderByChild("displayOrder")
     .once('value')
     .then((snapshot) => {
     if (snapshot.exists) {

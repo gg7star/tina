@@ -29,38 +29,46 @@ class Home extends Component {
       menuVisible: false,
     }
   }
-  
+
+  getCurrentLocation = () => {
+    const { appActions } = this.props;
+
+    GeoLocation.getCurrentPosition(
+      info => {
+        console.log("=====Location", info);
+        const coords = info.coords;
+        appActions.setGeoLocation({
+          lat:coords.latitude,
+          lng:coords.longitude
+        })
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
   UNSAFE_componentWillMount(){
     this._isMounted = true;
 
     const { appActions, loginActions } = this.props;
 
     // for Debug purpose
-    /*loginActions.loginSuccess(
-      {email:"alex@gmail.com", _user:{firstname:"Alex", lastname:"Hong", zipcode:"239876", lat:23.42123, lng:-53.23157, receiveNoti:true}}
-    )*/ 
+    // loginActions.loginSuccess(
+    //   {credential:"", _user:{email:"alex@gmail.com", firstname:"Alex", lastname:"Hong", zipcode:"239876", lat:23.42123, lng:-53.23157, receiveNoti:true}}
+    // )
 
     if (Platform.OS === 'android'){
       requestLocationPermission().then(res => {
         if (res){
-          GeoLocation.getCurrentPosition(
-            info => {
-              console.log("=====Location", info);
-              const coords = info.coords;
-              appActions.setGeoLocation({
-                lat:coords.latitude,
-                lng:coords.longitude
-              })
-            },
-            error => {
-              console.log(error);
-            }
-          )
+          this.getCurrentLocation();
         }
       });
+    }else{
+      this.getCurrentLocation();
     }
 
-    //this.setDummyJSON();
+    this.setDummyJSON();
   }
 
   componentWillUnmount(){
@@ -79,9 +87,9 @@ class Home extends Component {
     const {isAuthenticated} = this.props.auth;
     if (this.state.menuVisible){
       return (
-        <MenuModal isModalVisible={true} 
+        <MenuModal isModalVisible={true}
                   isLoggedIn={isAuthenticated}
-                  onPress={()=>this.setState({menuVisible:false})} 
+                  onPress={()=>this.setState({menuVisible:false})}
                   onPressNonAd={()=>this.setState({menuVisible:false})}
                   onPressHistory={()=>{this.setState({menuVisible: false}); Actions.history()}}
                   onPressFAQ={()=>{this.setState({menuVisible:false}); Actions.faq()}}
@@ -148,7 +156,7 @@ class Home extends Component {
         showRootToast('No Questions ready yet!')
       }else{
         _this.props.questionActions.clearQuestions();
-        Actions.questionnaire({qType:type, qinfo:res}) 
+        Actions.questionnaire({qType:type, qinfo:res})
       }
     });
   }
@@ -219,7 +227,7 @@ class Home extends Component {
               </View>
               <View style={{flex:1, flexDirection: "column"}}>
                 <View style={{flex:0.5}}></View>
-                
+
                 <View style={{flex:1}}>
                   <TouchableOpacity style={styles.mainBtn} onPress={this.moveToQuestionnair.bind(this, Q_TYPES.L)}>
                       <View style={StyleSheet.flatten([styles.circleOverlay, {backgroundColor:"#e9e5fb"}])}>
@@ -237,7 +245,7 @@ class Home extends Component {
                     </TouchableOpacity>
                 </View>
 
-                <View style={{flex:0.5}}></View>              
+                <View style={{flex:0.5}}></View>
               </View>
             </ImageBackground>
           </View>
@@ -268,13 +276,13 @@ const styles = {
     height: 114*em,
     justifyContent:"center",
     alignItems:"center"
-  }, 
+  },
 
   helloText: {
-    color:"#fff", 
-    fontSize:20*em, 
-    fontFamily:"Merriweather-BlackItalic", 
-    paddingRight:10*em, 
+    color:"#fff",
+    fontSize:20*em,
+    fontFamily:"Merriweather-BlackItalic",
+    paddingRight:10*em,
     paddingBottom:10*em,
     textAlign:'center'
   },
@@ -287,7 +295,7 @@ const styles = {
 
   mainBtn: {
     flex: 1,
-    marginTop: 8*em, 
+    marginTop: 8*em,
     marginBottom:8*em,
     overflow: 'hidden',
     borderRadius: 20*em,
@@ -306,32 +314,32 @@ const styles = {
   },
 
   titleText:{
-    fontSize:18*em, 
-    fontFamily:"Merriweather-Black", 
+    fontSize:18*em,
+    fontFamily:"Merriweather-Black",
     color:"#251b4d"
   },
 
   menuText: {
-    color: "#251b4d", 
+    color: "#251b4d",
     fontSize: 11*em,
     paddingTop:4*em,
     fontFamily: "OpenSans-SemiBold"
   },
 
   menuBackgroundWrapper: {
-    flexDirection:"row", 
-    flex: 1, 
-    justifyContent:"center", 
-    paddingTop: 25*em, 
-    paddingLeft: 20*em, 
-    paddingRight:20*em, 
+    flexDirection:"row",
+    flex: 1,
+    justifyContent:"center",
+    paddingTop: 25*em,
+    paddingLeft: 20*em,
+    paddingRight:20*em,
     paddingBottom:10*em
   },
 
   tinaLogoWrapper: {
-    marginTop: 20*em, 
-    flexDirection: 'row', 
-    justifyContent:'center', 
+    marginTop: 20*em,
+    flexDirection: 'row',
+    justifyContent:'center',
     alignItems:'flex-end'
   },
 
@@ -341,7 +349,7 @@ const styles = {
     left: 0,
     bottom: 0,
     right: 0
-  }, 
+  },
 }
 
 const mapStateToProps = state => ({
@@ -356,5 +364,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-    mapStateToProps, 
+    mapStateToProps,
     mapDispatchToProps)(Home);

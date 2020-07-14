@@ -60,7 +60,7 @@ class SignIn extends Component {
     const {email, password} = this.state;
     const {app, appActions} = this.props;
 
-    if (app.globalNotification && app.globalNotification.message) {      
+    if (app.globalNotification && app.globalNotification.message) {
       const { message, type, duration } = app.globalNotification;
       showRootToast(message);
       appActions.setGlobalNotification({"message":""});
@@ -69,9 +69,9 @@ class SignIn extends Component {
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
-          
+
           <View style={styles.menuWrapper}>
-            <MenuBtn image={"close"} onPress={() => Actions.pop()}/>                  
+            <MenuBtn image={"close"} onPress={() => Actions.pop()}/>
           </View>
 
           <View style={styles.contentContainer}>
@@ -80,7 +80,7 @@ class SignIn extends Component {
             <Text style={styles.titleText}>Connectez-vous</Text>
 
             <Text style={styles.contentText}>
-              Pas de compte? 
+              Pas de compte?
               <Text style={styles.linkText} onPress={this.handleGoSignup}> Créer ici </Text>
             </Text>
 
@@ -98,7 +98,7 @@ class SignIn extends Component {
               </TouchableOpacity>
 
               {/* <Text style={[styles.descText]}>
-                Déjà un compte ? 
+                Déjà un compte ?
                 <Text style={styles.linkText}> Se connecter ici</Text>
               </Text> */}
             </View>
@@ -120,55 +120,56 @@ const styles = {
   },
 
   menuWrapper:{
-    position:"absolute", 
+    position:"absolute",
     right:20*em,
     top:20*em
   },
 
   contentContainer: {
-    flexDirection: "column", 
-    marginTop: 45*em, 
-    alignItems:"center"
+    flexDirection: "column",
+    marginTop: 45*em,
+    alignItems:"center",
+    zIndex:-1
   },
 
   tinaLogo:{
-    width: 80*em, 
-    height: 85*em, 
+    width: 80*em,
+    height: 85*em,
     marginBottom: 15*em
   },
 
   contentWrapper:{
-    width:WIDTH, 
-    paddingLeft: 20*em, 
-    paddingRight: 20*em, 
+    width:WIDTH,
+    paddingLeft: 20*em,
+    paddingRight: 20*em,
     paddingTop: 15*em
   },
 
   titleText:{
-    fontSize: 22*em,  
-    color:"#251b4d", 
+    fontSize: 22*em,
+    color:"#251b4d",
     fontFamily:"Merriweather-Black"
   },
 
   contentText:{
-    fontSize: 13*em, 
-    marginTop: 8*em, 
-    color:"#928da6", 
+    fontSize: 13*em,
+    marginTop: 8*em,
+    color:"#928da6",
     fontFamily:"OpenSans-Regular"
   },
 
   descText:{
     alignSelf:"center",
-    fontSize: 13*em, 
-    marginTop: 13*em, 
-    color:"#928da6", 
+    fontSize: 13*em,
+    marginTop: 13*em,
+    color:"#928da6",
     fontFamily:"OpenSans-Regular"
   },
-  
+
   ActionButton: {
     overflow: 'hidden',
     borderRadius: 18*em,
-    height: 50*em, 
+    height: 50*em,
     alignItems: 'center',
     backgroundColor: '#918da6',
     justifyContent: 'center',
@@ -176,21 +177,21 @@ const styles = {
   },
 
   TextInput:{
-    height: 45*em, 
-    fontSize: 13*em, 
-    color:"#28c7ee", 
-    borderBottomWidth:1*em, 
+    height: 45*em,
+    fontSize: 13*em,
+    color:"#28c7ee",
+    borderBottomWidth:1*em,
     fontFamily:"OpenSans-Regular"
   },
 
   ActionText:{
-    color:"#fff", 
-    fontSize: 14*em, 
+    color:"#fff",
+    fontSize: 14*em,
     fontFamily: "OpenSans-SemiBold"
   },
 
   linkText:{
-    color:"#28c7ee", 
+    color:"#28c7ee",
     fontFamily:"OpenSans-SemiBold"
   }
 }

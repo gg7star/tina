@@ -25,37 +25,44 @@ class RegPostcode extends Component {
     }
   }
 
-  componentDidMount(){
+  getCurrentLocation = () => {
     const {appActions} = this.props;
+
+    GeoLocation.getCurrentPosition(
+      info => {
+        console.log("=====Location", info);
+        const coords = info.coords;
+        const data = {
+          lat:coords.latitude,
+          lng:coords.longitude
+        };
+        this.setState(data);
+        appActions.setGeoLocation(data);
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  componentDidMount(){
     const {isAuthenticated} = this.props.auth;
 
     if (Platform.OS === 'android'){
       requestLocationPermission().then(res => {
         if (res){
-          GeoLocation.getCurrentPosition(
-            info => {
-              console.log("=====Location", info);
-              const coords = info.coords;
-              const data = {
-                lat:coords.latitude,
-                lng:coords.longitude
-              };
-              this.setState(data);
-              appActions.setGeoLocation(data);
-            },
-            error => {
-              console.log(error);
-            }
-          )
+          this.getCurrentLocation();
         }
       });
+    }else{
+      this.getCurrentLocation();
     }
 
     if (isAuthenticated){
       const {_user} = this.props.auth.credential;
       this.setState({zipcode:_user.zipcode})
     }
-    
+
   }
 
   onPickedZipcode = (zipcode, address) => {
@@ -75,11 +82,11 @@ class RegPostcode extends Component {
       showRootToast('Please enter your zipcode');
     }else{
       if (!isAuthenticated){
-        Actions.regpassword({email, firstname, lastname, zipcode, lat, lng})  
+        Actions.regpassword({email, firstname, lastname, zipcode, lat, lng})
       }else{
         const {loginActions} = this.props;
         const {credential} = this.props.auth;
-        const {_user} = credential;      
+        const {_user} = credential;
         updateUserInfo({zipcode, lat, lng}).then(res => {
           if (res){
             // Update user info with new credential, changed the zipcode, lat, lng
@@ -96,9 +103,9 @@ class RegPostcode extends Component {
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
-          
+
           <View style={styles.menuWrapper}>
-            <MenuBtn image={"back"} onPress={() => Actions.pop()}/>                  
+            <MenuBtn image={"back"} onPress={() => Actions.pop()}/>
           </View>
 
           <View style={styles.contentContainer}>
@@ -119,7 +126,7 @@ class RegPostcode extends Component {
               <TouchableOpacity style={styles.ActionButton} onPress={this.handleContinue.bind(this)}>
                   <Text style={styles.ActionText}>Continuer</Text>
               </TouchableOpacity>
-            </View>            
+            </View>
           </View>
         </View>
     )
@@ -138,45 +145,46 @@ const styles = {
   },
 
   menuWrapper:{
-    position:"absolute", 
+    position:"absolute",
     left:20*em,
     top:20*em
   },
 
   contentContainer: {
-    flexDirection: "column", 
-    marginTop: 45*em, 
-    alignItems:"center"
+    flexDirection: "column",
+    marginTop: 45*em,
+    alignItems:"center",
+    zIndex:-1
   },
 
   tinaLogo:{
-    width: 80*em, 
-    height:85*em, 
+    width: 80*em,
+    height:85*em,
     marginBottom: 15*em
   },
 
   contentWrapper:{
-    width:WIDTH, 
-    paddingLeft: 20*em, 
-    paddingRight: 20*em, 
+    width:WIDTH,
+    paddingLeft: 20*em,
+    paddingRight: 20*em,
     paddingTop: 15*em
   },
 
   titleText:{
-    fontSize: 22*em,  
-    color:"#251b4d", 
+    fontSize: 22*em,
+    color:"#251b4d",
     fontFamily:"Merriweather-Black"
   },
 
   contentText:{
-    fontSize: 13*em, 
-    marginTop: 8*em, 
-    color:"#251b4d", 
+    fontSize: 13*em,
+    marginTop: 8*em,
+    color:"#251b4d",
     fontFamily:"OpenSans-Regular"
   },
 
   contentBlueText:{
-    fontSize: 13*em, 
+    fontSize: 13*em,
     fontFamily:"OpenSans-Regular",
     color:"#28c7ee",
     marginLeft: 10*em
@@ -185,14 +193,14 @@ const styles = {
   positionWrapper:{
     flexDirection:"row",
     alignItems:"center",
-    marginTop: 15*em, 
+    marginTop: 15*em,
     marginBottom: 60*em
   },
-  
+
   ActionButton: {
     overflow: 'hidden',
     borderRadius: 18*em,
-    height: 50*em, 
+    height: 50*em,
     alignItems: 'center',
     backgroundColor: '#918da6',
     justifyContent: 'center',
@@ -200,17 +208,17 @@ const styles = {
   },
 
   TextInput:{
-    height: 45*em, 
-    fontSize: 13*em, 
-    color:"#28c7ee", 
-    borderBottomWidth:1*em, 
-    borderBottomColor:"#28c7ee", 
+    height: 45*em,
+    fontSize: 13*em,
+    color:"#28c7ee",
+    borderBottomWidth:1*em,
+    borderBottomColor:"#28c7ee",
     fontFamily:"OpenSans-Regular"
   },
 
   ActionText:{
-    color:"#fff", 
-    fontSize: 14*em, 
+    color:"#fff",
+    fontSize: 14*em,
     fontFamily: "OpenSans-SemiBold"
   }
 }
@@ -225,5 +233,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  mapStateToProps, 
+  mapStateToProps,
     mapDispatchToProps)(RegPostcode);

@@ -12,7 +12,7 @@ class RegName extends Component {
     this.state = {
       username:""
     }
-  }  
+  }
 
   handleContinue = () => {
     const {email} = this.props;
@@ -40,9 +40,9 @@ class RegName extends Component {
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
-          
+
           <View style={styles.menuWrapper}>
-            <MenuBtn image={"back"} onPress={() => Actions.pop()}/>                  
+            <MenuBtn image={"back"} onPress={() => Actions.pop()}/>
           </View>
 
           <View style={styles.contentContainer}>
@@ -78,54 +78,55 @@ const styles = {
   },
 
   menuWrapper:{
-    position:"absolute", 
+    position:"absolute",
     left:20*em,
     top:20*em
   },
 
   contentContainer: {
-    flexDirection: "column", 
-    marginTop:45*em, 
-    alignItems:"center"
+    flexDirection: "column",
+    marginTop:45*em,
+    alignItems:"center",
+    zIndex:-1
   },
 
   tinaLogo:{
-    width:80*em, 
-    height:85*em, 
+    width:80*em,
+    height:85*em,
     marginBottom: 15*em
   },
 
   contentWrapper:{
-    width:WIDTH, 
-    paddingLeft: 20*em, 
-    paddingRight: 20*em, 
+    width:WIDTH,
+    paddingLeft: 20*em,
+    paddingRight: 20*em,
     paddingTop: 15*em
   },
 
   titleText:{
-    fontSize: 22*em,  
-    color:"#251b4d", 
+    fontSize: 22*em,
+    color:"#251b4d",
     fontFamily:"Merriweather-Black"
   },
 
   contentText:{
-    fontSize: 13*em, 
-    marginTop: 8*em, 
-    color:"#251b4d", 
+    fontSize: 13*em,
+    marginTop: 8*em,
+    color:"#251b4d",
     fontFamily:"OpenSans-Regular"
   },
 
   descText:{
-    fontSize: 12*em, 
-    marginTop: 10*em, 
-    color:"#928da6", 
+    fontSize: 12*em,
+    marginTop: 10*em,
+    color:"#928da6",
     fontFamily:"OpenSans-Regular"
   },
-  
+
   ActionButton: {
     overflow: 'hidden',
     borderRadius: 18*em,
-    height: 50*em, 
+    height: 50*em,
     alignItems: 'center',
     backgroundColor: '#918da6',
     justifyContent: 'center',
@@ -133,18 +134,18 @@ const styles = {
   },
 
   TextInput:{
-    height: 45*em, 
-    fontSize: 13*em, 
-    color:"#28c7ee", 
-    borderBottomWidth:1*em, 
-    borderBottomColor:"#28c7ee", 
+    height: 45*em,
+    fontSize: 13*em,
+    color:"#28c7ee",
+    borderBottomWidth:1*em,
+    borderBottomColor:"#28c7ee",
     marginBottom: 60*em,
     fontFamily:"OpenSans-Regular"
   },
 
   ActionText:{
-    color:"#fff", 
-    fontSize: 14*em, 
+    color:"#fff",
+    fontSize: 14*em,
     fontFamily: "OpenSans-SemiBold"
   }
 }

@@ -30,12 +30,12 @@ class RegPassword extends Component {
       showRootToast('Please enter your password');
       return;
     }
-    
+
     if (!isTermChecked){
       showRootToast('You must agree the terms and condition');
       return;
     }
-    
+
     const timerId = setTimeout(() => {
        if (isFetching){
          signupActions.signUpFailed("DB: Timeout")
@@ -60,8 +60,8 @@ class RegPassword extends Component {
     const signingUp = false;  // signup.isFetching
     console.log("isFetching", signingUp)
     const {app, appActions} = this.props;
-    
-    if (app.globalNotification && app.globalNotification.message) {      
+
+    if (app.globalNotification && app.globalNotification.message) {
       const { message, type, duration } = app.globalNotification;
       showRootToast(message);
       appActions.setGlobalNotification({"message":""});
@@ -70,9 +70,9 @@ class RegPassword extends Component {
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
-          
+
           <View style={styles.menuWrapper}>
-            <MenuBtn image={"back"} onPress={() => Actions.pop()}/>                  
+            <MenuBtn image={"back"} onPress={() => Actions.pop()}/>
           </View>
 
           <View style={styles.contentContainer}>
@@ -84,7 +84,7 @@ class RegPassword extends Component {
 
             <View style={styles.contentWrapper}>
               <MyTextInput style={styles.TextInput} secureTextEntry={true} textContentType={"password"} autoFocus={true} placeholder={"Mot de passe"} value={this.state.password} handleChange={(text)=>this.setState({password:text})}/>
-              
+
                 <View style={{flexDirection:"row", marginTop:80*em, marginBottom: 20*em}}>
 
                   <CheckBox style={styles.checkBox} value={this.state.isTermChecked} onValueChange={(isSelected) => this.setState({isTermChecked:isSelected})} />
@@ -95,7 +95,7 @@ class RegPassword extends Component {
                     <Text style={styles.linkText}> Politique de confidentiallte</Text>
                     de Tina.
                   </Text>
-                
+
                 </View>
 
               <TouchableOpacity style={styles.ActionButton} onPress={this.handleLoginDone.bind(this)} disabled={signingUp}>
@@ -120,47 +120,48 @@ const styles = {
   },
 
   menuWrapper:{
-    position:"absolute", 
+    position:"absolute",
     left:20*em,
     top:20*em
   },
 
   contentContainer: {
-    flexDirection: "column", 
-    marginTop: 45*em, 
-    alignItems:"center"
+    flexDirection: "column",
+    marginTop: 45*em,
+    alignItems:"center",
+    zIndex:-1
   },
 
   tinaLogo:{
-    width: 80*em, 
-    height:85*em, 
+    width: 80*em,
+    height:85*em,
     marginBottom: 15*em
   },
 
   contentWrapper:{
-    width:WIDTH, 
-    paddingLeft: 20*em, 
-    paddingRight: 20*em, 
+    width:WIDTH,
+    paddingLeft: 20*em,
+    paddingRight: 20*em,
     paddingTop: 15*em
   },
 
   titleText:{
-    fontSize: 22*em,  
-    color:"#251b4d", 
+    fontSize: 22*em,
+    color:"#251b4d",
     fontFamily:"Merriweather-Black"
   },
 
   contentText:{
-    fontSize: 13*em, 
-    marginTop: 8*em, 
-    color:"#251b4d", 
+    fontSize: 13*em,
+    marginTop: 8*em,
+    color:"#251b4d",
     fontFamily:"OpenSans-Regular"
   },
-  
+
   ActionButton: {
     overflow: 'hidden',
     borderRadius: 18*em,
-    height: 50*em, 
+    height: 50*em,
     alignItems: 'center',
     backgroundColor: '#918da6',
     justifyContent: 'center',
@@ -168,31 +169,32 @@ const styles = {
   },
 
   TextInput:{
-    height: 45*em, 
-    fontSize: 13*em, 
-    color:"#28c7ee", 
-    borderBottomWidth:1*em, 
-    borderBottomColor:"#28c7ee", 
+    height: 45*em,
+    fontSize: 13*em,
+    color:"#28c7ee",
+    borderBottomWidth:1*em,
+    borderBottomColor:"#28c7ee",
     fontFamily:"OpenSans-Regular"
   },
 
   ActionText:{
-    color:"#fff", 
-    fontSize: 14*em, 
+    color:"#fff",
+    fontSize: 14*em,
     fontFamily: "OpenSans-SemiBold"
   },
 
   TermsText:{
     paddingLeft:15*em,
+    paddingRight:15*em,
     fontSize: 11*em,
-    marginTop:-2*em, 
-    color:"#928da6", 
+    marginTop:-2*em,
+    color:"#928da6",
     lineHeight: 18*em,
     fontFamily:"OpenSans-Regular"
   },
 
   linkText:{
-    color:"#28c7ee", 
+    color:"#28c7ee",
     fontFamily:"OpenSans-Regular"
   },
 

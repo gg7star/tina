@@ -27,7 +27,7 @@ class Questionnaire extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState){
-    if (this.state.infoVisible == nextState.infoVisible && 
+    if (this.state.infoVisible == nextState.infoVisible &&
         this.state.evaluationVisible == nextState.evaluationVisible){
       return false;
     }else{
@@ -38,7 +38,7 @@ class Questionnaire extends Component {
   componentWillUnmount(){
     if (this.props.question.questions.length > 0){
       this.props.questionActions.removeLastQuestion()
-    }    
+    }
   }
 
   renderInfoModal(){
@@ -83,7 +83,7 @@ class Questionnaire extends Component {
       const _this = this;
       getQuestionByCategoryAndId(qType, qid).then(res => {
         if (res['qid'] != undefined){
-          Actions.questionnaire({qType:qType, qinfo:res}) 
+          Actions.questionnaire({qType:qType, qinfo:res})
         }else if (res['solution'] != undefined && res['solution'] != ""){
           Actions.foundresult({qType:qType, solution:res['solution'], isFromHistory:false})
         }else if (res['solution'] != undefined && res['solution'] == ""){
@@ -117,7 +117,7 @@ class Questionnaire extends Component {
     console.log("QUESTIONNAIR!", qinfo['title']);
     return (
       <View style={{flex:1}}>
-          
+
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={colors[this.props.qType][0]} />
           <View style={styles.headerContainer}>
@@ -125,35 +125,36 @@ class Questionnaire extends Component {
               start={{x: 0, y: 0}} end={{x: 0, y: 1}}
               colors={colors[this.props.qType]}
               style={{flex:0.9}}>
-                
+
                 <View style={{flex: 1, flexDirection: "column"}}>
 
-                  <View style={{flexDirection:'row', 
+                  <View style={{flexDirection:'row',
                                 padding: 20*em,
                                 justifyContent:'flex-end',
                                 alignItems:'center'}}>
                     <Image source={require("../Assets/tina_header.png")} style={{position:"absolute", left: 0, alignSelf: 'center', height: 30*em, width: WIDTH}} resizeMode={"center"}/>
-                    <MenuBtn image={"close"} onPress={this.handleClose.bind(this)}/>                  
+                    <MenuBtn image={"close"} onPress={this.handleClose.bind(this)}/>
                   </View>
 
-                  <View style={styles.absolute}>
-                    <View style={{position: 'absolute', right: 30*em, bottom: 100*em}}>
-                      <RectangleImage image={"T1"} size={33*em} />
+                  <View style={{flex:1}}>
+                    <View style={styles.absolute}>
+                      <View style={{position: 'absolute', right: 30*em, bottom: 100*em}}>
+                        <RectangleImage image={"T1"} size={33*em} />
+                      </View>
+
+                      <View style={{position: 'absolute', left: 30*em, bottom: 150*em}}>
+                      <RectangleImage image={"T2"} size={25*em} />
+                      </View>
+
+                      <View style={{position: 'absolute', right: 80*em, top: 60*em}}>
+                        <RectangleImage image={"T3"} size={17*em} />
+                      </View>
                     </View>
 
-                    <View style={{position: 'absolute', left: 30*em, bottom: 150*em}}>
-                    <RectangleImage image={"T2"} size={25*em} />
-                    </View>
-
-                    <View style={{position: 'absolute', right: 80*em, top: 60*em}}>
-                      <RectangleImage image={"T3"} size={17*em} />
+                    <View style={styles.absolute, {flex:1, alignItems:"center", flexDirection:"column-reverse"}}>
+                        <Image source={require('../Assets/tina_logo_2.png')} style={{width: 240*em, height:240*em}} resizeMode={'stretch'} />
                     </View>
                   </View>
-
-                  <View style={styles.absolute, {flex:1, alignItems:"center", flexDirection:"column-reverse"}}>
-                      <Image source={require('../Assets/tina_logo_2.png')} style={{width: 240*em, height:240*em}} resizeMode={'stretch'} />
-                  </View>
-                  
                 </View>
             </LinearGradient>
           </View>
@@ -166,13 +167,13 @@ class Questionnaire extends Component {
             </TouchableOpacity>
 
             <View style={styles.contentWrapper}>
-              
+
               <Text style={styles.questionText}>
                 {this.props.qinfo.title}
               </Text>
 
               <View style={{flex: 1, flexDirection:"column-reverse"}}>
-                
+
                 <View style={styles.progressWrapper}>
 
                   <LinearGradient
@@ -197,7 +198,7 @@ class Questionnaire extends Component {
                   <TouchableOpacity style={styles.ActionButtionNoShadow} onPress={this.handleAnswerClick.bind(this, this.ANSWER_TYPE_DUNNO)}>
                     <Text style={styles.dunnoText}>Je ne sais pas</Text>
                   </TouchableOpacity>
-                  
+
                 </View>
 
                 {/* <TouchableOpacity style={styles.infoWrapper} onPress={()=>this.setState({infoVisible:true})}>
@@ -205,9 +206,9 @@ class Questionnaire extends Component {
                   <Text style={StyleSheet.flatten([styles.infoText, {color:colors[this.props.qType][0]}])}> +info</Text>
                 </TouchableOpacity> */}
               </View>
-              
+
             </View>
-      
+
           </View>
         </View>
 
@@ -232,14 +233,14 @@ const styles = {
   },
 
   contentContainer: {
-    flex:1,  
-    marginTop: -120*em, 
+    flex:1,
+    marginTop: -120*em,
     flexDirection: "column"
   },
 
   contentWrapper:{
-    flex: 1, 
-    flexDirection:"column", 
+    flex: 1,
+    flexDirection:"column",
     marginTop:-80*em
   },
 
@@ -248,8 +249,8 @@ const styles = {
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0, 
-  }, 
+    right: 0,
+  },
 
   ButtonWrapper: {
     overflow: 'hidden',
@@ -267,8 +268,8 @@ const styles = {
     shadowColor: '#000',
     shadowOpacity: 0.1,
     elevation: 15,
-    position:"absolute", 
-    left: WIDTH * 48 / 750, 
+    position:"absolute",
+    left: WIDTH * 48 / 750,
     top: WIDTH * 0.4 * 50 / 300
   },
 
@@ -304,15 +305,15 @@ const styles = {
     shadowColor: '#000',
     shadowOpacity: 0.1,
     elevation: 1,
-    marginLeft:20*em, 
+    marginLeft:20*em,
     marginRight:20*em,
     zIndex:-1
   },
 
   infoWrapper:{
-    flexDirection:"row", 
+    flexDirection:"row",
     justifyContent:'center',
-    alignItems:'center', 
+    alignItems:'center',
     marginBottom: 12*em
   },
 
@@ -322,36 +323,36 @@ const styles = {
   },
 
   dunnoText:{
-    color:"#908ea6", 
+    color:"#908ea6",
     fontSize: 14*em,
     fontFamily: "OpenSans-SemiBold"
   },
 
   answerWrapper:{
-    paddingLeft: 20*em, 
-    paddingRight:20*em, 
-    paddingBottom: 20*em, 
-    paddingTop: 15*em, 
-    flexDirection:"row", 
+    paddingLeft: 20*em,
+    paddingRight:20*em,
+    paddingBottom: 20*em,
+    paddingTop: 15*em,
+    flexDirection:"row",
     zIndex:-1
   },
 
   answerText:{
     fontSize: 14*em,
-    fontFamily:"OpenSans-SemiBold" 
+    fontFamily:"OpenSans-SemiBold"
   },
 
   progressWrapper:{
-    width: WIDTH, 
-    height: 20*em, 
+    width: WIDTH,
+    height: 20*em,
     backgroundColor:"#e1e0e5"
   },
 
   questionText:{
-    paddingLeft: 50*em, 
-    paddingRight: 50*em, 
-    fontSize: 18*em, 
-    color:"#251b4d", 
+    paddingLeft: 50*em,
+    paddingRight: 50*em,
+    fontSize: 18*em,
+    color:"#251b4d",
     textAlign: "center",
     fontFamily: "Merriweather-Black",
     paddingTop:20*em
@@ -369,5 +370,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-    mapStateToProps, 
+    mapStateToProps,
     mapDispatchToProps)(Questionnaire);

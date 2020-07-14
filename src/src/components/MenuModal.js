@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, Image, Dimensions } from 'react-native'
+import { View, Text, TouchableOpacity, Image, Dimensions, Platform } from 'react-native'
 import NonVersion from './svgicons/NonVersion'
 import Arrow from './svgicons/Arrow'
 import User from './svgicons/User'
@@ -27,7 +27,7 @@ export default MenuModal = ({isModalVisible, isLoggedIn, onPress, onPressNonAd, 
         reducedTransparencyFallbackColor="black"
       />
 
-        {(!isLoggedIn)? 
+        {(!isLoggedIn)?
         (<View style={styles.absolute}>
           <View style={{position: 'absolute', left: 10*em, top: 80*em}}>
             <RectangleImage image={"B1"} size={33*em} />
@@ -43,8 +43,8 @@ export default MenuModal = ({isModalVisible, isLoggedIn, onPress, onPressNonAd, 
         </View>):null}
 
         <View style={styles.absolute}>
-            <Modal isVisible={isModalVisible} backdropOpacity={0} animationIn={"slideInDown"}styles={{flex:1, margin: 0}}>           
-              <View style={{marginTop: 60*em, height: height, alignItems:"flex-end"}}>
+            <Modal isVisible={isModalVisible} backdropOpacity={0} animationIn={"slideInDown"}styles={{flex:1, margin: 0}}>
+              <View style={{marginTop: Platform.OS === 'android'? 60*em:120*em, height: height, alignItems:"flex-end"}}>
                 <MenuBtn image="close" onPress={onPress} />
                 <View style={styles.menuWrapper}>
                   <Text style={styles.menuText}>Version sans publicité</Text>
@@ -104,7 +104,7 @@ export default MenuModal = ({isModalVisible, isLoggedIn, onPress, onPressNonAd, 
                   <TouchableOpacity style={styles.menuBtn} onPress={onPressBecomeAdvertiser} elevation={2}>
                       <Announceur width={15*em} height={15*em} />
                   </TouchableOpacity>
-                </View>    
+                </View>
 
                 { isLoggedIn?
                 (<View style={styles.menuWrapper}>
@@ -132,13 +132,13 @@ const styles = {
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0, 
-  }, 
-  
+    right: 0,
+  },
+
   menuWrapper: {
-    flexDirection: "row", 
-    marginTop: 20*em, 
-    alignItems:"center", 
+    flexDirection: "row",
+    marginTop: 20*em,
+    alignItems:"center",
     justifyContent:"flex-end"
   },
 
@@ -160,16 +160,16 @@ const styles = {
   },
 
   bottomWrapper:{
-    alignItems:'center', 
-    justifyContent:'flex-end', 
+    alignItems:'center',
+    justifyContent:'flex-end',
     flexDirection:"column"
   },
 
   versionText:{
-    color:"#fff", 
-    fontSize:12*em, 
-    fontFamily:"OpenSans-Regular", 
-    marginTop: 15*em, 
+    color:"#fff",
+    fontSize:12*em,
+    fontFamily:"OpenSans-Regular",
+    marginTop: 15*em,
     marginBottom: 30*em
   }
 }

@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "62117918069",
-    "firebase_url": "https://tina-960fc.firebaseio.com",
-    "project_id": "tina-960fc",
-    "storage_bucket": "tina-960fc.appspot.com"
+    "project_number": "431985002265",
+    "firebase_url": "https://tina-project-a9ad6.firebaseio.com",
+    "project_id": "tina-project-a9ad6",
+    "storage_bucket": "tina-project-a9ad6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:62117918069:android:dffa5aef1dfb12fc004f3c",
+        "mobilesdk_app_id": "1:431985002265:android:efd6234c86f51aabb16788",
         "android_client_info": {
-          "package_name": "com.tina"
+          "package_name": "com.laplus.tina"
         }
       },
       "oauth_client": [
         {
-          "client_id": "62117918069-m2hkp8sskq47lghtuo9uhtejvf2mejpm.apps.googleusercontent.com",
+          "client_id": "431985002265-fv0b8v33h2l91vjrqgbm76a44kuvgna4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBLH3hoJmgfn8-KxXk7fJq6pcQ--jN8YwY"
+          "current_key": "AIzaSyDoImuMl5oaKT6A28rTjXst6ZY6qLpSXEE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "62117918069-m2hkp8sskq47lghtuo9uhtejvf2mejpm.apps.googleusercontent.com",
+              "client_id": "431985002265-fv0b8v33h2l91vjrqgbm76a44kuvgna4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

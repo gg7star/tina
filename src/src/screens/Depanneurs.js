@@ -57,9 +57,9 @@ class Depanneurs extends Component {
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
-          
+
           <View style={styles.menuWrapper}>
-            <MenuBtn image={"close"} onPress={() => Actions.pop()}/>                  
+            <MenuBtn image={"close"} onPress={() => Actions.pop()}/>
           </View>
 
           <View style={styles.headerContainer}>
@@ -71,11 +71,11 @@ class Depanneurs extends Component {
           </View>
 
           <View style={{flex: 1}}>
-              
+
             <FlatList data={stores}
               renderItem={({item}) => <DepanneurItem id={item.id} image={{uri:item.image}} title={item.title} location={item.addr} phone={item.phone} email={item.email} />}
               keyExtractor={item => item.id.toString()} />
-            
+
           </View>
         </View>
     )
@@ -90,34 +90,35 @@ const styles = {
   },
 
   headerContainer: {
-    flexDirection: "column", 
-    paddingLeft:16*em, 
-    paddingRight:16*em, 
-    paddingTop: 80*em, 
-    paddingBottom: 10*em
+    flexDirection: "column",
+    paddingLeft:16*em,
+    paddingRight:16*em,
+    paddingTop: 80*em,
+    paddingBottom: 10*em,
+    zIndex:-1
   },
 
   menuWrapper:{
-    position:"absolute", 
+    position:"absolute",
     right:20*em,
     top:20*em
   },
 
   titleText:{
-    fontSize: 24*em,  
-    color:"#251b4d", 
+    fontSize: 24*em,
+    color:"#251b4d",
     fontFamily:"Merriweather-Black"
   },
 
   contentText:{
-    fontSize: 12*em, 
-    marginTop: 12*em, 
-    color:"#928da6", 
+    fontSize: 12*em,
+    marginTop: 12*em,
+    color:"#928da6",
     fontFamily:"OpenSans-Regular"
   },
 
   linkText:{
-    color:"#28c7ee", 
+    color:"#28c7ee",
     fontFamily:"OpenSans-Regular"
   }
 }
@@ -128,5 +129,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-    mapStateToProps, 
+    mapStateToProps,
     null)(Depanneurs);

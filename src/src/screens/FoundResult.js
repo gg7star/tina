@@ -27,7 +27,7 @@ class FoundResult extends Component {
     if (!isFromHistory){
       if (this.props.question.questions.length > 0){
         this.props.questionActions.removeLastQuestion()
-      }    
+      }
     }
   }
 
@@ -38,8 +38,8 @@ class FoundResult extends Component {
     if (!isFromHistory && isAuthenticated){
       const {questions} = this.props.question;
       // Add history
-      if (questions.length > 0) addTinaHistory({type:qType, questions, solution})      
-    }    
+      if (questions.length > 0) addTinaHistory({type:qType, questions, solution})
+    }
   }
 
   renderIcons(){
@@ -65,7 +65,7 @@ class FoundResult extends Component {
     const {isFromHistory} = this.props;
     const {isAuthenticated} = this.props.auth;
     let {questions} = isFromHistory? this.props:this.props.question;
-    const questionsItems = questions.map((item, index) => 
+    const questionsItems = questions.map((item, index) =>
       <ResultItem key={item.qid} id={index+1} title={item.title} answer={item.answerText} />
     )
     return (
@@ -76,24 +76,6 @@ class FoundResult extends Component {
               start={{x: 0, y: 0}} end={{x: 0, y: 1}}
               colors={colors[this.props.qType]}
               style={{flex:0.9}}>
-
-                <View style={styles.headerContentContainer}>
-                    <View style={styles.circleOverlay}>
-
-                      {this.renderIcons()}
-
-                      <View style={styles.AnswerFoundWrapper}>
-                          <AnswerFound width={25*em} height={25*em} />
-                      </View>
-                    </View>
-                </View>
-                
-                {isAuthenticated?
-                (
-                <View style={styles.menuWrapper}>
-                  <MenuBtn image={"back"} onPress={() => Actions.pop()}/>                  
-                </View>):null}
-
                 {isAuthenticated?
                 (<View style={styles.dateWrapper}>
                   <Text style={{color:"#fff", fontSize: 12*em, fontFamily:"OpenSans-Regular"}}>{this.props.dateString}</Text>
@@ -101,7 +83,7 @@ class FoundResult extends Component {
             </LinearGradient>
           </View>
 
-          <View style={styles.contentContainer}>           
+          <View style={styles.contentContainer}>
 
             <Image source={require('../Assets/result_split.png')} style={styles.SplitImage} resizeMode={'stretch'} />
 
@@ -109,10 +91,10 @@ class FoundResult extends Component {
 
               <Text style={[styles.solutionText, {marginTop: 15*em}]}>
                 {"Panne " + Q_TYPE_STRINGS[this.props.qType]}
-              </Text>            
+              </Text>
 
-              <ScrollView style={{flex: 1, paddingTop:10*em}}>              
-                  
+              <ScrollView style={{flex: 1, paddingTop:10*em}}>
+
                 {/* <FlatList data={DATA}
                   renderItem={({item}) => <ResultItem id={item.id} title={item.title} answer={item.answer} />}
                   keyExtractor={item => item.id.toString()} /> */}
@@ -130,7 +112,7 @@ class FoundResult extends Component {
                     </Text>
                   </View>
 
-                  
+
               </ScrollView>
 
               {!isAuthenticated?
@@ -149,6 +131,24 @@ class FoundResult extends Component {
 
           </View>
 
+          <View style={styles.headerContentContainer}>
+              <View style={styles.circleOverlay}>
+
+                {this.renderIcons()}
+
+                <View style={styles.AnswerFoundWrapper}>
+                    <AnswerFound width={25*em} height={25*em} />
+                </View>
+              </View>
+          </View>
+
+
+            {isAuthenticated?
+            (
+            <View style={styles.menuWrapper}>
+              <MenuBtn image={"back"} onPress={() => Actions.pop()}/>
+            </View>):null}
+
         </View>
     )
   }
@@ -162,19 +162,19 @@ const styles = {
   },
 
   headerContainer: {
-    height: 180*em,
+    height: 180*em
   },
 
   contentContainer: {
-    flex:1,  
-    marginTop: -130*em, 
+    flex:1,
+    marginTop: -130*em,
     flexDirection: "column"
   },
 
   contentWrapper:{
-    flex: 1, 
-    flexDirection:"column", 
-    marginTop:-80*em
+    flex: 1,
+    flexDirection:"column",
+    marginTop:-70*em
   },
 
   absolute: {
@@ -182,45 +182,47 @@ const styles = {
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0, 
-  }, 
+    right: 0,
+  },
 
   headerContentContainer:{
-    flex: 1, 
-    flexDirection: "column", 
-    justifyContent: 'center', 
-    alignItems: 'center', 
+    position:"absolute",
+    width: WIDTH,
+    top:45*em,
+    flexDirection: "column",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   titleText:{
-    color:"#fff", 
-    fontSize: 25*em, 
+    color:"#fff",
+    fontSize: 25*em,
     fontFamily:"Merriweather-Black"
   },
 
   descText:{
-    color:"#fff", 
-    fontSize: 14*em, 
+    color:"#fff",
+    fontSize: 14*em,
     marginTop: 8*em,
     fontFamily:"OpenSans-Regular"
   },
 
   AnswerFoundWrapper:{
     position: "absolute",
-    right: 0, 
+    right: 0,
     top: 0,
   },
 
   SplitImage: {
-    width: WIDTH, 
+    width: WIDTH,
     height: WIDTH*0.4
   },
 
   solutionText:{
-    paddingLeft: 60*em, 
-    paddingRight: 60*em, 
-    fontSize: 18*em, 
-    color:"#251b4d", 
+    paddingLeft: 60*em,
+    paddingRight: 60*em,
+    fontSize: 18*em,
+    color:"#251b4d",
     textAlign: "center",
     fontFamily: "Merriweather-Black"
   },
@@ -232,7 +234,10 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor:"#fff",
-    elevation: 20
+    elevation: 20,
+    shadowRadius: 30,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
   },
 
   ActionButtonBlue: {
@@ -242,24 +247,24 @@ const styles = {
     backgroundColor: '#28c7ee',
     height: 50*em,
     justifyContent: 'center',
-    marginLeft:20*em, 
+    marginLeft:20*em,
     marginRight:20*em,
-    marginBottom:15*em, 
+    marginBottom:15*em,
   },
 
   ActionWrapper:{
-    backgroundColor:"#fff", 
-    borderTopLeftRadius:20*em, 
-    borderTopRightRadius: 20*em, 
-    width:WIDTH, 
-    paddingTop: 13*em, 
-    paddingBottom: 13*em, 
+    backgroundColor:"#fff",
+    borderTopLeftRadius:20*em,
+    borderTopRightRadius: 20*em,
+    width:WIDTH,
+    paddingTop: 13*em,
+    paddingBottom: 13*em,
     justifyContent:"center"
   },
 
   ActionButtonNoBg: {
     flexDirection:"row",
-    justifyContent:"center", 
+    justifyContent:"center",
     alignItems:"center",
     alignSelf:"center",
     marginTop:8*em,
@@ -267,14 +272,14 @@ const styles = {
   },
 
   ActionBlueText:{
-    color:"#fff", 
+    color:"#fff",
     fontSize: 14*em,
     fontFamily:"OpenSans-SemiBold"
   },
 
   ActionNoBgText:{
-    color:"#a099b0", 
-    fontSize: 14*em , 
+    color:"#a099b0",
+    fontSize: 14*em ,
     marginRight: -5*em,
     marginLeft: -5*em,
     fontFamily:"OpenSans-SemiBold",
@@ -282,24 +287,24 @@ const styles = {
   },
 
   menuWrapper:{
-    position:"absolute", 
+    position:"absolute",
     left:20*em,
     top:20*em
   },
 
   dateWrapper:{
-    position:"absolute", 
+    position:"absolute",
     right:20*em,
     top:30*em
   },
 
   resultText:{
-    color:"#a099b0", 
+    color:"#a099b0",
     paddingTop: 15*em,
     paddingBottom: 50*em,
     paddingLeft: 25*em,
-    paddingRight: 25*em, 
-    fontFamily: "OpenSans-Regular", 
+    paddingRight: 25*em,
+    fontFamily: "OpenSans-Regular",
     textAlign:"center",
     fontSize: 13*em,
     lineHeight:20*em,
@@ -316,5 +321,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-    mapStateToProps, 
+    mapStateToProps,
     mapDispatchToProps)(FoundResult);

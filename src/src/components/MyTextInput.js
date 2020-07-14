@@ -24,11 +24,12 @@ export default class MyTextInput extends React.Component{
       editable={this.props.editable}
       clearButtonMode="while-editing"
       onFocus={this.handleFocus}
+      keyboardType={this.props.keyboardType}
       onBlur={this.handleBlur}
-      style={[this.props.style, {color:"#251b4d", fontSize: 15*em, borderBottomColor: this.state.isFocused? "#28c7ee":'#928da6'}]} 
+      style={[this.props.style, {color:"#251b4d", fontSize: 15*em, borderBottomColor: this.state.isFocused? "#28c7ee":'#928da6'}]}
       autoFocus={this.props.autoFocus}
-      secureTextEntry={this.props.secureTextEntry} 
-      textContentType={this.props.textContentType} 
+      secureTextEntry={this.props.secureTextEntry}
+      textContentType={this.props.textContentType}
       placeholder={this.props.placeholder} />)
   }
 }

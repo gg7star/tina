@@ -5,7 +5,7 @@ import { AppActions } from '../actions';
 import Toast from 'react-native-root-toast';
 import { RootSiblingParent } from 'react-native-root-siblings'
 import {
-  StyleSheet, View,
+  StyleSheet, View, SafeAreaView
 } from 'react-native';
 import RootRoutes from '../routes';
 import { em } from '../common/constants';
@@ -14,7 +14,7 @@ class AppView extends Component {
   state = {
     loaded: false
   };
-  
+
   async UNSAFE_componentWillReceiveProps(nextProps) {
     const { app } = nextProps;
     const { loaded } = this.state;
@@ -31,14 +31,14 @@ class AppView extends Component {
     appActions.setGlobalNotification({message: null, type: ''});
   }
 
-  render() {    
+  render() {
     return (
       <RootSiblingParent>
-        <View style={styles.safeArea}>
+        <SafeAreaView style={styles.safeArea}>
           <View style={styles.container}>
             <RootRoutes />
           </View>
-        </View>
+        </SafeAreaView>
       </RootSiblingParent>
     );
   }
@@ -49,9 +49,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   safeArea: {
-    flex: 1,
-    backgroundColor: '#000'
-  }  
+    flex: 1
+  }
 });
 
 //export default AppView;
@@ -64,5 +63,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-    null, 
+    null,
     mapDispatchToProps)(AppView);

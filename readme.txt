@@ -1,4 +1,7 @@
-1. Fixed the user update issue.
-2. Removed dummy json data.
-3. Stores jsons are dealed supposing they are same like users or historeis json.
-4. fixed orientation - portait.
+1. iOS works.
+
+2. changed app package name as com.laplus.tina and the bundle id too.
+
+3. Update the app icon.
+
+2. 3 are for both android & ios.
