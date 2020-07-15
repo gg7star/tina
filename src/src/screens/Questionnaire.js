@@ -13,6 +13,8 @@ import { getQuestionByCategoryAndId } from '../common/firebase/database';
 import { AppActions, QuestionActions } from '../actions'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as notifications from '../common/onesignal/notifications';
+
 class Questionnaire extends Component {
   ANSWER_TYPE_YES = 1;
   ANSWER_TYPE_NO = 2;
@@ -85,6 +87,9 @@ class Questionnaire extends Component {
         if (res['qid'] != undefined){
           Actions.questionnaire({qType:qType, qinfo:res})
         }else if (res['solution'] != undefined && res['solution'] != ""){
+          _this.props && _this.props.app && _this.props.app.onesignal && 
+          _this.props.app.onesignal.userId && 
+          notifications.postAnswerResultNotification(_this.props.app.onesignal.userId, res['solution'])
           Actions.foundresult({qType:qType, solution:res['solution'], isFromHistory:false})
         }else if (res['solution'] != undefined && res['solution'] == ""){
           Actions.noresult(this.props)
@@ -371,4 +376,5 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps)(Questionnaire);
+    mapDispatchToProps
+)(Questionnaire);

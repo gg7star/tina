@@ -11,6 +11,7 @@ export const initialState = {
   loaded: false,
   lat:"",
   lng:"",
+  onesignal: null
 };
 
 export default function AppStateReducer(
@@ -37,6 +38,11 @@ export default function AppStateReducer(
         ...state,
         lat: action.payload.lat,
         lng: action.payload.lng
+      }
+    case appActionTypes.SET_PUSH_NOTIFICATION_IDS:
+      return {
+        ...state,
+        onesignal: action.payload.onesignal
       }
     case LOAD:
       console.log('==== LOAD: ', state);

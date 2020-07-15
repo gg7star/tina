@@ -21,3 +21,10 @@ export function setGeoLocation({lat, lng}){
     payload: {lat, lng}
   }
 }
+
+export function setPushNotificationIds({ device }) {
+  return {
+    type: types.SET_PUSH_NOTIFICATION_IDS,
+    payload: { onesignal: device }
+  }
+}

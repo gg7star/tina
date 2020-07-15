@@ -6,6 +6,7 @@ import { attempSignup } from '../common/firebase/signup';
 import {
   createAccount
 } from '../common/firebase/database';
+import * as notifications from '../common/onesignal/notifications';
 
 const { setGlobalNotification } = AppActions;
 const { signUpSuccess, signUpFailed } = SignupActions;
@@ -19,7 +20,7 @@ export default function* watcher() {
 export function* trySignup(action) {
   const { signupInfo } = action.payload;
   console.log('===== signupInfo: ', signupInfo);
-  const { email, firstname, lastname, password, zipcode, lat } = signupInfo;
+  const { email, firstname, lastname, password, zipcode, lat, onesignal } = signupInfo;
   var errorMessage = null;
   try {
     const res = yield call(attempSignup, {email, password});
@@ -38,6 +39,14 @@ export function* trySignup(action) {
     );
     console.log('==== resCreateUser: ', resCreateUser);
     yield put(signUpSuccess());
+
+    // Send push notification
+    onesignal && onesignal.userId && 
+    notifications.postARegisterNotification(
+      onesignal.userId,
+      resCreateUser.email
+    );
+
     //Actions.signin();
     yield put(tryLogin({email, password}));
     return;

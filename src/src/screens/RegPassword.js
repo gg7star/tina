@@ -51,7 +51,8 @@ class RegPassword extends Component {
       zipcode,
       password,
       lat,
-      lng
+      lng,
+      onesignal: this.props.app.onesignal
     })
   }
 
@@ -214,6 +215,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(RegPassword);
+  mapStateToProps,
+  mapDispatchToProps
+)(RegPassword);
