@@ -9,6 +9,18 @@ import {
 } from 'react-native';
 import RootRoutes from '../routes';
 import { em } from '../common/constants';
+import OneSignal from 'react-native-onesignal';
+import onesignalConfig from '../common/config/onesignal';
+import admobConfig from '../common/config/admob';
+import * as notifications from '../common/onesignal/notifications';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+} from 'react-native-admob';
+
+const admobConf = Platform.OS === 'ios' ? admobConfig.ios : admobConfig.android;
 
 class AppView extends Component {
   state = {
@@ -29,6 +41,50 @@ class AppView extends Component {
   async initialize() {
     const { appActions } = this.props;
     appActions.setGlobalNotification({message: null, type: ''});
+
+    // Onsignal
+    // OneSignal.setLogLevel(6, 0);
+    console.log('====== onesignalConfig.appId: ', onesignalConfig.appId);
+    OneSignal.init(
+      onesignalConfig.appId,
+      {
+        kOSSettingsKeyAutoPrompt: false,
+        kOSSettingsKeyInAppLaunchURL: false,
+        kOSSettingsKeyInFocusDisplayOption: 2
+      }
+    );
+    OneSignal.inFocusDisplaying(2); // Controls what should happen if a notification is received while the app is open. 2 means that the notification will go directly to the device's notification center.
+
+    // The promptForPushNotifications function code will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission (See step below)
+    OneSignal.promptForPushNotificationsWithUserResponse(myiOSPromptCallback);
+
+    OneSignal.addEventListener('received', this.onReceived);
+    OneSignal.addEventListener('opened', this.onOpened);
+    OneSignal.addEventListener('ids', (device) => this.onIds(device, this));
+  }
+
+  componentWillUnmount() {
+    OneSignal.removeEventListener('received', this.onReceived);
+    OneSignal.removeEventListener('opened', this.onOpened);
+    OneSignal.removeEventListener('ids', this.onIds);
+  }
+
+  onReceived(notification) {
+    console.log('Notification received: ', notification);
+  }
+
+  onOpened(openResult) {
+    console.log('Message: ', openResult.notification.payload.body);
+    console.log('Data: ', openResult.notification.payload.additionalData);
+    console.log('isActive: ', openResult.notification.isAppInFocus);
+    console.log('openResult: ', openResult);
+  }
+
+  onIds(device, _this) {
+    console.log('Device info: ', device, _this);
+    _this.props.appActions && _this.props.appActions.setPushNotificationIds({ device });
+    // For test firstly. If notification is working, this is not needed.
+    // device && device.userId && notifications.postTestNotification(device.userId);
   }
 
   render() {
@@ -39,6 +95,12 @@ class AppView extends Component {
             <RootRoutes />
           </View>
         </SafeAreaView>
+        <AdMobBanner
+          adSize="fullBanner"
+          adUnitID={admobConf.testId}
+          testDevices={[AdMobBanner.simulatorId]}
+          onAdFailedToLoad={error => console.error('==== onAdFailedToLoad: ', error)}
+        />
       </RootSiblingParent>
     );
   }
@@ -53,15 +115,20 @@ const styles = StyleSheet.create({
   }
 });
 
+function myiOSPromptCallback(permission) {
+  // do something with permission value
+}
+
 //export default AppView;
-// const mapStateToProps = state => ({
-//   app: state.app || {},
-// });
+const mapStateToProps = state => ({
+  app: state.app || {},
+});
 
 const mapDispatchToProps = dispatch => ({
   appActions: bindActionCreators(AppActions, dispatch),
 });
 
 export default connect(
-    null,
-    mapDispatchToProps)(AppView);
+  mapStateToProps,
+  mapDispatchToProps,
+)(AppView);
