@@ -11,7 +11,8 @@ export const initialState = {
   loaded: false,
   lat:"",
   lng:"",
-  onesignal: null
+  onesignal: null,
+  adMobId: null
 };
 
 export default function AppStateReducer(
@@ -43,6 +44,11 @@ export default function AppStateReducer(
       return {
         ...state,
         onesignal: action.payload.onesignal
+      }
+    case appActionTypes.SET_ADMOB_ID:
+      return {
+        ...state,
+        adMobId: action.payload.adMobId
       }
     case LOAD:
       console.log('==== LOAD: ', state);

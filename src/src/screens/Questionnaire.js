@@ -14,6 +14,7 @@ import { AppActions, QuestionActions } from '../actions'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as notifications from '../common/onesignal/notifications';
+import { AdMobBanner } from 'react-native-admob';
 
 class Questionnaire extends Component {
   ANSWER_TYPE_YES = 1;
@@ -113,6 +114,15 @@ class Questionnaire extends Component {
     Actions.popTo('home');
   }
 
+  handleAdFailedToLoad = (error) => {
+    console.log('==== handleAdFailedToLoad: ', error);
+    if (error && error.message) {
+      if (error.message === "Invalid ad width or height: (414, 0)") return;
+      // if (error.message === "Request Error: No ad to show.")
+      this.props.appActions && this.props.appActions.setAdMobId({adMobId: null});
+    }
+  };
+
   renderEvaluationModal(){
     if (this.state.evaluationVisible){
       return (
@@ -122,6 +132,19 @@ class Questionnaire extends Component {
       return null;
     }
   }
+
+  renderAdmob = () => {
+    const { adMobId } = this.props.app;
+    return (
+      adMobId ? <AdMobBanner
+        adSize="fullBanner"
+        adUnitID={adMobId}
+        testDevices={[AdMobBanner.simulatorId]}
+        onAdFailedToLoad={error => this.handleAdFailedToLoad(error)}
+      /> :
+      null
+    );
+  };
 
   render(){
     const {qinfo} = this.props;
@@ -226,7 +249,8 @@ class Questionnaire extends Component {
         {this.renderInfoModal()}
 
         {this.renderEvaluationModal()}
-
+        
+        {this.renderAdmob()}
       </View>
     )
   }

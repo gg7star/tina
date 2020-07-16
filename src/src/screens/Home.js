@@ -19,6 +19,10 @@ import { logout } from '../common/firebase/auth';
 import { showRootToast } from '../common/utils';
 import {requestLocationPermission} from '../common/utils';
 import GeoLocation from '@react-native-community/geolocation';
+import admobConfig from '../common/config/admob';
+import { getAdmob } from '../common/firebase/database';
+
+const admobConf = Platform.OS === 'ios' ? admobConfig.ios : admobConfig.android;
 
 class Home extends Component {
   _isMounted = false;
@@ -48,6 +52,10 @@ class Home extends Component {
     )
   }
 
+  async UNSAFE_componentWillMount() {
+    await this.initializeAdMob();
+  }
+
   componentDidMount() {
     const { appActions, loginActions } = this.props;
     this._isMounted = true;
@@ -68,6 +76,14 @@ class Home extends Component {
 
   componentWillUnmount(){
     this._isMounted = false;
+  }
+
+  initializeAdMob = async () => {
+    /** Get Admob ID from firebase database */
+    console.log('===== initializeAdMob: this: ', this);
+    const adMobSettings = await getAdmob();
+    console.log('==== adMobSettings: ', adMobSettings);
+    this.props.appActions && this.props.appActions.setAdMobId({adMobId: adMobSettings.bannerId});
   }
 
   handleOnLogout = () => {

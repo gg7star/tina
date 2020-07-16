@@ -28,3 +28,10 @@ export function setPushNotificationIds({ device }) {
     payload: { onesignal: device }
   }
 }
+
+export function setAdMobId({ adMobId }) {
+  return {
+    type: types.SET_ADMOB_ID,
+    payload: { adMobId }
+  }
+}
