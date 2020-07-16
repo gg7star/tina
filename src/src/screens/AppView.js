@@ -94,13 +94,13 @@ class AppView extends Component {
           <View style={styles.container}>
             <RootRoutes />
           </View>
+          <AdMobBanner
+            adSize="fullBanner"
+            adUnitID={admobConf.testId}
+            testDevices={[AdMobBanner.simulatorId]}
+            onAdFailedToLoad={error => console.error('==== onAdFailedToLoad: ', error)}
+          />
         </SafeAreaView>
-        <AdMobBanner
-          adSize="fullBanner"
-          adUnitID={admobConf.testId}
-          testDevices={[AdMobBanner.simulatorId]}
-          onAdFailedToLoad={error => console.error('==== onAdFailedToLoad: ', error)}
-        />
       </RootSiblingParent>
     );
   }
