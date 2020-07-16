@@ -6,7 +6,6 @@ export const postNotification = (contents, data, playerId, otherParameters) => {
     const ids = [playerId, ];
     console.log('======= postNotification : ', contents);
     OneSignal.postNotification(contents, data, ids, otherParameters);
-    OneSignal.sendTag("key", "value");
   } catch (error) {
     console.log('======= error: ', error);
   }
@@ -73,7 +72,7 @@ export const postAnswerResultNotification = (userId, question) => {
     'fr': `You have found an answer for your question: « ${question} » .`
   }
   var message = {
-    type: TINA_NOTIFICATION_TYPES.REGISTERED_FIRST
+    type: TINA_NOTIFICATION_TYPES.PASSED_QUIZ
   };
   var otherParameters = {
     headings: {
