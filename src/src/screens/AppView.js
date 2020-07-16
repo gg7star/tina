@@ -11,7 +11,16 @@ import RootRoutes from '../routes';
 import { em } from '../common/constants';
 import OneSignal from 'react-native-onesignal';
 import onesignalConfig from '../common/config/onesignal';
+import admobConfig from '../common/config/admob';
 import * as notifications from '../common/onesignal/notifications';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+} from 'react-native-admob';
+
+const admobConf = Platform.OS === 'ios' ? admobConfig.ios : admobConfig.android;
 
 class AppView extends Component {
   state = {
@@ -86,6 +95,12 @@ class AppView extends Component {
             <RootRoutes />
           </View>
         </SafeAreaView>
+        <AdMobBanner
+          adSize="fullBanner"
+          adUnitID={admobConf.testId}
+          testDevices={[AdMobBanner.simulatorId]}
+          onAdFailedToLoad={error => console.error('==== onAdFailedToLoad: ', error)}
+        />
       </RootSiblingParent>
     );
   }
