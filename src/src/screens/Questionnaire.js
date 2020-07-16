@@ -87,9 +87,15 @@ class Questionnaire extends Component {
         if (res['qid'] != undefined){
           Actions.questionnaire({qType:qType, qinfo:res})
         }else if (res['solution'] != undefined && res['solution'] != ""){
-          _this.props && _this.props.app && _this.props.app.onesignal && 
-          _this.props.app.onesignal.userId && 
-          notifications.postAnswerResultNotification(_this.props.app.onesignal.userId, res['solution'])
+          if (_this.props) {
+            const app = _this.props.app;
+            const auth = _this.props.auth;
+            const onesignalUserId = (app && app.onesignal && app.onesignal.userId) ? app.onesignal.userId : null;
+            const isNotify = auth && auth.credential && auth.credential._user && auth.credential._user.receiveNoti;
+            onesignalUserId && isNotify &&
+              notifications.postAnswerResultNotification(onesignalUserId, res['solution']);
+          }
+          
           Actions.foundresult({qType:qType, solution:res['solution'], isFromHistory:false})
         }else if (res['solution'] != undefined && res['solution'] == ""){
           Actions.noresult(this.props)
@@ -366,6 +372,7 @@ const styles = {
 
 const mapStateToProps = state => ({
   app: state.app || {},
+  auth: state.auth || {},
   question: state.question || {}
 });
 
