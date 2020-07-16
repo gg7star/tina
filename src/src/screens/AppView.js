@@ -34,16 +34,14 @@ class AppView extends Component {
     if (app.loaded && !loaded) {
       const _this = this;
       this.setState({loaded: true}, () => {
-        this.initializeAdMob();
+        // this.initializeAdMob();
+        console.log('======= AppView: initialize');
         _this.initialize();
       });
     }
   }
 
   async initialize() {
-    const { appActions } = this.props;
-    appActions.setGlobalNotification({message: null, type: ''});
-
     // Onsignal
     // OneSignal.setLogLevel(6, 0);
     console.log('====== onesignalConfig.appId: ', onesignalConfig.appId);
@@ -143,15 +141,16 @@ function myiOSPromptCallback(permission) {
 }
 
 //export default AppView;
-const mapStateToProps = state => ({
-  app: state.app || {},
-});
+// const mapStateToProps = state => ({
+//   app: state.app || {},
+// });
 
 const mapDispatchToProps = dispatch => ({
   appActions: bindActionCreators(AppActions, dispatch),
 });
 
 export default connect(
-  mapStateToProps,
+  // mapStateToProps,
+  null,
   mapDispatchToProps,
 )(AppView);

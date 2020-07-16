@@ -23,12 +23,11 @@ import GeoLocation from '@react-native-community/geolocation';
 class Home extends Component {
   _isMounted = false;
 
-  constructor(props){
-    super(props)
-    this.state = {
-      menuVisible: false,
-    }
+  state = {
+    menuVisible: false,
   }
+
+  watchID = null;
 
   getCurrentLocation = () => {
     const { appActions } = this.props;
@@ -44,21 +43,17 @@ class Home extends Component {
       },
       error => {
         console.log(error);
-      }
+      },
+      {enableHighAccuracy: false, timeout: 20000, maximumAge: 0},
     )
   }
 
-  UNSAFE_componentWillMount(){
+  componentDidMount() {
+    const { appActions, loginActions } = this.props;
     this._isMounted = true;
 
-    const { appActions, loginActions } = this.props;
-
-    // for Debug purpose
-    // loginActions.loginSuccess(
-    //   {credential:"", _user:{email:"alex@gmail.com", firstname:"Alex", lastname:"Hong", zipcode:"239876", lat:23.42123, lng:-53.23157, receiveNoti:true}}
-    // )
-
     if (Platform.OS === 'android'){
+      console.log('====== Home.js: componentDidMount')
       requestLocationPermission().then(res => {
         if (res){
           this.getCurrentLocation();
@@ -68,7 +63,7 @@ class Home extends Component {
       this.getCurrentLocation();
     }
 
-    //this.setDummyJSON();
+    // this.setDummyJSON();
   }
 
   componentWillUnmount(){

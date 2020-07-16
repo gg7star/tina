@@ -41,7 +41,8 @@ class RegPostcode extends Component {
       },
       error => {
         console.log(error);
-      }
+      },
+      {enableHighAccuracy: false, timeout: 20000, maximumAge: 0},
     )
   }
 
