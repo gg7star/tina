@@ -8,6 +8,7 @@ const HISTORY_TABLE_NAME = 'histories';
 const FAQS_TABLE_NAME = 'faqs';
 const SETTINGS_TABLE_NAME = 'settings';
 const ABOUT_TABLE_NAME = 'about';
+const ADMOB_TABLE_NAME = 'admob';
 
 export async function createAccount({credential, signupInfo}) {
   const { firstname, lastname, zipcode, lat, lng, password } = signupInfo;
@@ -497,4 +498,16 @@ export async function getSettingsInfo(){
       throw new Error('Settings table does not exist')
     }
   });
+}
+
+export async function getAdmob() {
+  return firebase.database().ref(`${ADMOB_TABLE_NAME}`)
+    .once('value')
+    .then((snapshot) => {
+      if (snapshot.exists) {
+        return snapshot.val()
+      } else {
+        throw new Error('Admob table does not exist')
+      }
+    });
 }

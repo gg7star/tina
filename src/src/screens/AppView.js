@@ -12,20 +12,21 @@ import { em } from '../common/constants';
 import OneSignal from 'react-native-onesignal';
 import onesignalConfig from '../common/config/onesignal';
 import admobConfig from '../common/config/admob';
+import { getAdmob } from '../common/firebase/database';
 import * as notifications from '../common/onesignal/notifications';
-import {
-  AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
-} from 'react-native-admob';
+import { AdMobBanner } from 'react-native-admob';
 
 const admobConf = Platform.OS === 'ios' ? admobConfig.ios : admobConfig.android;
 
 class AppView extends Component {
   state = {
-    loaded: false
+    loaded: false,
+    adMobId: null
   };
+
+  async UNSAFE_componentWillMount() {
+    await this.initializeAdMob();
+  }
 
   async UNSAFE_componentWillReceiveProps(nextProps) {
     const { app } = nextProps;
@@ -33,6 +34,7 @@ class AppView extends Component {
     if (app.loaded && !loaded) {
       const _this = this;
       this.setState({loaded: true}, () => {
+        this.initializeAdMob();
         _this.initialize();
       });
     }
@@ -63,6 +65,15 @@ class AppView extends Component {
     OneSignal.addEventListener('ids', (device) => this.onIds(device, this));
   }
 
+  initializeAdMob = async () => {
+    /** Get Admob ID from firebase database */
+    console.log('===== initializeAdMob: this: ', this);
+    const adMobSettings = await getAdmob();
+    console.log('==== adMobSettings: ', adMobSettings);
+    adMobSettings && adMobSettings.bannerId && 
+      this.setState({ adMobId: adMobSettings.bannerId })
+  }
+
   componentWillUnmount() {
     OneSignal.removeEventListener('received', this.onReceived);
     OneSignal.removeEventListener('opened', this.onOpened);
@@ -87,19 +98,31 @@ class AppView extends Component {
     // device && device.userId && notifications.postTestNotification(device.userId);
   }
 
+  onAdFailedToLoad = (error) => {
+    console.log('==== onAdFailedToLoad: ', error);
+    if (error && error.message) {
+      if (error.message === "Invalid ad width or height: (414, 0)") return;
+      // if (error.message === "Request Error: No ad to show.")
+      this.setState({ adMobId: null });
+    }
+  };
+
   render() {
+    const { adMobId } = this.state;
+    console.log('===== render: adMobId: ', adMobId);
+
     return (
       <RootSiblingParent>
         <SafeAreaView style={styles.safeArea}>
           <View style={styles.container}>
             <RootRoutes />
           </View>
-          <AdMobBanner
+          {adMobId && <AdMobBanner
             adSize="fullBanner"
-            adUnitID={admobConf.testId}
+            adUnitID={this.state.adMobId}
             testDevices={[AdMobBanner.simulatorId]}
-            onAdFailedToLoad={error => console.error('==== onAdFailedToLoad: ', error)}
-          />
+            onAdFailedToLoad={error => this.onAdFailedToLoad(error)}
+          />}
         </SafeAreaView>
       </RootSiblingParent>
     );
