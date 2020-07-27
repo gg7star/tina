@@ -24,6 +24,7 @@ import * as notifications from '../common/onesignal/notifications';
 import { goToWebBrowser } from '../common/utils/misc';
 import { AdMobBanner } from 'react-native-admob';
 import ReactInterval from 'react-interval';
+import moment from 'moment';
 
 let advIndex = 0;
 
@@ -210,14 +211,25 @@ class Questionnaire extends Component {
   setAdvertisements = () => {
     const { advertisements } = this.props.app;
     console.log('===== advertisements: ', advertisements);
+    const res = [];
     if (advertisements){
+      // Filtering due date
       const adsKeys = Object.keys(advertisements).reverse();
       for (var i = 0; i < adsKeys.length; i++) {
         const key = adsKeys[i];
         const adv = advertisements[key];
+        var startDate = moment(adv.start_date);
+        var endDate = moment(adv.end_date);
+        var now = moment();
+        if (now >= startDate && now <= endDate) {
+          res.push(adv);
+        }
+      }
+      // Set adv
+      for (var i = 0; i < res.length; i++) {
+        const adv = res[i];
         if (i === advIndex) {
-          console.log('===== set setate: ', adv);
-          this.setState({selectedAds: adv}, () => {
+          this.setState({ selectedAds: adv }, () => {
             advIndex = ((advIndex + 1) === adsKeys.length) ? 0 : (advIndex + 1);
           });
           break;
