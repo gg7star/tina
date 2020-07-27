@@ -225,7 +225,7 @@ dependencies {
 
 ext {
     react = [
-            nodeExecutableAndArgs:  ["/Users/dev/.nvm/versions/node/v12.14.1/bin/node"]
+            nodeExecutableAndArgs:  ["/Users/mac/.nvm/versions/node/v12.16.2/bin/node"]
     ]
 }
 

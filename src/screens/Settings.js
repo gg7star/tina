@@ -31,7 +31,8 @@ class Settings extends Component {
   }
 
   render(){
-    const {receiveNoti} = this.props.auth.credential._user;
+    const receiveNoti = this.props.auth && this.props.auth.credential && 
+      this.props.auth.credential._user && this.props.auth.credential._user.receiveNoti;
     return (
         <View style={styles.mainContainer}>
           <StatusBar barstyle="light-content" backgroundColor={"#28c7ee"} />
@@ -44,36 +45,41 @@ class Settings extends Component {
             <Text style={styles.titleText}>Réglages</Text>
 
             <View style={styles.ChoiceWrapper}>
-                  <TouchableOpacity style={[styles.ActionButton, {height: 70*em}]} onPress={()=>Actions.myaccount()}>
-                    <View style={styles.ButtonWrapper}>
-                        <View style={[styles.circleIconOverlay, {backgroundColor:"#e9f9fd"}]}>
-                            <User width={14*em} height={14*em} />
-                        </View>
+              <TouchableOpacity
+                style={[styles.ActionButton, {height: 70*em}]}
+                onPress={()=>Actions.myaccount()}
+              >
+                <View style={styles.ButtonWrapper}>
+                  <View style={[styles.circleIconOverlay, {backgroundColor:"#e9f9fd"}]}>
+                    <User width={14*em} height={14*em} />
+                  </View>
 
-                        <Text style={styles.contentTitle}>Mon compte</Text>
+                  <Text style={styles.contentTitle}>Mon compte</Text>
 
-                        <ArrowSmall width={14*em} height={14*em} />
-                    </View>
-                  </TouchableOpacity>
+                  <ArrowSmall width={14*em} height={14*em} />
+                </View>
+              </TouchableOpacity>
 
-                  <TouchableOpacity style={[styles.ActionButton, {height: 90*em, marginTop:20*em}]} onPress={this.handleNotiSettingsChange.bind(this)}>
-                    
-                    <View style={styles.ButtonWrapper}>
-                        <View style={[styles.circleIconOverlay, {backgroundColor:"#f1eeff"}]}>
-                            <Notification width={14*em} height={14*em} />
-                        </View>
+              <TouchableOpacity
+                style={[styles.ActionButton, {height: 90*em, marginTop:20*em}]}
+                onPress={this.handleNotiSettingsChange.bind(this)}
+              >
+                <View style={styles.ButtonWrapper}>
+                  <View style={[styles.circleIconOverlay, {backgroundColor:"#f1eeff"}]}>
+                      <Notification width={14*em} height={14*em} />
+                  </View>
 
-                        <View style={{flex:1, flexDirection:"row", justifyContent:"space-around"}}>
-                          <Text style={styles.contentTitle}>Notifications</Text>
-                          <Switch checked={receiveNoti} />
-                        </View>
-                    </View>
+                  <View style={{flex:1, flexDirection:"row", justifyContent:"space-around"}}>
+                    <Text style={styles.contentTitle}>Notifications</Text>
+                  {receiveNoti && <Switch checked={receiveNoti} />}
+                  </View>
+                </View>
 
-                    <Text style={styles.contentDesc}>Recevoir des notifications push</Text>
-                  </TouchableOpacity>
-              </View>
-          </View>
+                <Text style={styles.contentDesc}>Recevoir des notifications push</Text>
+              </TouchableOpacity>
+            </View>
         </View>
+      </View>
     )
   }
 }

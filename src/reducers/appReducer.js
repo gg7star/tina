@@ -9,11 +9,12 @@ export const initialState = {
     duration: 4000
   },
   loaded: false,
-  lat:"",
-  lng:"",
+  lat: "",
+  lng: "",
   onesignal: null,
   adMobId: null,
-  evaluated: false
+  evaluated: false,
+  advertisements: []
 };
 
 export default function AppStateReducer(
@@ -50,6 +51,11 @@ export default function AppStateReducer(
       return {
         ...state,
         adMobId: action.payload.adMobId
+      }
+    case appActionTypes.SET_ADVERTISEMENTS:
+      return {
+        ...state,
+        advertisements: action.payload.advertisements
       }
     case appActionTypes.SET_EVALUATED:
       return {

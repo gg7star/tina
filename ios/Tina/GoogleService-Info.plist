@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>431985002265-ve5np5mc45ve84gp8f01lb37b3hi3l8f.apps.googleusercontent.com</string>
+	<string>431985002265-pj4hjt2jc82uep15o1575t598au0h7cd.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.431985002265-ve5np5mc45ve84gp8f01lb37b3hi3l8f</string>
+	<string>com.googleusercontent.apps.431985002265-pj4hjt2jc82uep15o1575t598au0h7cd</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>431985002265-tdnvs8e620ppp39fpjand2m7in6ugnbe.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -21,15 +21,15 @@
 	<key>STORAGE_BUCKET</key>
 	<string>tina-project-a9ad6.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:431985002265:ios:8143f8ff592b02b0b16788</string>
 	<key>DATABASE_URL</key>
