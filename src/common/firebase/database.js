@@ -10,6 +10,7 @@ const SETTINGS_TABLE_NAME = 'settings';
 const ABOUT_TABLE_NAME = 'about';
 const ADMOB_TABLE_NAME = 'admob';
 const ADVERTISEMENTS_TABLE_NAME = 'advertisements';
+const PAYMENTES_TABLE_NAME = 'payments'
 
 export async function createAccount({credential, signupInfo}) {
   const { firstname, lastname, zipcode, lat, lng, password } = signupInfo;
@@ -520,6 +521,18 @@ export async function getAdmob() {
 
 export async function getAllAdvertisements() {
   return firebase.database().ref(`${ADVERTISEMENTS_TABLE_NAME}`)
+    .once('value')
+    .then((snapshot) => {
+      if (snapshot.exists) {
+        return snapshot.val()
+      } else {
+        throw new Error('Advertisements table does not exist')
+      }
+    });
+}
+
+export async function getAllPayments() {
+  return firebase.database().ref(`${PAYMENTES_TABLE_NAME}`)
     .once('value')
     .then((snapshot) => {
       if (snapshot.exists) {

@@ -11,6 +11,7 @@ import RootRoutes from '../routes';
 import { em } from '../common/constants';
 import OneSignal from 'react-native-onesignal';
 import onesignalConfig from '../common/config/onesignal';
+import { initStripe } from '../common/stripe/stripe';
 
 class AppView extends Component {
   state = {
@@ -22,15 +23,19 @@ class AppView extends Component {
     const { loaded } = this.state;
     if (app.loaded && !loaded) {
       const _this = this;
+      console.log('======= AppView: loaded');
       this.setState({loaded: true}, () => {
         console.log('======= AppView: initialize');
-        _this.initializeAdMob();
+        // _this.initializeAdMob();
         _this.initialize();
       });
     }
   }
 
   async initialize() {
+    // Init stripe.
+    initStripe();
+
     // Onsignal
     // OneSignal.setLogLevel(6, 0);
     console.log('====== onesignalConfig.appId: ', onesignalConfig.appId);

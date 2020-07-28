@@ -101,6 +101,10 @@ class Home extends Component {
     })
   }
 
+  handlePayer = () => {
+    
+  }
+
   renderMenu(){
     const {isAuthenticated} = this.props.auth;
     console.log('====== isAuthenticated: ', isAuthenticated);
@@ -118,6 +122,7 @@ class Home extends Component {
           onPressBecomeAdvertiser={()=>{this.setState({menuVisible: false}); Actions.becomeadvertiser()}}
           onPressSettings={()=>{this.setState({menuVisible: false}); Actions.settings()}}
           onPressAbout={()=>{this.setState({menuVisible: false}); Actions.about()}}
+          onPressPayer={this.handlePayer}
           onPressLogout={() => this.handleOnLogout()} />
       )
     }else{
