@@ -11,11 +11,11 @@ export default ElevationModal = ({isModalVisible, onPressSend, onPressSkip}) => 
   <View style={styles.absolute}>
     
     <BlurView
-          style={styles.absolute}
-          blurType="dark"
-          blurAmount={10}
-          reducedTransparencyFallbackColor="black"
-        />
+      style={styles.absolute}
+      blurType="dark"
+      blurAmount={10}
+      reducedTransparencyFallbackColor="black"
+    />
 
     <View style={styles.absolute}>
         <Modal isVisible={isModalVisible} 

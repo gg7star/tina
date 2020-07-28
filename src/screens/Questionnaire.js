@@ -52,10 +52,12 @@ class Questionnaire extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState){
+    console.log('===== nextState: ', nextState);
     if (this.state.infoVisible == nextState.infoVisible &&
         this.state.evaluationVisible == nextState.evaluationVisible){
-      if (this.state.selectedAds === nextState.selectedAds)
-        return false;
+      if (this.state.selectedAds !== nextState.selectedAds)
+          return true;
+      return false;
     }
     return true;
   }
@@ -188,7 +190,10 @@ class Questionnaire extends Component {
   renderEvaluationModal(){
     if (this.state.evaluationVisible){
       return (
-        <EvaluationModal isModalVisible={true} onPressSend={this.handleEvaluationSendClick.bind(this)} onPressSkip={this.handleEvaluationSkipClick.bind(this)}/>
+        <EvaluationModal
+          isModalVisible={true}
+          onPressSend={this.handleEvaluationSendClick.bind(this)}
+          onPressSkip={this.handleEvaluationSkipClick.bind(this)}/>
       )
     }else{
       return null;
@@ -250,6 +255,7 @@ class Questionnaire extends Component {
           // key={`image-${i}`}
           style={styles.advertisementImge}
           source={{ uri: this.changeImageUrl2Https(selectedAds.image) }}
+          resizeMode={'cover'}
           onError={error => this.handleAdFailedToLoad(error)}
         />
       </TouchableOpacity>
