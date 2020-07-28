@@ -58,9 +58,9 @@ class Depanneurs extends Component {
   handleClickStore = (store) => {
     const {app} = this.props;
     console.log(app);
-    if (!app.evaluated){
+    //if (!app.evaluated){
       this.setState({evaluationVisible:true});
-    }
+    //}
   }
 
   handleEvaluationSendClick(){
