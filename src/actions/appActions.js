@@ -36,6 +36,13 @@ export function setAdMobId({ adMobId }) {
   }
 }
 
+export function setAdvertisements({ advertisements }) {
+  return {
+    type: types.SET_ADVERTISEMENTS,
+    payload: { advertisements }
+  }
+}
+
 export function setEvaluated({ evaluated }){
   return {
     type: types.SET_EVALUATED,

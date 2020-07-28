@@ -20,7 +20,7 @@ import { showRootToast } from '../common/utils';
 import {requestLocationPermission} from '../common/utils';
 import GeoLocation from '@react-native-community/geolocation';
 import admobConfig from '../common/config/admob';
-import { getAdmob } from '../common/firebase/database';
+import { getAdmob, getAllAdvertisements } from '../common/firebase/database';
 
 const admobConf = Platform.OS === 'ios' ? admobConfig.ios : admobConfig.android;
 
@@ -53,21 +53,22 @@ class Home extends Component {
   }
 
   async UNSAFE_componentWillMount() {
-    await this.initializeAdMob();
+    // await this.initializeAdMob();
+    await this.initializeAdvertisements();
   }
 
   componentDidMount() {
     const { appActions, loginActions } = this.props;
     this._isMounted = true;
 
-    if (Platform.OS === 'android'){
+    if (Platform.OS === 'android') {
       console.log('====== Home.js: componentDidMount')
       requestLocationPermission().then(res => {
         if (res){
           this.getCurrentLocation();
         }
       });
-    }else{
+    } else {
       this.getCurrentLocation();
     }
 
@@ -86,6 +87,12 @@ class Home extends Component {
     this.props.appActions && this.props.appActions.setAdMobId({adMobId: adMobSettings.bannerId});
   }
 
+  initializeAdvertisements = async () => {
+    /** Get all advertisements from firebase database */
+    const advertisements = await getAllAdvertisements();
+    this.props.appActions && this.props.appActions.setAdvertisements({ advertisements });
+  }
+
   handleOnLogout = () => {
     logout().then(() => {
       const {loginActions} = this.props;
@@ -96,20 +103,22 @@ class Home extends Component {
 
   renderMenu(){
     const {isAuthenticated} = this.props.auth;
+    console.log('====== isAuthenticated: ', isAuthenticated);
     if (this.state.menuVisible){
       return (
-        <MenuModal isModalVisible={true}
-                  isLoggedIn={true}
-                  onPress={()=>this.setState({menuVisible:false})}
-                  onPressNonAd={()=>this.setState({menuVisible:false})}
-                  onPressHistory={()=>{this.setState({menuVisible: false}); Actions.history()}}
-                  onPressFAQ={()=>{this.setState({menuVisible:false}); Actions.faq()}}
-                  onPressSignIn={()=>{this.setState({menuVisible: false}); Actions.signin()}}
-                  onPressRegister={()=>{this.setState({menuVisible: false}); Actions.regemail()}}
-                  onPressBecomeAdvertiser={()=>{this.setState({menuVisible: false}); Actions.becomeadvertiser()}}
-                  onPressSettings={()=>{this.setState({menuVisible: false}); Actions.settings()}}
-                  onPressAbout={()=>{this.setState({menuVisible: false}); Actions.about()}}
-                  onPressLogout={() => this.handleOnLogout()} />
+        <MenuModal 
+          isModalVisible={true}
+          isLoggedIn={isAuthenticated}
+          onPress={()=>this.setState({menuVisible:false})}
+          onPressNonAd={()=>this.setState({menuVisible:false})}
+          onPressHistory={()=>{this.setState({menuVisible: false}); Actions.history()}}
+          onPressFAQ={()=>{this.setState({menuVisible:false}); Actions.faq()}}
+          onPressSignIn={()=>{this.setState({menuVisible: false}); Actions.signin()}}
+          onPressRegister={()=>{this.setState({menuVisible: false}); Actions.regemail()}}
+          onPressBecomeAdvertiser={()=>{this.setState({menuVisible: false}); Actions.becomeadvertiser()}}
+          onPressSettings={()=>{this.setState({menuVisible: false}); Actions.settings()}}
+          onPressAbout={()=>{this.setState({menuVisible: false}); Actions.about()}}
+          onPressLogout={() => this.handleOnLogout()} />
       )
     }else{
       return null;

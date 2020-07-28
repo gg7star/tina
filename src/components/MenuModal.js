@@ -18,7 +18,12 @@ import { em } from '../common/constants'
 
 var {height, width} = Dimensions.get('window');
 
-export default MenuModal = ({isModalVisible, isLoggedIn, onPress, onPressNonAd, onPressHistory, onPressFAQ, onPressSignIn, onPressRegister, onPressBecomeAdvertiser, onPressSettings, onPressAbout, onPressLogout}) => (
+export default MenuModal = ({
+  isModalVisible, isLoggedIn, onPress, 
+  onPressNonAd, onPressHistory, onPressFAQ, 
+  onPressSignIn, onPressRegister, onPressBecomeAdvertiser, 
+  onPressSettings, onPressAbout, onPressLogout
+}) => (
   <View style={styles.absolute}>
       <BlurView
         style={styles.absolute}

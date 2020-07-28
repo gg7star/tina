@@ -1,5 +1,12 @@
 import React, { Component, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
+import {
+  View,
+  Text,
+  Image, 
+  TouchableOpacity,
+  StyleSheet, 
+  StatusBar,
+} from 'react-native';
 import MenuBtn from '../components/MenuBtn';
 import RectangleImage from '../components/RectangleImage';
 import Back from '../components/svgicons/Back';
@@ -14,7 +21,12 @@ import { AppActions, QuestionActions } from '../actions'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as notifications from '../common/onesignal/notifications';
+import { goToWebBrowser } from '../common/utils/misc';
 import { AdMobBanner } from 'react-native-admob';
+import ReactInterval from 'react-interval';
+import moment from 'moment';
+
+let advIndex = 0;
 
 class Questionnaire extends Component {
   ANSWER_TYPE_YES = 1;
@@ -25,21 +37,29 @@ class Questionnaire extends Component {
   solution = "";
   isFromHistory = false;
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       infoVisible: false,
-      evaluationVisible: false
+      evaluationVisible: false,
+      selectedAds: null,
+      stopTimer: true
     }
   }
 
+  UNSAFE_componentWillMount() {
+    this.setAdvertisements();
+  }
+
   shouldComponentUpdate(nextProps, nextState){
+    console.log('===== nextState: ', nextState);
     if (this.state.infoVisible == nextState.infoVisible &&
         this.state.evaluationVisible == nextState.evaluationVisible){
+      if (this.state.selectedAds !== nextState.selectedAds)
+          return true;
       return false;
-    }else{
-      return true;
     }
+    return true;
   }
 
   componentWillUnmount(){
@@ -145,21 +165,35 @@ class Questionnaire extends Component {
 
   handleAdFailedToLoad = (error) => {
     console.log('==== handleAdFailedToLoad: ', error);
+    this.setState({ selectedAds: null });
+    /* In the case gogle admob
     if (error && error.message) {
       if (error.message === "Invalid ad width or height: (414, 0)") return;
       // if (error.message === "Request Error: No ad to show.")
-      this.props.appActions && this.props.appActions.setAdMobId({adMobId: null});
+      // this.props.appActions && this.props.appActions.setAdMobId({adMobId: null});
     }
+    */
   };
+
+  onClickAds = (url) => {
+    goToWebBrowser(url);
+  }
 
   handleGoInfoWindow = () => {
     this.setState({infoVisible:true})
   }
 
+  changeImageUrl2Https = (imageUrl) => {
+    return imageUrl.replace('http://', 'https://');
+  }
+
   renderEvaluationModal(){
     if (this.state.evaluationVisible){
       return (
-        <EvaluationModal isModalVisible={true} onPressSend={this.handleEvaluationSendClick.bind(this)} onPressSkip={this.handleEvaluationSkipClick.bind(this)}/>
+        <EvaluationModal
+          isModalVisible={true}
+          onPressSend={this.handleEvaluationSendClick.bind(this)}
+          onPressSkip={this.handleEvaluationSkipClick.bind(this)}/>
       )
     }else{
       return null;
@@ -179,9 +213,60 @@ class Questionnaire extends Component {
     );
   };
 
+  setAdvertisements = () => {
+    const { advertisements } = this.props.app;
+    console.log('===== advertisements: ', advertisements);
+    const res = [];
+    if (advertisements){
+      // Filtering due date
+      const adsKeys = Object.keys(advertisements).reverse();
+      for (var i = 0; i < adsKeys.length; i++) {
+        const key = adsKeys[i];
+        const adv = advertisements[key];
+        var startDate = moment(adv.start_date);
+        var endDate = moment(adv.end_date);
+        var now = moment();
+        if (now >= startDate && now <= endDate) {
+          res.push(adv);
+        }
+      }
+      // Set adv
+      for (var i = 0; i < res.length; i++) {
+        const adv = res[i];
+        if (i === advIndex) {
+          this.setState({ selectedAds: adv }, () => {
+            advIndex = ((advIndex + 1) === adsKeys.length) ? 0 : (advIndex + 1);
+          });
+          break;
+        }
+      }
+    }
+  };
+
+  renderAdvertisements = () => {
+    const { selectedAds } = this.state;
+    console.log('==== renderAdvertisements: selectedAds: ', selectedAds && this.changeImageUrl2Https(selectedAds.image));
+    return selectedAds ? (
+      <TouchableOpacity
+        // key={`touchableopacity-${i}`}
+        onPress={() => this.onClickAds(selectedAds.linked_url)}
+      >
+        <Image
+          // key={`image-${i}`}
+          style={styles.advertisementImge}
+          source={{ uri: this.changeImageUrl2Https(selectedAds.image) }}
+          resizeMode={'cover'}
+          onError={error => this.handleAdFailedToLoad(error)}
+        />
+      </TouchableOpacity>
+    ) : null;
+  }
+
   render(){
     const {qinfo} = this.props;
     const {info} = qinfo;
+    const { selectedAds } = this.state;
+    console.log('===== selectedAds: ', selectedAds);
     console.log("QUESTIONNAIR!", qinfo['title']);
     return (
       <View style={{flex:1}}>
@@ -286,13 +371,15 @@ class Questionnaire extends Component {
 
         {this.renderEvaluationModal()}
 
-        {this.renderAdmob()}
+        {this.renderAdvertisements()}
+        <ReactInterval timeout={5000} enabled={true}
+          callback={() => this.setAdvertisements()} />
       </View>
     )
   }
 }
 
-const styles = {
+const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: '#f6f5fa',
@@ -427,8 +514,12 @@ const styles = {
     textAlign: "center",
     fontFamily: "Merriweather-Black",
     paddingTop:20*em
+  },
+  advertisementImge: {
+    width: '100%', //370,
+    height: 50
   }
-}
+});
 
 const mapStateToProps = state => ({
   app: state.app || {},

@@ -378,7 +378,7 @@ PODS:
   - RNFBApp (7.3.1):
     - Firebase/CoreOnly (~> 6.25.0)
     - React
-  - RNFBAuth (8.1.2):
+  - RNFBAuth (8.2.0):
     - Firebase/Auth (~> 6.25.0)
     - React
     - RNFBApp
@@ -626,8 +626,8 @@ SPEC CHECKSUMS:
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
   react-native-admob: cb7f9e5e7d6f1e68bfbf1df8f72b2e23963bc7db
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
-  react-native-geolocation: cbd9d6bd06bac411eed2671810f454d4908484a8
-  react-native-onesignal: 3cb529f99353f5765ca3ce305c9e8c583fd54c81
+  react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
+  react-native-onesignal: 3cd5b9b5a2d151698cab987a364f4cbd51552508
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
   React-RCTAnimation: 49ab98b1c1ff4445148b72a3d61554138565bad0
@@ -639,10 +639,10 @@ SPEC CHECKSUMS:
   React-RCTText: fae545b10cfdb3d247c36c56f61a94cfd6dba41d
   React-RCTVibration: 4356114dbcba4ce66991096e51a66e61eda51256
   ReactCommon: ed4e11d27609d571e7eee8b65548efc191116eb3
-  RNCAsyncStorage: db711e29e5e0500d9bd21aa0c2e397efa45302b1
-  RNCCheckbox: 2e90172b1ba7a5c7d88f50f6243fe16566bf03aa
+  RNCAsyncStorage: d059c3ee71738c39834a627476322a5a8cd5bf36
+  RNCCheckbox: 357578d3b42652c78ee9a1bb9bcfc3195af6e161
   RNFBApp: cd70a6c061bc485994e28c7d58ab760538850f0e
-  RNFBAuth: b783e6e55d0b4a35236afb165ac465f7d8006767
+  RNFBAuth: 6dd5a500e8e00d8b10117be52412c91d2895d939
   RNFBDatabase: fac439ba07d2a3b3f332088f5361dbb9dc83036d
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
