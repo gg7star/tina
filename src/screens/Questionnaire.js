@@ -87,7 +87,7 @@ class Questionnaire extends Component {
     this.setState({evaluationVisible:false})
     this.props.appActions.setEvaluated({evaluated:true});
 
-    Actions.foundresult({qType, solution, isFromHistory})
+    Actions.foundresult({qType:this.qType, solution:this.solution, isFromHistory:this.isFromHistory})
   }
 
   handleEvaluationSkipClick(){
