@@ -98,14 +98,14 @@ class Questionnaire extends Component {
 
   processFoundAnswer(qType, solution, isFromHistory){
     const {app} = this.props;
-    if (!app.evaluated){
+    //if (!app.evaluated){
       this.qType = qType;
       this.solution = solution;
       this.isFromHistory = isFromHistory;
       this.setState({evaluationVisible:true});
-    }else{
-      Actions.foundresult({qType, solution, isFromHistory})
-    }
+    //}else{
+    //  Actions.foundresult({qType, solution, isFromHistory})
+    //}
   }
 
   handleAnswerClick(type){
