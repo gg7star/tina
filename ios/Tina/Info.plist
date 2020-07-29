@@ -43,8 +43,10 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>The Tian application wants to access your camera.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>The Tina application uses Google Map and wants to have access to your location so that it can get address for postal code.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Merriweather-Black.ttf</string>

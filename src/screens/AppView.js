@@ -18,9 +18,16 @@ class AppView extends Component {
     loaded: false,
   };
 
+  async UNSAFE_componentWillMount() {
+    // Init stripe.
+    initStripe();
+    console.log('==== init Stripe')
+  }
+
   async UNSAFE_componentWillReceiveProps(nextProps) {
     const { app } = nextProps;
     const { loaded } = this.state;
+
     if (app.loaded && !loaded) {
       const _this = this;
       console.log('======= AppView: loaded');
@@ -33,9 +40,6 @@ class AppView extends Component {
   }
 
   async initialize() {
-    // Init stripe.
-    initStripe();
-
     // Onsignal
     // OneSignal.setLogLevel(6, 0);
     console.log('====== onesignalConfig.appId: ', onesignalConfig.appId);

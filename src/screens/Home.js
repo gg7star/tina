@@ -8,6 +8,7 @@ import Astuce from '../components/svgicons/Astuce';
 import Logiciel from '../components/svgicons/Logiciel';
 import Internet from '../components/svgicons/Internet';
 import MenuModal from '../components/MenuModal';
+import ConfirmPaymentModal from '../components/ConfirmPaymentModal';
 import { Actions } from 'react-native-router-flux';
 import {Q_TYPES, WIDTH, HEIGHT, em} from '../common/constants';
 import { AppActions, QuestionActions, LoginActions } from '../actions'
@@ -101,10 +102,6 @@ class Home extends Component {
     })
   }
 
-  handlePayer = () => {
-    
-  }
-
   renderMenu(){
     const {isAuthenticated} = this.props.auth;
     console.log('====== isAuthenticated: ', isAuthenticated);
@@ -122,10 +119,9 @@ class Home extends Component {
           onPressBecomeAdvertiser={()=>{this.setState({menuVisible: false}); Actions.becomeadvertiser()}}
           onPressSettings={()=>{this.setState({menuVisible: false}); Actions.settings()}}
           onPressAbout={()=>{this.setState({menuVisible: false}); Actions.about()}}
-          onPressPayer={this.handlePayer}
           onPressLogout={() => this.handleOnLogout()} />
       )
-    }else{
+    } else {
       return null;
     }
   }
@@ -277,7 +273,6 @@ class Home extends Component {
         </View>
 
         {this.renderMenu()}
-
       </View>
     )
   }
@@ -390,4 +385,5 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps)(Home);
+    mapDispatchToProps
+)(Home);

@@ -12,14 +12,17 @@ export async function initStripe() {
       console.log('====== stripe settings: ', stripeSettings);
       if (stripeSettings) {
         const mode = stripeSettings['mode'];
-        const publishableKey = (mode === "test") ? stripeSettings['testKey'] : stripeSettings['publishKey'];
+        const keys = (mode === "test") ? stripeSettings['test'] : stripeSettings['live'];
+        const publishableKey = keys['publishKey'];
         console.log('====== stripe publishableKey: ', publishableKey);
         stripe.setOptions({
           publishableKey: publishableKey || stripeConfig.publishableKey,
         });
+        return mode;
       }
     }
   } catch (error) {
     console.log('==== initStripe error: ', error);
   }
+  return null;
 }

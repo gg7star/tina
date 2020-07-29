@@ -263,9 +263,13 @@ class Questionnaire extends Component {
   }
 
   render(){
-    const {qinfo} = this.props;
+    const {qinfo, auth} = this.props;
     const {info} = qinfo;
     const { selectedAds } = this.state;
+    const credential = (auth && auth.credential) || null;
+    const _user = (credential && auth.credential._user) || null;
+    const isPaidUser = _user.paid || false;
+
     console.log('===== selectedAds: ', selectedAds);
     console.log("QUESTIONNAIR!", qinfo['title']);
     return (
@@ -371,9 +375,9 @@ class Questionnaire extends Component {
 
         {this.renderEvaluationModal()}
 
-        {this.renderAdvertisements()}
-        <ReactInterval timeout={5000} enabled={true}
-          callback={() => this.setAdvertisements()} />
+        {!isPaidUser && this.renderAdvertisements()}
+        {!isPaidUser && <ReactInterval timeout={5000} enabled={true}
+          callback={() => this.setAdvertisements()} />}
       </View>
     )
   }
