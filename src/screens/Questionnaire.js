@@ -134,9 +134,11 @@ class Questionnaire extends Component {
       // Get the corresponding question
       const _this = this;
       getQuestionByCategoryAndId(qType, qid).then(res => {
-        if (res['qid'] != undefined){
+        if (!res) {
+          Actions.noresult(this.props)
+        } else if ((res['qid'] != undefined)){
           Actions.questionnaire({qType:qType, qinfo:res})
-        }else if (res['solution'] != undefined && res['solution'] != ""){
+        } else if ((res['solution'] != undefined) && (res['solution'] != "")){
           if (_this.props) {
             const app = _this.props.app;
             const auth = _this.props.auth;
@@ -147,7 +149,7 @@ class Questionnaire extends Component {
           }
 
           this.processFoundAnswer(qType, res['solution'], false)
-        }else if (res['solution'] != undefined && res['solution'] == ""){
+        }else if ((res['solution'] != undefined) && (res['solution'] == "")){
           Actions.noresult(this.props)
         }
       });
@@ -268,7 +270,7 @@ class Questionnaire extends Component {
     const { selectedAds } = this.state;
     const credential = (auth && auth.credential) || null;
     const _user = (credential && auth.credential._user) || null;
-    const isPaidUser = _user.paid || false;
+    const isPaidUser = (_user && _user.paid) || false;
 
     console.log('===== selectedAds: ', selectedAds);
     console.log("QUESTIONNAIR!", qinfo['title']);

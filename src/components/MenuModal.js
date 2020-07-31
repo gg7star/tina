@@ -184,7 +184,7 @@ class MenuModal extends Component {
     const { doingPayment } = this.state;
     const credential = (auth && auth.credential) || null;
     const _user = (credential && auth.credential._user) || null;
-    const isPaidUser = _user.paid || false;
+    const isPaidUser = (_user && _user.paid) || false;
 
     return (
       <View style={styles.absolute}>
