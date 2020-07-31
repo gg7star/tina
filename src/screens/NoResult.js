@@ -83,17 +83,17 @@ class NoResult extends Component {
               style={{flex:0.9}}>
 
                 <View style={styles.headerContentContainer}>
-                    <View style={styles.circleOverlay}>
+                  <View style={styles.circleOverlay}>
 
-                      {this.renderIcons()}
+                    {this.renderIcons()}
 
-                      <View style={styles.AnswerNotFoundWrapper}>
-                          <AnswerNotFound width={25*em} height={25*em} />
-                      </View>
+                    <View style={styles.AnswerNotFoundWrapper}>
+                        <AnswerNotFound width={25*em} height={25*em} />
                     </View>
+                  </View>
 
-                    <Text style={styles.titleText}>Je suis désolée</Text>
-                    <Text style={styles.descText}>I did not find a solution</Text>
+                  <Text style={styles.titleText}>Je suis désolée</Text>
+                  <Text style={styles.descText}>Je n'ai pas trouvé de solution</Text>
                 </View>
             </LinearGradient>
           </View>

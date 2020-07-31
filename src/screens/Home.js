@@ -8,6 +8,7 @@ import Astuce from '../components/svgicons/Astuce';
 import Logiciel from '../components/svgicons/Logiciel';
 import Internet from '../components/svgicons/Internet';
 import MenuModal from '../components/MenuModal';
+import ConfirmPaymentModal from '../components/ConfirmPaymentModal';
 import { Actions } from 'react-native-router-flux';
 import {Q_TYPES, WIDTH, HEIGHT, em} from '../common/constants';
 import { AppActions, QuestionActions, LoginActions } from '../actions'
@@ -120,7 +121,7 @@ class Home extends Component {
           onPressAbout={()=>{this.setState({menuVisible: false}); Actions.about()}}
           onPressLogout={() => this.handleOnLogout()} />
       )
-    }else{
+    } else {
       return null;
     }
   }
@@ -207,7 +208,7 @@ class Home extends Component {
 
             <View style={{flexDirection: "row", justifyContent:"center", alignItems:"flex-start", marginTop: 10*em}} >
               <View style={{position:'absolute', left:0}}><RectangleImage image={"B1"} size={33*em} mLeft={-8*em} mTop={-8*em}/></View>
-              <Text style={styles.titleText}>Your question is about :</Text>
+              <Text style={styles.titleText}>Votre question porte sur :</Text>
             </View>
 
             <View style={{position:"absolute", right: 21*em, top: 21*em}}>
@@ -272,7 +273,6 @@ class Home extends Component {
         </View>
 
         {this.renderMenu()}
-
       </View>
     )
   }
@@ -385,4 +385,5 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps)(Home);
+    mapDispatchToProps
+)(Home);

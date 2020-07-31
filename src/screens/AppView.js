@@ -11,20 +11,29 @@ import RootRoutes from '../routes';
 import { em } from '../common/constants';
 import OneSignal from 'react-native-onesignal';
 import onesignalConfig from '../common/config/onesignal';
+import { initStripe } from '../common/stripe/stripe';
 
 class AppView extends Component {
   state = {
     loaded: false,
   };
 
+  async UNSAFE_componentWillMount() {
+    // Init stripe.
+    initStripe();
+    console.log('==== init Stripe')
+  }
+
   async UNSAFE_componentWillReceiveProps(nextProps) {
     const { app } = nextProps;
     const { loaded } = this.state;
+
     if (app.loaded && !loaded) {
       const _this = this;
+      console.log('======= AppView: loaded');
       this.setState({loaded: true}, () => {
         console.log('======= AppView: initialize');
-        _this.initializeAdMob();
+        // _this.initializeAdMob();
         _this.initialize();
       });
     }

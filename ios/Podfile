@@ -96,11 +96,14 @@ target 'Tina' do
   # pod 'react-native-admob', path: '../node_modules/react-native-admob'
   pod 'Google-Mobile-Ads-SDK', '~> 7.8'
 
+  # Stripe
+  pod 'Stripe', '~> 14.0.1'
+  pod 'tipsi-stripe', :path => '../node_modules/tipsi-stripe'
 
-  target 'TinaTests' do
-    inherit! :complete
-    # Pods for testing
-  end
+  # target 'TinaTests' do
+  #   inherit! :complete
+  #   # Pods for testing
+  # end
 
   use_native_modules!
 
@@ -114,11 +117,11 @@ target 'Tina' do
   end
 end
 
-target 'Tina-tvOS' do
-  # Pods for Tina-tvOS
+# target 'Tina-tvOS' do
+#   # Pods for Tina-tvOS
 
-  target 'Tina-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-end
+#   target 'Tina-tvOSTests' do
+#     inherit! :search_paths
+#     # Pods for testing
+#   end
+# end

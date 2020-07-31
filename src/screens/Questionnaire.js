@@ -134,9 +134,11 @@ class Questionnaire extends Component {
       // Get the corresponding question
       const _this = this;
       getQuestionByCategoryAndId(qType, qid).then(res => {
-        if (res['qid'] != undefined){
+        if (!res) {
+          Actions.noresult(this.props)
+        } else if ((res['qid'] != undefined)){
           Actions.questionnaire({qType:qType, qinfo:res})
-        }else if (res['solution'] != undefined && res['solution'] != ""){
+        } else if ((res['solution'] != undefined) && (res['solution'] != "")){
           if (_this.props) {
             const app = _this.props.app;
             const auth = _this.props.auth;
@@ -147,7 +149,7 @@ class Questionnaire extends Component {
           }
 
           this.processFoundAnswer(qType, res['solution'], false)
-        }else if (res['solution'] != undefined && res['solution'] == ""){
+        }else if ((res['solution'] != undefined) && (res['solution'] == "")){
           Actions.noresult(this.props)
         }
       });
@@ -263,9 +265,13 @@ class Questionnaire extends Component {
   }
 
   render(){
-    const {qinfo} = this.props;
+    const {qinfo, auth} = this.props;
     const {info} = qinfo;
     const { selectedAds } = this.state;
+    const credential = (auth && auth.credential) || null;
+    const _user = (credential && auth.credential._user) || null;
+    const isPaidUser = (_user && _user.paid) || false;
+
     console.log('===== selectedAds: ', selectedAds);
     console.log("QUESTIONNAIR!", qinfo['title']);
     return (
@@ -371,9 +377,9 @@ class Questionnaire extends Component {
 
         {this.renderEvaluationModal()}
 
-        {this.renderAdvertisements()}
-        <ReactInterval timeout={5000} enabled={true}
-          callback={() => this.setAdvertisements()} />
+        {!isPaidUser && this.renderAdvertisements()}
+        {!isPaidUser && <ReactInterval timeout={5000} enabled={true}
+          callback={() => this.setAdvertisements()} />}
       </View>
     )
   }
