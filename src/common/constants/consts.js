@@ -5,9 +5,9 @@ export const HEIGHT = Dimensions.get('window').height
 export const em = WIDTH / 375;
 export const Q_TYPES = {
   O: "ordinateur", 
-  P: "périphérique", 
+  P: "periferique", 
   L: "logiciel", 
-  I: "internet_réseaux", 
+  I: "internet", 
   A: "astuce"
 };
 export const Q_TYPE_STRINGS = {

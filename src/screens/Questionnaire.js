@@ -47,7 +47,11 @@ class Questionnaire extends Component {
     }
   }
 
-  UNSAFE_componentWillMount() {
+  // UNSAFE_componentWillMount() {
+  //   this.setAdvertisements();
+  // }
+  
+  componentDidMount() {
     this.setAdvertisements();
   }
 
@@ -186,7 +190,9 @@ class Questionnaire extends Component {
   }
 
   changeImageUrl2Https = (imageUrl) => {
-    return imageUrl.replace('http://', 'https://');
+    if (imageUrl.substring(0, 7) === 'http://')
+      return imageUrl.replace('http://', 'https://');
+    return imageUrl;
   }
 
   renderEvaluationModal(){
@@ -222,6 +228,7 @@ class Questionnaire extends Component {
     if (advertisements){
       // Filtering due date
       const adsKeys = Object.keys(advertisements).reverse();
+      console.log('====== adsKeys: ', adsKeys)
       for (var i = 0; i < adsKeys.length; i++) {
         const key = adsKeys[i];
         const adv = advertisements[key];
@@ -232,12 +239,14 @@ class Questionnaire extends Component {
           res.push(adv);
         }
       }
+      console.log('===== res: ', res)
       // Set adv
       for (var i = 0; i < res.length; i++) {
         const adv = res[i];
+        console.log('===== i, advIndex: ', i, advIndex)
         if (i === advIndex) {
           this.setState({ selectedAds: adv }, () => {
-            advIndex = ((advIndex + 1) === adsKeys.length) ? 0 : (advIndex + 1);
+            advIndex = ((advIndex + 1) === (adsKeys.length - 1)) ? 0 : (advIndex + 1);
           });
           break;
         }
@@ -333,7 +342,7 @@ class Questionnaire extends Component {
 
               <View style={{flex: 1, flexDirection:"column-reverse"}}>
 
-                <View style={styles.progressWrapper}>
+                {/* <View style={styles.progressWrapper}>
 
                   <LinearGradient
                     start={{x: 0, y: 0}} end={{x: 1, y: 0}}
@@ -341,7 +350,7 @@ class Questionnaire extends Component {
                     style={{width: Math.random() * WIDTH, height: 20*em}}>
                   </LinearGradient>
 
-                </View>
+                </View> */}
 
                 <View style={styles.answerWrapper}>
                     <TouchableOpacity style={StyleSheet.flatten([styles.ActionButtion, {flex:1}])} onPress={this.handleAnswerClick.bind(this, this.ANSWER_TYPE_YES)}>
